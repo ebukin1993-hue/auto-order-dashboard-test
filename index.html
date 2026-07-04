@@ -1092,6 +1092,108 @@
         padding: 4px 5px;
       }
     }
+
+    /* v26: верхняя цепочка 1-2-3 убрана, таблица больше не вытягивается мышью */
+    .storyBar {
+      display: none !important;
+    }
+
+    .tableOpenBtn {
+      white-space: nowrap;
+      font-weight: 900;
+    }
+
+    .tableResizeHandle {
+      display: none !important;
+    }
+
+    .tableCard.isResizedOverlay {
+      position: relative !important;
+      z-index: auto !important;
+      inset: auto !important;
+      box-shadow: none !important;
+    }
+
+    .tableCard.isFullscreen {
+      position: fixed;
+      left: 14px;
+      right: 14px;
+      top: 18px;
+      bottom: 14px;
+      inset: 18px 14px 14px 14px;
+      z-index: 90;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      padding: 14px;
+      background: var(--card);
+      height: auto !important;
+      min-height: 0 !important;
+      box-shadow: 0 -18px 60px rgba(23, 51, 73, 0.24);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      animation: tableDrawerUp 220ms ease-out both;
+    }
+
+    @keyframes tableDrawerUp {
+      from {
+        transform: translateY(100%);
+        opacity: 0.72;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .tableCard.isFullscreen::before {
+      content: "Таблица заявки";
+      position: absolute;
+      left: 50%;
+      top: 6px;
+      transform: translateX(-50%);
+      width: 92px;
+      height: 4px;
+      border-radius: 999px;
+      background: #cbd8e3;
+      font-size: 0;
+    }
+
+    .tableCard.isFullscreen .tableTitleRow {
+      padding-top: 8px;
+      margin-bottom: 8px;
+    }
+
+    .tableCard.isFullscreen .tableWrap {
+      height: auto;
+      max-height: none;
+      overflow: auto;
+    }
+
+    .tableCard:not(.isFullscreen):not(.isResizedOverlay) {
+      position: relative;
+      z-index: 1;
+    }
+
+    .mainGrid,
+    .chartCard,
+    .qualityCard {
+      position: relative;
+      z-index: 2;
+    }
+
+    body.tableFullscreen::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 85;
+      background: rgba(15, 23, 42, 0.24);
+      backdrop-filter: blur(2px);
+      pointer-events: none;
+    }
+
+    body.tableFullscreen .tableCard.isFullscreen {
+      z-index: 90;
+    }
+
   </style>
 </head>
 <body>
@@ -1103,23 +1205,6 @@
       </div>
     </div>
 
-    <div class="storyBar">
-      <div class="storyStep good">
-        <div class="stepTitle">1. Прогнозируем спрос</div>
-        <div class="stepText">Берём продажи, промо, сезонность, остатки и срок поставки.</div>
-      </div>
-      <div class="storyArrow">→</div>
-      <div class="storyStep warn">
-        <div class="stepTitle">2. Держим безопасный коридор</div>
-        <div class="stepText">Нижняя граница защищает от out-of-stock, верхняя — от перезаказа.</div>
-      </div>
-      <div class="storyArrow">→</div>
-      <div class="storyStep bad">
-        <div class="stepTitle">3. Формируем точный заказ</div>
-        <div class="stepText">Заказываем только то, что нужно: с учётом поставщика, минимума партии и доступности.</div>
-      </div>
-    </div>
-
     <div class="grid">
       <aside class="card">
         <h2>1. Загрузка данных</h2>
@@ -1128,8 +1213,9 @@
           <input id="fileInput" type="file" accept=".txt,.tsv,.csv" />
           <button class="btn btnSecondary" id="demoBtn">Выбрать файл продаж</button>
           <button class="btn btnSecondary" id="downloadTemplateBtn" type="button">Скачать шаблон TXT</button>
+          <button class="btn btnSecondary" id="generateTestDataBtn" type="button">Сгенерировать и загрузить тестовые данные</button>
           <div class="progressWrap"><div id="progress" class="progress"></div></div>
-          <div id="loadStatus" class="status">Нажмите «Выбрать файл продаж» и загрузите TXT/TSV. Чтобы проверить формат входных данных, скачайте шаблон TXT.</div>
+          <div id="loadStatus" class="status">Нажмите «Выбрать файл продаж» и загрузите TXT/TSV. Для проверки формата можно скачать шаблон или сразу сгенерировать и загрузить тестовый TXT за 2026 год: 100 поставщиков и 1000 SKU.</div>
         </div>
 
         <h3>Фильтры</h3>
@@ -1172,7 +1258,7 @@
         <div class="footerNote">
           Движок внутри HTML использует скользящее среднее, недельную сезонность, промо-фактор, срок поставки,
           минимальную партию, остаток и доступность товара у поставщика. Это не замена промышленному ML,
-          но рабочий прототип для лекционного проекта и демонстрации логики автозаказа.
+          но рабочий прототип для лекционного проекта, демонстрации логики автозаказа и тестирования пользовательских данных.
         </div>
       </aside>
 
@@ -1281,12 +1367,15 @@
           <div class="card">
             <h2>Качество модели</h2>
             <div class="modelBox">
-              <div class="qualityRow"><span>MAE движка</span><span id="qMae">—</span></div>
-              <div class="qualityRow"><span>RMSE движка</span><span id="qRmse">—</span></div>
-              <div class="qualityRow"><span>WMAPE движка</span><span id="qWmape">—</span></div>
-              <div class="qualityRow"><span>Bias движка</span><span id="qBias">—</span></div>
+              <div class="qualityRow"><span>MAE ARIMA, шт.</span><span id="qMae">—</span></div>
+              <div class="qualityRow"><span>RMSE ARIMA, шт.</span><span id="qRmse">—</span></div>
+              <div class="qualityRow"><span>WMAPE ARIMA</span><span id="qWmape">—</span></div>
+              <div class="qualityRow"><span>Bias ARIMA</span><span id="qBias">—</span></div>
               <div class="qualityRow"><span>WMAPE прогноза из файла</span><span id="qFileWmape">—</span></div>
-              <div class="qualityRow"><span>Строк в выборке</span><span id="qRows">—</span></div>
+              <div class="qualityRow"><span>Дней оценки прогноза</span><span id="qRows">—</span></div>
+              <div class="qualityRow"><span>Точность прогноза</span><span id="qAccuracy">—</span></div>
+              <div class="qualityRow"><span>План в коридоре</span><span id="qPlanCoverage">—</span></div>
+              <div class="qualityRow"><span>Позиций к заказу</span><span id="qOrderRows">—</span></div>
             </div>
             <div id="qualityComment" class="status">После загрузки файла здесь появится оценка качества.</div>
             <div class="balanceSummary">
@@ -1311,13 +1400,13 @@
           <div class="cardTitleRow tableTitleRow">
             <h2>Заявка поставщику: дата, точка, SKU и количество к заказу</h2>
             <div class="tableTools">
-              <span class="resizeHint">Потяните полоску вверх — таблица раскроется до верха экрана</span>
+              <span class="resizeHint">Таблица не перекрывает график. Откройте её отдельным выезжающим окном.</span>
+              <button class="btn btnSecondary tableOpenBtn" id="tableFullscreenBtn" type="button" title="Открыть таблицу снизу до верха" aria-label="Открыть таблицу снизу до верха">Открыть таблицу</button>
               <button class="btn btnSecondary exportBtn" id="exportOrderBtn" type="button" disabled title="Выгружаются только строки со статусом К ЗАКАЗУ">Скачать заказ CSV</button>
               <button class="btn btnSecondary pdfBtn" id="pdfOrderBtn" type="button" disabled title="PDF формируется только по строкам со статусом К ЗАКАЗУ">Сформировать PDF заказа</button>
-              <button class="iconBtn" id="tableFullscreenBtn" type="button" title="Открыть таблицу на весь экран" aria-label="Открыть таблицу на весь экран">⛶</button>
             </div>
           </div>
-          <div class="tableResizeHandle" id="tableResizeHandle" title="Потяните вверх или вниз, чтобы изменить высоту таблицы"></div>
+          <div class="tableResizeHandle" id="tableResizeHandle" aria-hidden="true"></div>
           <div class="tableWrap">
             <table>
               <thead>
@@ -1881,7 +1970,7 @@
               stockoutRate: 0, selectedRows: 0, overstockUnits: 0, overstockPositions: 0,
               stockoutPositions: 0, balancedPositions: 0, totalPositions: 0, balanceScore: 0
             },
-            quality: { mae: 0, rmse: 0, wmape: 0, bias: 0, fileWmape: 0, count: 0 },
+            quality: { mae: 0, rmse: 0, wmape: 0, bias: 0, fileWmape: 0, count: 0, accuracy: 0, planCoveragePct: 0, orderRows: 0, controlRows: 0, pauseRows: 0, actualSum: 0, absErrorSum: 0, biasUnits: 0 },
             options: filterOptions(filters),
             chart: [],
             plan: []
@@ -1954,15 +2043,23 @@
         series[i].orderRub = null;
         series[i].isForecastPoint = false;
 
-        if (i >= 3 && series[i].fact > 0) {
-          const err = forecast - series[i].fact;
+        // Backtest качества: сравниваем дневной факт спроса с дневным прогнозом ARIMA.
+        // Первые 14 дней — прогрев модели, в метрики их не включаем.
+        if (i >= 14 && series[i].fact > 0 && Number.isFinite(forecast)) {
+          const actual = series[i].fact;
+          const err = forecast - actual;
           absErr += Math.abs(err);
           sqErr += err * err;
-          actualSum += series[i].fact;
+          actualSum += actual;
           biasSum += err;
           count++;
-          fileAbsErr += Math.abs(series[i].fileForecast - series[i].fact);
-          fileActualSum += series[i].fact;
+
+          // demand_forecast_units в тестовых данных хранит прогноз на lead time + 2 дня,
+          // поэтому для честного сравнения с дневным фактом приводим его к дневному уровню.
+          const avgLeadForFileForecast = series[i].rows ? series[i].leadSum / series[i].rows : 1;
+          const fileForecastDaily = series[i].fileForecast / Math.max(1, avgLeadForFileForecast + 2);
+          fileAbsErr += Math.abs(fileForecastDaily - actual);
+          fileActualSum += actual;
         }
       }
 
@@ -2208,11 +2305,22 @@
       });
 
       const chartSeries = series.concat(futureSeries);
+
+      const orderRows = plan.filter(x => x.action === "К ЗАКАЗУ").length;
+      const controlRows = plan.filter(x => x.action === "КОНТРОЛЬ").length;
+      const pauseRows = plan.filter(x => String(x.risk || "").includes("Пауза")).length;
+      const planInCorridorRows = plan.filter(x =>
+        (Number(x.stockEndTomorrow) || 0) >= (Number(x.reorderPoint) || 0) &&
+        (Number(x.projectedOverstockUnits) || 0) <= 0
+      ).length;
+      const planCoveragePct = plan.length ? planInCorridorRows / plan.length * 100 : 0;
+
       const mae = count ? absErr / count : 0;
       const rmse = count ? Math.sqrt(sqErr / count) : 0;
       const wmape = actualSum ? absErr / actualSum * 100 : 0;
       const bias = actualSum ? biasSum / actualSum * 100 : 0;
       const fileWmape = fileActualSum ? fileAbsErr / fileActualSum * 100 : 0;
+      const accuracy = Math.max(0, 100 - wmape);
 
       self.postMessage({
         type: "aggregated",
@@ -2232,7 +2340,22 @@
             totalPositions: fullPlan.length,
             balanceScore: fullPlan.length ? balancedPositions / fullPlan.length * 100 : 0
           },
-          quality: { mae, rmse, wmape, bias, fileWmape, count },
+          quality: {
+            mae,
+            rmse,
+            wmape,
+            bias,
+            fileWmape,
+            count,
+            accuracy,
+            planCoveragePct,
+            orderRows,
+            controlRows,
+            pauseRows,
+            actualSum,
+            absErrorSum: absErr,
+            biasUnits: biasSum
+          },
           options: filterOptions(filters),
           chart: chartSeries.map(x => ({
             date: x.date,
@@ -2343,6 +2466,7 @@
   const fileInput = document.getElementById("fileInput");
   const demoBtn = document.getElementById("demoBtn");
   const downloadTemplateBtn = document.getElementById("downloadTemplateBtn");
+  const generateTestDataBtn = document.getElementById("generateTestDataBtn");
   const progress = document.getElementById("progress");
   const loadStatus = document.getElementById("loadStatus");
 
@@ -2624,8 +2748,8 @@
       clearTableResizeOverlay();
       tableCard.classList.remove("isFullscreen");
       document.body.classList.remove("tableFullscreen");
-      tableFullscreenBtn.textContent = "⛶";
-      tableFullscreenBtn.title = "Открыть таблицу на весь экран";
+      tableFullscreenBtn.textContent = "Открыть таблицу";
+      tableFullscreenBtn.title = "Открыть таблицу снизу до верха";
       tableFullscreenBtn.setAttribute("aria-label", tableFullscreenBtn.title);
     }
     chartCard.classList.toggle("isFullscreen", active);
@@ -2653,50 +2777,25 @@
     if (active && chartCard.classList.contains("isFullscreen")) {
       setChartFullscreen(false);
     }
-    if (active) clearTableResizeOverlay();
+    if (active) {
+      clearTableResizeOverlay();
+      tableCard.scrollIntoView({ block: "end", behavior: "smooth" });
+    }
     tableCard.classList.toggle("isFullscreen", active);
     document.body.classList.toggle("tableFullscreen", active);
-    tableFullscreenBtn.textContent = active ? "×" : "⛶";
-    tableFullscreenBtn.title = active ? "Закрыть полноэкранную таблицу" : "Открыть таблицу на весь экран";
+    tableFullscreenBtn.textContent = active ? "Закрыть таблицу" : "Открыть таблицу";
+    tableFullscreenBtn.title = active ? "Закрыть выезжающую таблицу" : "Открыть таблицу снизу до верха";
     tableFullscreenBtn.setAttribute("aria-label", tableFullscreenBtn.title);
   }
 
   let tableResizeState = null;
 
-  tableResizeHandle.addEventListener("mousedown", event => {
-    if (tableCard.classList.contains("isFullscreen")) return;
-    const rect = tableCard.getBoundingClientRect();
-    tableResizeState = {
-      left: rect.left,
-      right: window.innerWidth - rect.right,
-      bottom: Math.max(10, window.innerHeight - rect.bottom)
-    };
-    tableCard.classList.add("isResizedOverlay");
-    tableCard.style.left = tableResizeState.left + "px";
-    tableCard.style.right = tableResizeState.right + "px";
-    tableCard.style.bottom = tableResizeState.bottom + "px";
-    document.body.style.userSelect = "none";
-    event.preventDefault();
-  });
-
-  document.addEventListener("mousemove", event => {
-    if (!tableResizeState) return;
-    const minTop = 10;
-    const maxTop = Math.max(140, window.innerHeight - 220);
-    const top = Math.max(minTop, Math.min(maxTop, event.clientY));
-    tableCard.style.top = top + "px";
-    tableCard.style.left = tableResizeState.left + "px";
-    tableCard.style.right = tableResizeState.right + "px";
-    tableCard.style.bottom = tableResizeState.bottom + "px";
-  });
-
-  document.addEventListener("mouseup", () => {
-    if (!tableResizeState) return;
-    tableResizeState = null;
-    document.body.style.userSelect = "";
-  });
-
-  tableResizeHandle.addEventListener("dblclick", clearTableResizeOverlay);
+  // v26: ручное вытягивание таблицы отключено.
+  // Таблица открывается только кнопкой «Открыть таблицу» и выезжает снизу до верха.
+  if (tableResizeHandle) {
+    tableResizeHandle.addEventListener("mousedown", event => event.preventDefault());
+    tableResizeHandle.addEventListener("dblclick", clearTableResizeOverlay);
+  }
 
   function requestAggregate() {
     if (!loadedMeta) return;
@@ -2892,6 +2991,323 @@
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
+
+  function buildLargeTestData2026Chunks() {
+    const header = [
+      "date",
+      "store_id",
+      "store_name",
+      "region",
+      "location_type",
+      "sku",
+      "product_name",
+      "product_group",
+      "shelf_life_days",
+      "base_price_rub",
+      "actual_price_rub",
+      "purchase_price_rub",
+      "gross_margin_pct",
+      "promo_flag",
+      "promo_discount_pct",
+      "weekday",
+      "month",
+      "sales_units",
+      "sales_rub",
+      "stock_open_units",
+      "stock_close_units",
+      "lost_sales_units",
+      "demand_forecast_units",
+      "recommended_order_units",
+      "supplier_id",
+      "supplier_name",
+      "supplier_region",
+      "supplier_lead_time_days",
+      "supplier_reliability_pct",
+      "supplier_min_order_units",
+      "supplier_stock_available_units",
+      "alternative_supplier_id",
+      "alternative_supplier_name",
+      "delivery_location",
+      "is_stockout",
+      "is_holiday_period"
+    ];
+
+    const regionList = [
+      "Москва", "Московская область", "Тверская область", "Калужская область",
+      "Тульская область", "Рязанская область", "Ярославская область", "Владимирская область",
+      "Ленинградская область", "Краснодарский край"
+    ];
+    const groupList = [
+      { group: "Молочная продукция", shelf: 7, priceMin: 55, priceMax: 180, demandMin: 12, demandMax: 42 },
+      { group: "Хлеб и выпечка", shelf: 3, priceMin: 35, priceMax: 130, demandMin: 18, demandMax: 55 },
+      { group: "Овощи и фрукты", shelf: 7, priceMin: 45, priceMax: 260, demandMin: 14, demandMax: 60 },
+      { group: "Мясо и птица", shelf: 5, priceMin: 170, priceMax: 620, demandMin: 4, demandMax: 24 },
+      { group: "Бакалея", shelf: 240, priceMin: 55, priceMax: 220, demandMin: 5, demandMax: 26 },
+      { group: "Напитки", shelf: 365, priceMin: 35, priceMax: 190, demandMin: 12, demandMax: 48 },
+      { group: "Заморозка", shelf: 180, priceMin: 90, priceMax: 420, demandMin: 4, demandMax: 20 },
+      { group: "Бытовая химия", shelf: 365, priceMin: 80, priceMax: 700, demandMin: 1, demandMax: 10 },
+      { group: "Товары для дома", shelf: 365, priceMin: 55, priceMax: 380, demandMin: 1, demandMax: 8 },
+      { group: "Кофе чай сладости", shelf: 365, priceMin: 65, priceMax: 450, demandMin: 3, demandMax: 18 },
+      { group: "Сыры и деликатесы", shelf: 21, priceMin: 130, priceMax: 690, demandMin: 2, demandMax: 14 },
+      { group: "Здоровое питание", shelf: 180, priceMin: 90, priceMax: 520, demandMin: 1, demandMax: 12 },
+      { group: "Рыба и морепродукты", shelf: 10, priceMin: 180, priceMax: 850, demandMin: 1, demandMax: 9 },
+      { group: "Зоотовары", shelf: 365, priceMin: 85, priceMax: 620, demandMin: 1, demandMax: 8 },
+      { group: "Детские товары", shelf: 365, priceMin: 75, priceMax: 540, demandMin: 1, demandMax: 9 }
+    ];
+
+    const nameByGroup = {
+      "Молочная продукция": ["Молоко", "Кефир", "Творог", "Йогурт", "Сметана", "Ряженка"],
+      "Хлеб и выпечка": ["Хлеб", "Батон", "Булочка", "Лаваш", "Круассан", "Багет"],
+      "Овощи и фрукты": ["Бананы", "Яблоки", "Картофель", "Томаты", "Огурцы", "Морковь"],
+      "Мясо и птица": ["Куриное филе", "Фарш", "Голень куриная", "Индейка", "Котлеты", "Колбаски"],
+      "Бакалея": ["Рис", "Гречка", "Макароны", "Мука", "Сахар", "Овсянка"],
+      "Напитки": ["Вода", "Сок", "Лимонад", "Чай холодный", "Морс", "Квас"],
+      "Заморозка": ["Пельмени", "Овощная смесь", "Мороженое", "Пицца", "Ягоды", "Блины"],
+      "Бытовая химия": ["Средство для посуды", "Порошок", "Гель для стирки", "Мыло жидкое", "Чистящий гель", "Кондиционер"],
+      "Товары для дома": ["Пакеты", "Губки", "Фольга", "Контейнеры", "Салфетки", "Пергамент"],
+      "Кофе чай сладости": ["Кофе", "Чай", "Печенье", "Шоколад", "Вафли", "Конфеты"],
+      "Сыры и деликатесы": ["Сыр", "Моцарелла", "Пармезан", "Оливки", "Паштет", "Деликатес"],
+      "Здоровое питание": ["Батончик", "Гранола", "Хлебцы", "Мюсли", "Орехи", "Семена"],
+      "Рыба и морепродукты": ["Филе трески", "Лосось", "Креветки", "Кальмар", "Сельдь", "Мидии"],
+      "Зоотовары": ["Корм для кошек", "Корм для собак", "Наполнитель", "Лакомство", "Шампунь зоо", "Игрушка"],
+      "Детские товары": ["Подгузники", "Пюре детское", "Каша детская", "Салфетки детские", "Сок детский", "Крем детский"]
+    };
+
+    function rng(seed) {
+      let t = seed >>> 0;
+      return function() {
+        t += 0x6D2B79F5;
+        let r = Math.imul(t ^ t >>> 15, 1 | t);
+        r ^= r + Math.imul(r ^ r >>> 7, 61 | r);
+        return ((r ^ r >>> 14) >>> 0) / 4294967296;
+      };
+    }
+    const rand = rng(20260704);
+
+    function pad3(v) { return String(v).padStart(3, "0"); }
+    function pad4(v) { return String(v).padStart(4, "0"); }
+    function pad2(v) { return String(v).padStart(2, "0"); }
+    function iso(d) { return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); }
+    function weekday(d) { const w = d.getDay(); return w === 0 ? 7 : w; }
+    function roundOrder(qty, pack) { return qty <= 0 ? 0 : Math.ceil(qty / pack) * pack; }
+
+    const suppliers = [];
+    for (let i = 1; i <= 100; i++) {
+      const minOrderList = [12, 18, 24, 30, 36, 48, 60];
+      const minOrder = minOrderList[i % minOrderList.length];
+      suppliers.push({
+        id: "SUP" + pad3(i),
+        name: "Тестовый поставщик " + pad3(i),
+        region: regionList[i % regionList.length],
+        lead: 1 + (i % 6),
+        reliability: +(91 + (i % 9) + (i % 2 ? 0.4 : 0.8)).toFixed(1),
+        minOrder,
+        availableBase: minOrder * (35 + (i * 11) % 95),
+        altId: "SUP" + pad3((i % 100) + 1),
+        altName: "Тестовый поставщик " + pad3((i % 100) + 1)
+      });
+    }
+
+    const products = [];
+    for (let i = 1; i <= 1000; i++) {
+      const groupInfo = groupList[(i - 1) % groupList.length];
+      const names = nameByGroup[groupInfo.group] || ["Товар"];
+      const supplier = suppliers[(i - 1) % suppliers.length];
+      const basePrice = groupInfo.priceMin + Math.floor(rand() * (groupInfo.priceMax - groupInfo.priceMin + 1));
+      const purchase = +(basePrice * (0.62 + rand() * 0.16)).toFixed(2);
+      const baseDemand = +(groupInfo.demandMin + rand() * (groupInfo.demandMax - groupInfo.demandMin)).toFixed(2);
+      const shelfLife = Math.max(3, Math.round(groupInfo.shelf * (0.85 + rand() * 0.35)));
+      const pack = ["250г", "300г", "450г", "500г", "700г", "900г", "1л", "1кг", "2кг", "5шт"][i % 10];
+
+      products.push({
+        sku: "SKU" + pad4(i),
+        name: names[i % names.length] + " " + pack,
+        group: groupInfo.group,
+        shelfLife,
+        basePrice,
+        purchase,
+        baseDemand,
+        supplier
+      });
+    }
+
+    function seasonality(d, group) {
+      const m = d.getMonth() + 1;
+      const wd = weekday(d);
+      let f = wd >= 6 ? 1.16 : wd === 1 ? 0.94 : 1.0;
+
+      if (group === "Напитки") f *= [6,7,8].includes(m) ? 1.45 : [12,1,2].includes(m) ? 0.9 : 1.0;
+      if (group === "Овощи и фрукты") f *= [6,7,8,9].includes(m) ? 1.22 : [2,3].includes(m) ? 0.88 : 1.0;
+      if (group === "Заморозка") f *= [6,7,8].includes(m) ? 1.25 : 1.0;
+      if (group === "Мясо и птица") f *= [5,6,7].includes(wd) ? 1.18 : 1.0;
+      if (group === "Бытовая химия") f *= [3,9,12].includes(m) ? 1.16 : 1.0;
+      if (group === "Кофе чай сладости") f *= [12,1].includes(m) ? 1.24 : 1.0;
+      if (group === "Детские товары") f *= [8,9].includes(m) ? 1.12 : 1.0;
+      if (m === 12 && d.getDate() >= 25) f *= 1.45;
+      if (m === 1 && d.getDate() <= 8) f *= 1.28;
+      if (m === 5 && [1,2,9].includes(d.getDate())) f *= 1.16;
+      return f;
+    }
+
+    function isHoliday(d) {
+      const m = d.getMonth() + 1;
+      const day = d.getDate();
+      return ((m === 12 && day >= 25) || (m === 1 && day <= 8) || (m === 5 && [1,2,9].includes(day)) || (m === 3 && [7,8].includes(day))) ? 1 : 0;
+    }
+
+    const chunks = [];
+    chunks.push([
+      "# ТЕСТОВАЯ БАЗА ДЛЯ HTML-ДАШБОРДА АВТОЗАКАЗА",
+      "# Генерация выполнена прямо в браузере.",
+      "# Период: 2026-01-01 — 2026-12-31.",
+      "# Поставщики: 100.",
+      "# SKU: 1000.",
+      "# Локация: 1 тестовый магазин.",
+      "# Строк данных: 365000.",
+      "# Разделитель колонок: табуляция.",
+      "# Кодировка: UTF-8.",
+      "# Строки, начинающиеся с #, игнорируются при загрузке.",
+      "#",
+      header.join("\t")
+    ].join("\n") + "\n");
+
+    const stock = products.map(p => Math.round(p.baseDemand * (7 + rand() * 9)));
+    const start = new Date("2026-01-01T00:00:00");
+
+    for (let dayIndex = 0; dayIndex < 365; dayIndex++) {
+      const d = new Date(start);
+      d.setDate(start.getDate() + dayIndex);
+      const dateStr = iso(d);
+      const wd = weekday(d);
+      const m = d.getMonth() + 1;
+      const holiday = isHoliday(d);
+      const dayRows = [];
+
+      for (let i = 0; i < products.length; i++) {
+        const p = products[i];
+        const s = p.supplier;
+
+        const promo = ((dayIndex + i * 3) % 31 === 0 || (holiday && i % 7 === 0)) ? 1 : 0;
+        const discount = promo ? [10, 15, 20, 25][(i + dayIndex) % 4] : 0;
+        const actualPrice = +(p.basePrice * (1 - discount / 100)).toFixed(2);
+        const trend = 1 + (dayIndex / 365) * (((i % 9) - 4) / 100);
+        const expected = p.baseDemand * seasonality(d, p.group) * (promo ? 1.22 : 1.0) * trend;
+        const noise = 0.78 + rand() * 0.48;
+        const demand = Math.max(0, Math.round(expected * noise));
+
+        const stockOpen = stock[i];
+        const salesUnits = Math.min(stockOpen, demand);
+        const lostSales = Math.max(0, demand - stockOpen);
+        const afterSales = stockOpen - salesUnits;
+
+        const forecast = Math.max(0, Math.round(expected * (s.lead + 2)));
+        const safety = Math.round(expected * (p.shelfLife <= 14 ? 2 : 4));
+        const rawOrder = Math.max(0, forecast + safety - afterSales);
+        let recommendedOrder = roundOrder(rawOrder, s.minOrder);
+
+        const available = s.availableBase + Math.floor(rand() * s.minOrder * 45);
+        if (available < recommendedOrder) {
+          recommendedOrder = Math.floor(available / s.minOrder) * s.minOrder;
+        }
+
+        const incoming = (dayIndex % Math.max(1, s.lead) === 0) ? Math.round(recommendedOrder * 0.6) : 0;
+        let stockClose = Math.max(0, afterSales + incoming);
+
+        if (p.shelfLife <= 7 && stockClose > expected * 11) {
+          stockClose = Math.max(0, stockClose - Math.round(stockClose * (0.02 + rand() * 0.04)));
+        }
+        stock[i] = stockClose;
+
+        const salesRub = +(salesUnits * actualPrice).toFixed(2);
+        const grossMarginPct = actualPrice > 0 ? +(((actualPrice - p.purchase) / actualPrice) * 100).toFixed(1) : 0;
+
+        dayRows.push([
+          dateStr,
+          "M001",
+          "Тестовый магазин",
+          "Тестовый регион",
+          "тестовая локация",
+          p.sku,
+          p.name,
+          p.group,
+          p.shelfLife,
+          p.basePrice,
+          actualPrice,
+          p.purchase,
+          grossMarginPct,
+          promo,
+          discount,
+          wd,
+          m,
+          salesUnits,
+          salesRub,
+          stockOpen,
+          stockClose,
+          lostSales,
+          forecast,
+          recommendedOrder,
+          s.id,
+          s.name,
+          s.region,
+          s.lead,
+          s.reliability,
+          s.minOrder,
+          available,
+          s.altId,
+          s.altName,
+          "склад/магазин",
+          lostSales > 0 ? 1 : 0,
+          holiday
+        ].join("\t"));
+      }
+
+      chunks.push(dayRows.join("\n") + "\n");
+    }
+
+    return chunks;
+  }
+
+  function downloadLargeTestData2026() {
+    if (generateTestDataBtn) {
+      generateTestDataBtn.disabled = true;
+      generateTestDataBtn.textContent = "Генерирую и загружаю...";
+    }
+
+    loadedMeta = null;
+    lastResult = null;
+    filtersDirty = false;
+    pendingAggregateSignature = "";
+    lastAggregateSignature = "";
+    progress.style.width = "10%";
+    setOutputButtonsDisabled(true);
+    applyBtn.disabled = true;
+    fsApplyBtn.disabled = true;
+    setStatus("Генерирую тестовый TXT за 2026 год: 100 поставщиков, 1000 SKU, 365 000 строк. После генерации данные будут автоматически загружены в модель.", "");
+
+    window.setTimeout(() => {
+      try {
+        const started = performance.now();
+        const chunks = buildLargeTestData2026Chunks();
+        progress.style.width = "35%";
+        const blob = new Blob(chunks, { type: "text/plain;charset=utf-8" });
+
+        // Главное изменение: сгенерированный TXT сразу подставляется в модель,
+        // как будто пользователь сам выбрал этот файл через кнопку загрузки.
+        worker.postMessage({ type: "load", file: blob });
+
+        const seconds = ((performance.now() - started) / 1000).toFixed(1);
+        setStatus("Тестовые данные сгенерированы за " + seconds + " сек. Загружаю их в модель и пересчитываю дашборд...", "");
+      } catch (err) {
+        console.error(err);
+        setStatus("Не удалось сгенерировать тестовый TXT: " + (err.message || err), "err");
+        if (generateTestDataBtn) {
+          generateTestDataBtn.disabled = false;
+          generateTestDataBtn.textContent = "Сгенерировать и загрузить тестовые данные";
+        }
+      }
+    }, 50);
+  }
+
   fileInput.addEventListener("change", () => {
     const file = fileInput.files && fileInput.files[0];
     if (!file) return;
@@ -2917,6 +3333,10 @@
 
   if (downloadTemplateBtn) {
     downloadTemplateBtn.addEventListener("click", downloadInputTemplateTxt);
+  }
+
+  if (generateTestDataBtn) {
+    generateTestDataBtn.addEventListener("click", downloadLargeTestData2026);
   }
 
   applyBtn.addEventListener("click", requestAggregate);
@@ -2997,7 +3417,11 @@
     if (msg.type === "loaded") {
       loadedMeta = msg.meta;
       progress.style.width = "100%";
-      setStatus("Файл загружен: " + fmtInt(loadedMeta.rowCount) + " строк. Период: " + loadedMeta.minDate + " — " + loadedMeta.maxDate + ".", "ok");
+      if (generateTestDataBtn) {
+        generateTestDataBtn.disabled = false;
+        generateTestDataBtn.textContent = "Сгенерировать и загрузить тестовые данные";
+      }
+      setStatus("Данные загружены в модель: " + fmtInt(loadedMeta.rowCount) + " строк. Период: " + loadedMeta.minDate + " — " + loadedMeta.maxDate + ". Выполняю расчёт дашборда.", "ok");
 
       fillSelect(supplierFilter, loadedMeta.suppliers, "Все поставщики");
       fillSelect(skuFilter, loadedMeta.skus, "Все SKU");
@@ -3041,6 +3465,10 @@
       applyBtn.textContent = "Пересчитать дашборд";
       fsApplyBtn.disabled = !loadedMeta;
       fsApplyBtn.textContent = "Пересчитать";
+      if (generateTestDataBtn) {
+        generateTestDataBtn.disabled = false;
+        generateTestDataBtn.textContent = "Сгенерировать и загрузить тестовые данные";
+      }
     }
   };
 
@@ -3060,7 +3488,10 @@
     document.getElementById("qWmape").textContent = fmtPct(q.wmape);
     document.getElementById("qBias").textContent = fmtPct(q.bias);
     document.getElementById("qFileWmape").textContent = fmtPct(q.fileWmape);
-    document.getElementById("qRows").textContent = fmtInt(k.selectedRows);
+    document.getElementById("qRows").textContent = fmtInt(q.count || 0);
+    document.getElementById("qAccuracy").textContent = fmtPct(q.accuracy || 0);
+    document.getElementById("qPlanCoverage").textContent = fmtPct(q.planCoveragePct || 0);
+    document.getElementById("qOrderRows").textContent = fmtInt(q.orderRows || 0);
 
     document.getElementById("sumOos").textContent = fmtInt(k.stockoutPositions || 0);
     document.getElementById("sumOverstock").textContent = fmtInt(k.overstockPositions || 0);
@@ -3080,15 +3511,18 @@
 
 
     const comment = document.getElementById("qualityComment");
-    if (q.wmape <= 15) {
+    if (!q.count || q.count < 7) {
+      comment.className = "status";
+      comment.textContent = "Для выбранного фильтра мало исторических точек. Метрики считаются только по дням, где есть факт спроса и минимум 14 дней истории для ARIMA.";
+    } else if (q.wmape <= 15) {
       comment.className = "status ok";
-      comment.textContent = "Качество хорошее: WMAPE до 15%. Модель можно использовать как основу для автозаказа с контролем исключений.";
+      comment.textContent = "Качество хорошее: WMAPE = " + fmtPct(q.wmape) + ", точность = " + fmtPct(q.accuracy || 0) + ". Метрики пересчитаны по тем же фактическим датам, которые видны на графике, а плановый коридор связан со строками таблицы.";
     } else if (q.wmape <= 30) {
       comment.className = "status";
-      comment.textContent = "Качество среднее: WMAPE 15–30%. Нужна проверка по промо, сезонности и дефицитам.";
+      comment.textContent = "Качество среднее: WMAPE = " + fmtPct(q.wmape) + ". Проверьте промо, сезонность, дефициты и выбранный фильтр. План в коридоре: " + fmtPct(q.planCoveragePct || 0) + ".";
     } else {
       comment.className = "status err";
-      comment.textContent = "Качество слабое: WMAPE выше 30%. Для выбранного фильтра нужно улучшать модель или очищать данные.";
+      comment.textContent = "Качество слабое: WMAPE = " + fmtPct(q.wmape) + ". Для этого фильтра прогноз сильно расходится с фактом; автозаказ лучше использовать с ручным контролем. План в коридоре: " + fmtPct(q.planCoveragePct || 0) + ".";
     }
 
     drawChart(result.chart);
