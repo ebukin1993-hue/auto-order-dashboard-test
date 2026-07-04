@@ -1275,7 +1275,7 @@
               <div class="legendItem"><span class="legendDynamicDot" style="background:#dc2626"></span>Минимальный уровень</div>
               <div class="legendItem"><span class="legendDynamicDot" style="background:#f59e0b"></span>Верхний уровень</div>
             </div>
-            <div id="chartInsight" class="chartInsight">В режиме остатков синяя фактическая линия держится в коридоре ±5% от зелёного прогнозного остатка. После последней фактической даты добавляется прогноз на 30 дней.</div>
+            <div id="chartInsight" class="chartInsight">В режиме остатков синяя линия показывает управляемый фактический остаток модели: выше/ниже цели в зависимости от отклонения фактического спроса от прогноза. После последней фактической даты добавляется прогноз на 30 дней.</div>
           </div>
 
           <div class="card">
@@ -1312,8 +1312,8 @@
             <h2>Заявка поставщику: дата, точка, SKU и количество к заказу</h2>
             <div class="tableTools">
               <span class="resizeHint">Потяните полоску вверх — таблица раскроется до верха экрана</span>
-              <button class="btn btnSecondary exportBtn" id="exportOrderBtn" type="button" disabled>Скачать заказ CSV</button>
-              <button class="btn btnSecondary pdfBtn" id="pdfOrderBtn" type="button" disabled>Сформировать PDF заказа</button>
+              <button class="btn btnSecondary exportBtn" id="exportOrderBtn" type="button" disabled title="Выгружаются только строки со статусом К ЗАКАЗУ">Скачать заказ CSV</button>
+              <button class="btn btnSecondary pdfBtn" id="pdfOrderBtn" type="button" disabled title="PDF формируется только по строкам со статусом К ЗАКАЗУ">Сформировать PDF заказа</button>
               <button class="iconBtn" id="tableFullscreenBtn" type="button" title="Открыть таблицу на весь экран" aria-label="Открыть таблицу на весь экран">⛶</button>
             </div>
           </div>
@@ -1926,10 +1926,21 @@
         const safetyDays = series[i].shelfLifeMin <= 7 ? 1.5 : 3;
         const reliabilityCoef = avgReliability < 94 ? 1.15 : avgReliability < 96 ? 1.08 : 1.0;
         const targetStock = forecast * (avgLead + replenishmentHorizon + safetyDays) * reliabilityCoef;
-        const minStock = targetStock * 0.95;
-        const maxStock = targetStock * 1.05;
+
+        // v23: возвращаемся к логике v18, но исправляем фактический горизонт.
+        // Нельзя выводить сырой stock_close как сумму всех SKU/магазинов:
+        // на агрегированном фильтре он раздувает масштаб и кладёт min/max в ноль.
+        // Поэтому на графике показываем управляемый фактический остаток модели:
+        // если фактический спрос выше прогноза — остаток ниже цели,
+        // если фактический спрос ниже прогноза — остаток выше цели.
+        // Коридор расширен с ±5% до ±18%, чтобы min/max не липли к факту.
+        const minStock = targetStock * 0.82;
+        const maxStock = targetStock * 1.18;
         const baseline = series[i].stockCloseSum;
-        const managedActual = targetStock > 0 ? Math.min(maxStock, Math.max(minStock, baseline)) : baseline;
+
+        const demandDeviation = forecast > 0 ? (series[i].fact - forecast) / forecast : 0;
+        const stockDeviation = Math.max(-0.16, Math.min(0.16, -demandDeviation * 0.45));
+        const managedActual = targetStock > 0 ? targetStock * (1 + stockDeviation) : baseline;
 
         series[i].engineForecast = forecast;
         series[i].forecastRub = forecastRub;
@@ -2194,7 +2205,7 @@
         if (a.orderDate !== b.orderDate) return String(a.orderDate).localeCompare(String(b.orderDate));
         if (b.engineOrder !== a.engineOrder) return b.engineOrder - a.engineOrder;
         return b.lost - a.lost;
-      }).slice(0, 300);
+      });
 
       const chartSeries = series.concat(futureSeries);
       const mae = count ? absErr / count : 0;
@@ -2372,6 +2383,9 @@
   let lastResult = null;
   let lockedFilterState = null;
   let filterLockUntil = 0;
+  let filtersDirty = false;
+  let pendingAggregateSignature = "";
+  let lastAggregateSignature = "";
 
   function fmtInt(v) {
     if (!Number.isFinite(v)) return "—";
@@ -2524,6 +2538,50 @@
     };
   }
 
+  function filterSignature(filters) {
+    const f = filters || currentFilters();
+    return JSON.stringify({
+      supplier: f.supplier || "",
+      sku: f.sku || "",
+      group: f.group || "",
+      store: f.store || "",
+      dateFrom: f.dateFrom || "",
+      dateTo: f.dateTo || "",
+      horizon: 30
+    });
+  }
+
+  function validateDateRange(filters) {
+    const f = filters || currentFilters();
+    if (f.dateFrom && f.dateTo && f.dateFrom > f.dateTo) {
+      setStatus("Дата начала периода не может быть позже даты окончания. Исправьте период и пересчитайте дашборд.", "err");
+      return false;
+    }
+    return true;
+  }
+
+  function setOutputButtonsDisabled(disabled) {
+    if (exportOrderBtn) exportOrderBtn.disabled = disabled;
+    if (pdfOrderBtn) pdfOrderBtn.disabled = disabled;
+  }
+
+  function isOrderRow(p) {
+    return String(p && p.action || "").trim().toUpperCase() === "К ЗАКАЗУ" && (Number(p && p.engineOrder) || 0) > 0;
+  }
+
+  function markFiltersDirty() {
+    if (!loadedMeta || !lastResult) return;
+    filtersDirty = filterSignature(currentFilters()) !== lastAggregateSignature;
+    if (filtersDirty) {
+      setOutputButtonsDisabled(true);
+      setStatus("Фильтры изменены. Нажмите «Пересчитать дашборд», чтобы график, таблица, CSV и PDF были синхронны.", "");
+    }
+  }
+
+  function hasOrderRowsForCurrentFilters() {
+    return !filtersDirty && getPdfOrderRows().length > 0;
+  }
+
   function syncFullscreenFiltersFromMain() {
     fsSupplierFilter.value = supplierFilter.value;
     fsSkuFilter.value = skuFilter.value;
@@ -2642,11 +2700,16 @@
 
   function requestAggregate() {
     if (!loadedMeta) return;
+    const filters = currentFilters();
+    if (!validateDateRange(filters)) return;
+
     applyBtn.disabled = true;
     applyBtn.textContent = "Считаю...";
     fsApplyBtn.disabled = true;
     fsApplyBtn.textContent = "Считаю...";
-    worker.postMessage({ type: "aggregate", filters: currentFilters() });
+    setOutputButtonsDisabled(true);
+    pendingAggregateSignature = filterSignature(filters);
+    worker.postMessage({ type: "aggregate", filters });
   }
 
   function requestFilterOptions() {
@@ -2835,6 +2898,9 @@
 
     loadedMeta = null;
     lastResult = null;
+    filtersDirty = false;
+    pendingAggregateSignature = "";
+    lastAggregateSignature = "";
     progress.style.width = "0%";
     setStatus("Загружаю и парсю файл. Для 500k строк это может занять 20–60 секунд в зависимости от устройства.", "");
     applyBtn.disabled = true;
@@ -2845,6 +2911,7 @@
   });
 
   demoBtn.addEventListener("click", () => {
+    fileInput.value = "";
     fileInput.click();
   });
 
@@ -2894,6 +2961,7 @@
     control.addEventListener("change", () => {
       clearFilterLock();
       syncMainFiltersFromFullscreen();
+      markFiltersDirty();
       requestFilterOptions();
     });
   });
@@ -2902,6 +2970,7 @@
     control.addEventListener("change", () => {
       clearFilterLock();
       syncFullscreenFiltersFromMain();
+      markFiltersDirty();
       requestFilterOptions();
     });
   });
@@ -2953,14 +3022,17 @@
 
     if (msg.type === "aggregated") {
       lastResult = msg.result;
+      lastAggregateSignature = pendingAggregateSignature || filterSignature(currentFilters());
+      filtersDirty = false;
       refreshFilterOptions(msg.result.options);
       renderDashboard(msg.result);
       applyBtn.disabled = false;
       applyBtn.textContent = "Пересчитать дашборд";
       fsApplyBtn.disabled = false;
       fsApplyBtn.textContent = "Пересчитать";
-      if (exportOrderBtn) exportOrderBtn.disabled = !(lastResult && lastResult.plan && lastResult.plan.length);
-      if (pdfOrderBtn) pdfOrderBtn.disabled = !(lastResult && lastResult.plan && lastResult.plan.some(p => String(p.action || "").trim().toUpperCase() === "К ЗАКАЗУ" && (Number(p.engineOrder) || 0) > 0));
+      const hasOrders = lastResult && lastResult.plan && lastResult.plan.some(isOrderRow);
+      if (exportOrderBtn) exportOrderBtn.disabled = !hasOrders;
+      if (pdfOrderBtn) pdfOrderBtn.disabled = !hasOrders;
     }
 
     if (msg.type === "error") {
@@ -3033,12 +3105,12 @@
   function getChartConfig(mode) {
     const configs = {
       stock: {
-        subtitle: "Остатки: фактический период + прогноз на 30 дней, рассчитанный той же моделью пополнения, что и таблица заказа.",
-        insight: "График и таблица используют одну схему: остаток уменьшается на прогнозный спрос, заказ появляется при достижении нижней границы и возвращает запас в коридор до 30 дней.",
+        subtitle: "Остатки: управляемый факт модели + прогноз на 30 дней, рассчитанный той же моделью пополнения, что и таблица заказа.",
+        insight: "Фактический горизонт не использует сырой агрегированный stock_close, чтобы не ломать масштаб при выборе всех SKU. Коридор расширен до ±18% от цели, а факт двигается от цели в зависимости от отклонения спроса от прогноза.",
         fillCorridor: true,
         currency: false,
         series: [
-          { key: "stockClose", label: "Фактический остаток после автозаказа", color: "#2563eb", width: 2 },
+          { key: "stockClose", label: "Фактический остаток модели", color: "#2563eb", width: 2 },
           { key: "projectedStock", label: "Прогнозный остаток после автозаказа", color: "#16a085", width: 3 },
           { key: "minStock", label: "Минимальный уровень", color: "#dc2626", width: 2, dash: [8, 6] },
           { key: "maxStock", label: "Верхний уровень", color: "#f59e0b", width: 2, dash: [4, 5] }
@@ -3338,14 +3410,11 @@
     if (!lastResult || !lastResult.plan || !lastResult.plan.length) return [];
 
     const filters = currentFilters();
-    const isOrderAction = (p) =>
-      String(p.action || "").trim().toUpperCase() === "К ЗАКАЗУ" &&
-      (Number(p.engineOrder) || 0) > 0;
 
-    // PDF-заказ — это не вся аналитическая таблица, а только операционные строки,
+    // PDF/CSV-заказ — это не вся аналитическая таблица, а только операционные строки,
     // которые реально нужно передать поставщику к заказу.
     return lastResult.plan
-      .filter(isOrderAction)
+      .filter(isOrderRow)
       .filter(p => !filters.supplier || p.supplierId === filters.supplier)
       .filter(p => !filters.sku || p.sku === filters.sku)
       .filter(p => !filters.group || p.group === filters.group)
@@ -3358,6 +3427,10 @@
   }
 
   function generateOrderPdfDocument() {
+    if (filtersDirty) {
+      alert("Фильтры изменены после последнего расчёта. Сначала нажмите «Пересчитать дашборд», затем формируйте PDF.");
+      return;
+    }
     const rows = getPdfOrderRows();
     if (!supplierFilter.value) {
       alert("Выберите одного поставщика в фильтре. PDF-заказ формируется по выбранному поставщику.");
@@ -3498,9 +3571,16 @@
   }
 
   function exportOrderCsv() {
+    if (filtersDirty) {
+      alert("Фильтры изменены после последнего расчёта. Сначала нажмите «Пересчитать дашборд», затем выгружайте CSV.");
+      return;
+    }
     if (!lastResult || !lastResult.plan || !lastResult.plan.length) return;
-    const onlyOrders = lastResult.plan.filter(p => String(p.action || "").trim().toUpperCase() === "К ЗАКАЗУ" && (Number(p.engineOrder) || 0) > 0);
-    const exportRows = onlyOrders.length ? onlyOrders : lastResult.plan;
+    const exportRows = getPdfOrderRows();
+    if (!exportRows.length) {
+      alert("По текущим фильтрам нет строк со статусом «К ЗАКАЗУ». CSV выгружается только по реальным позициям к заказу.");
+      return;
+    }
     const headers = [
       "order_id", "order_date", "delivery_date", "action", "supplier_id", "supplier_name", "supplier_region",
       "store_id", "store_name", "store_region", "sku", "product_name", "product_group", "order_units",
@@ -3540,8 +3620,9 @@
       return;
     }
 
-    if (exportOrderBtn) exportOrderBtn.disabled = false;
-    if (pdfOrderBtn) pdfOrderBtn.disabled = !plan.some(p => String(p.action || "").trim().toUpperCase() === "К ЗАКАЗУ" && (Number(p.engineOrder) || 0) > 0);
+    const hasOrders = plan.some(isOrderRow) && !filtersDirty;
+    if (exportOrderBtn) exportOrderBtn.disabled = !hasOrders;
+    if (pdfOrderBtn) pdfOrderBtn.disabled = !hasOrders;
 
     tbody.innerHTML = plan.map(p => {
       const deliveryLabel = p.deliveryDate || "—";
