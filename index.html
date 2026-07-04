@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -2960,7 +2960,7 @@
       fsApplyBtn.disabled = false;
       fsApplyBtn.textContent = "Пересчитать";
       if (exportOrderBtn) exportOrderBtn.disabled = !(lastResult && lastResult.plan && lastResult.plan.length);
-      if (pdfOrderBtn) pdfOrderBtn.disabled = !(lastResult && lastResult.plan && lastResult.plan.some(p => p.engineOrder > 0));
+      if (pdfOrderBtn) pdfOrderBtn.disabled = !(lastResult && lastResult.plan && lastResult.plan.some(p => String(p.action || "").trim().toUpperCase() === "К ЗАКАЗУ" && (Number(p.engineOrder) || 0) > 0));
     }
 
     if (msg.type === "error") {
@@ -3336,10 +3336,20 @@
 
   function getPdfOrderRows() {
     if (!lastResult || !lastResult.plan || !lastResult.plan.length) return [];
-    const supplier = supplierFilter.value;
+
+    const filters = currentFilters();
+    const isOrderAction = (p) =>
+      String(p.action || "").trim().toUpperCase() === "К ЗАКАЗУ" &&
+      (Number(p.engineOrder) || 0) > 0;
+
+    // PDF-заказ — это не вся аналитическая таблица, а только операционные строки,
+    // которые реально нужно передать поставщику к заказу.
     return lastResult.plan
-      .filter(p => p.engineOrder > 0)
-      .filter(p => !supplier || p.supplierId === supplier)
+      .filter(isOrderAction)
+      .filter(p => !filters.supplier || p.supplierId === filters.supplier)
+      .filter(p => !filters.sku || p.sku === filters.sku)
+      .filter(p => !filters.group || p.group === filters.group)
+      .filter(p => !filters.store || p.storeId === filters.store)
       .sort((a, b) => {
         if ((a.deliveryDate || "") !== (b.deliveryDate || "")) return String(a.deliveryDate || "").localeCompare(String(b.deliveryDate || ""));
         if ((a.storeName || "") !== (b.storeName || "")) return String(a.storeName || "").localeCompare(String(b.storeName || ""), "ru");
@@ -3354,7 +3364,7 @@
       return;
     }
     if (!rows.length) {
-      alert("По выбранному поставщику нет позиций к заказу. Проверьте фильтры или горизонт заказа.");
+      alert("По выбранному поставщику и текущим фильтрам нет строк со статусом «К ЗАКАЗУ». PDF формируется только по позициям, которые реально нужно заказать.");
       return;
     }
 
@@ -3389,7 +3399,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
-<title>${htmlValue(docNo)} · заказ поставщику</title>
+<title>BUKINATOR</title>
 <style>
   @page { size: A4 landscape; margin: 10mm; }
   * { box-sizing: border-box; }
@@ -3463,7 +3473,7 @@
       <div>Сумма заказа: <b>${fmtMoney(totalRub)}</b></div>
     </div>
 
-    <div class="note">Документ предназначен для передачи подрядчику/поставщику. Итоговые позиции включают только товары с количеством к заказу больше нуля по выбранному поставщику и текущим фильтрам дашборда.</div>
+    <div class="note">Документ предназначен для передачи подрядчику/поставщику. Итоговые позиции включают только строки со статусом «К ЗАКАЗУ», количеством больше нуля, выбранным поставщиком и текущими фильтрами дашборда.</div>
 
     <div class="sign">
       <div class="line">Ответственный за заказ</div>
@@ -3489,7 +3499,7 @@
 
   function exportOrderCsv() {
     if (!lastResult || !lastResult.plan || !lastResult.plan.length) return;
-    const onlyOrders = lastResult.plan.filter(p => p.engineOrder > 0);
+    const onlyOrders = lastResult.plan.filter(p => String(p.action || "").trim().toUpperCase() === "К ЗАКАЗУ" && (Number(p.engineOrder) || 0) > 0);
     const exportRows = onlyOrders.length ? onlyOrders : lastResult.plan;
     const headers = [
       "order_id", "order_date", "delivery_date", "action", "supplier_id", "supplier_name", "supplier_region",
@@ -3531,7 +3541,7 @@
     }
 
     if (exportOrderBtn) exportOrderBtn.disabled = false;
-    if (pdfOrderBtn) pdfOrderBtn.disabled = !plan.some(p => p.engineOrder > 0);
+    if (pdfOrderBtn) pdfOrderBtn.disabled = !plan.some(p => String(p.action || "").trim().toUpperCase() === "К ЗАКАЗУ" && (Number(p.engineOrder) || 0) > 0);
 
     tbody.innerHTML = plan.map(p => {
       const deliveryLabel = p.deliveryDate || "—";
@@ -3582,3 +3592,4 @@
 </script>
 </body>
 </html>
+
