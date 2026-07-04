@@ -710,7 +710,7 @@
     .tableWrap .col-sku { min-width: 78px; max-width: 88px; }
     .tableWrap .col-product { min-width: 210px; max-width: 280px; }
     .tableWrap .col-group { min-width: 130px; max-width: 170px; }
-    .tableWrap .col-decision { min-width: 260px; max-width: 360px; }
+    .tableWrap .col-decision { min-width: 220px; max-width: 320px; }
     .tableWrap .num { min-width: 86px; max-width: 112px; text-align: right; }
 
     .modelBox {
@@ -1093,7 +1093,7 @@
       }
     }
 
-    /* v26: верхняя цепочка 1-2-3 убрана, таблица больше не вытягивается мышью */
+    /* v26: РІРµСЂС…РЅСЏСЏ С†РµРїРѕС‡РєР° 1-2-3 СѓР±СЂР°РЅР°, С‚Р°Р±Р»РёС†Р° Р±РѕР»СЊС€Рµ РЅРµ РІС‹С‚СЏРіРёРІР°РµС‚СЃСЏ РјС‹С€СЊСЋ */
     .storyBar {
       display: none !important;
     }
@@ -1145,7 +1145,7 @@
     }
 
     .tableCard.isFullscreen::before {
-      content: "Таблица заявки";
+      content: "РўР°Р±Р»РёС†Р° Р·Р°СЏРІРєРё";
       position: absolute;
       left: 50%;
       top: 6px;
@@ -1195,7 +1195,7 @@
     }
 
 
-    /* v27: верхние кнопки, растянутый график, узкая/скрываемая панель качества */
+    /* v27: РІРµСЂС…РЅРёРµ РєРЅРѕРїРєРё, СЂР°СЃС‚СЏРЅСѓС‚С‹Р№ РіСЂР°С„РёРє, СѓР·РєР°СЏ/СЃРєСЂС‹РІР°РµРјР°СЏ РїР°РЅРµР»СЊ РєР°С‡РµСЃС‚РІР° */
     main {
       grid-template-rows: auto auto minmax(0, 1fr) !important;
       min-height: 0;
@@ -1368,7 +1368,7 @@
       margin: 8px 0 0;
     }
 
-    /* В обычном режиме таблица не занимает место и не перекрывает график */
+    /* Р’ РѕР±С‹С‡РЅРѕРј СЂРµР¶РёРјРµ С‚Р°Р±Р»РёС†Р° РЅРµ Р·Р°РЅРёРјР°РµС‚ РјРµСЃС‚Рѕ Рё РЅРµ РїРµСЂРµРєСЂС‹РІР°РµС‚ РіСЂР°С„РёРє */
     .tableCard:not(.isFullscreen) {
       display: none !important;
     }
@@ -1444,117 +1444,215 @@
       }
     }
 
+
+    /* v29: РїСЂРѕСЃС‚РѕР№ Р±Р»РѕРє РєР°С‡РµСЃС‚РІР° РґР»СЏ РѕР±С‹С‡РЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ */
+    .simpleQualityBox {
+      display: grid !important;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .qualityMetricCard {
+      border: 1px solid #e3edf4;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #ffffff, #f8fbfd);
+      padding: 9px 10px;
+      display: grid;
+      gap: 3px;
+    }
+
+    .qualityMetricCard span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: none;
+    }
+
+    .qualityMetricCard strong {
+      color: var(--ink);
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .qualityMetricCard small {
+      color: #7b8d9c;
+      font-size: 10px;
+      line-height: 1.15;
+    }
+
+    body.qualityCollapsed .simpleQualityBox,
+    body.qualityCollapsed #qualityComment {
+      display: none !important;
+    }
+
+
+    /* v30: Р·Р°РіРѕР»РѕРІРєРё С‚Р°Р±Р»РёС†С‹ РїРѕР»РЅРѕСЃС‚СЊСЋ РІРёРґРЅС‹ */
+    .tableWrap th {
+      height: auto !important;
+      max-height: none !important;
+      min-height: 42px;
+      white-space: normal !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      line-height: 1.15;
+      vertical-align: bottom;
+      padding: 8px 8px 9px;
+    }
+
+    .tableWrap td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tableWrap th.num {
+      min-width: 92px;
+      max-width: 120px;
+      text-align: right;
+    }
+
+    .tableWrap th:nth-child(1) { min-width: 150px; }
+    .tableWrap th:nth-child(2),
+    .tableWrap th:nth-child(3) { min-width: 96px; }
+    .tableWrap th:nth-child(4) { min-width: 92px; }
+    .tableWrap th:nth-child(5) { min-width: 190px; }
+    .tableWrap th:nth-child(7) { min-width: 180px; }
+    .tableWrap th:nth-child(9) { min-width: 90px; }
+    .tableWrap th:nth-child(10) { min-width: 220px; }
+    .tableWrap th:nth-child(11) { min-width: 150px; }
+    .tableWrap th:nth-child(25),
+    .tableWrap th:nth-child(26) { min-width: 240px; }
+
+    .tableCard.isFullscreen .tableWrap {
+      padding-top: 0;
+    }
+
+    .tableCard.isFullscreen table {
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .tableCard.isFullscreen th {
+      top: 0;
+      z-index: 4;
+      box-shadow: inset 0 -1px 0 var(--line);
+    }
+
   </style>
 </head>
 <body>
   <div class="app">
     <div class="header">
       <div class="brand">
-        <h1>Автозаказ товара</h1>
-        <p>Загрузка TXT/TSV → прогноз спроса → безопасный коридор остатка → заказ без дефицита и перезаказа</p>
+        <h1>РђРІС‚РѕР·Р°РєР°Р· С‚РѕРІР°СЂР°</h1>
+        <p>Р—Р°РіСЂСѓР·РєР° TXT/TSV в†’ РїСЂРѕРіРЅРѕР· СЃРїСЂРѕСЃР° в†’ Р±РµР·РѕРїР°СЃРЅС‹Р№ РєРѕСЂРёРґРѕСЂ РѕСЃС‚Р°С‚РєР° в†’ Р·Р°РєР°Р· Р±РµР· РґРµС„РёС†РёС‚Р° Рё РїРµСЂРµР·Р°РєР°Р·Р°</p>
       </div>
     </div>
 
     <div class="grid">
       <aside class="card">
-        <h2>1. Загрузка данных</h2>
+        <h2>1. Р—Р°РіСЂСѓР·РєР° РґР°РЅРЅС‹С…</h2>
         <div class="uploadBox">
-          <strong>Загрузите TXT / TSV файл продаж</strong>
+          <strong>Р—Р°РіСЂСѓР·РёС‚Рµ TXT / TSV С„Р°Р№Р» РїСЂРѕРґР°Р¶</strong>
           <input id="fileInput" type="file" accept=".txt,.tsv,.csv" />
-          <button class="btn btnSecondary" id="demoBtn">Выбрать файл продаж</button>
-          <button class="btn btnSecondary" id="downloadTemplateBtn" type="button">Скачать шаблон TXT</button>
-          <button class="btn btnSecondary" id="generateTestDataBtn" type="button">Сгенерировать и загрузить тестовые данные</button>
+          <button class="btn btnSecondary" id="demoBtn">Р’С‹Р±СЂР°С‚СЊ С„Р°Р№Р» РїСЂРѕРґР°Р¶</button>
+          <button class="btn btnSecondary" id="downloadTemplateBtn" type="button">РЎРєР°С‡Р°С‚СЊ С€Р°Р±Р»РѕРЅ TXT</button>
+          <button class="btn btnSecondary" id="generateTestDataBtn" type="button">РЎРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ Рё Р·Р°РіСЂСѓР·РёС‚СЊ С‚РµСЃС‚РѕРІС‹Рµ РґР°РЅРЅС‹Рµ</button>
           <div class="progressWrap"><div id="progress" class="progress"></div></div>
-          <div id="loadStatus" class="status">Нажмите «Выбрать файл продаж» и загрузите TXT/TSV. Для проверки формата можно скачать шаблон или сразу сгенерировать и загрузить тестовый TXT за 2026 год: 100 поставщиков и 1000 SKU.</div>
+          <div id="loadStatus" class="status">РќР°Р¶РјРёС‚Рµ В«Р’С‹Р±СЂР°С‚СЊ С„Р°Р№Р» РїСЂРѕРґР°Р¶В» Рё Р·Р°РіСЂСѓР·РёС‚Рµ TXT/TSV. Р”Р»СЏ РїСЂРѕРІРµСЂРєРё С„РѕСЂРјР°С‚Р° РјРѕР¶РЅРѕ СЃРєР°С‡Р°С‚СЊ С€Р°Р±Р»РѕРЅ РёР»Рё СЃСЂР°Р·Сѓ СЃРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ Рё Р·Р°РіСЂСѓР·РёС‚СЊ С‚РµСЃС‚РѕРІС‹Р№ TXT Р·Р° 2026 РіРѕРґ: 100 РїРѕСЃС‚Р°РІС‰РёРєРѕРІ Рё 1000 SKU.</div>
         </div>
 
-        <h3>Фильтры</h3>
+        <h3>Р¤РёР»СЊС‚СЂС‹</h3>
         <div class="filterGrid">
           <div>
-            <label for="supplierFilter">Поставщик</label>
-            <select id="supplierFilter" disabled><option value="">Все поставщики</option></select>
+            <label for="supplierFilter">РџРѕСЃС‚Р°РІС‰РёРє</label>
+            <select id="supplierFilter" disabled><option value="">Р’СЃРµ РїРѕСЃС‚Р°РІС‰РёРєРё</option></select>
           </div>
           <div>
             <label for="skuFilter">SKU</label>
-            <select id="skuFilter" disabled><option value="">Все SKU</option></select>
+            <select id="skuFilter" disabled><option value="">Р’СЃРµ SKU</option></select>
           </div>
           <div>
-            <label for="groupFilter">Товарная группа</label>
-            <select id="groupFilter" disabled><option value="">Все группы</option></select>
+            <label for="groupFilter">РўРѕРІР°СЂРЅР°СЏ РіСЂСѓРїРїР°</label>
+            <select id="groupFilter" disabled><option value="">Р’СЃРµ РіСЂСѓРїРїС‹</option></select>
           </div>
           <div>
-            <label for="storeFilter">Магазин / локация</label>
-            <select id="storeFilter" disabled><option value="">Все магазины</option></select>
+            <label for="storeFilter">РњР°РіР°Р·РёРЅ / Р»РѕРєР°С†РёСЏ</label>
+            <select id="storeFilter" disabled><option value="">Р’СЃРµ РјР°РіР°Р·РёРЅС‹</option></select>
           </div>
           <div class="dateGrid">
             <div>
-              <label for="dateFrom">Дата с</label>
+              <label for="dateFrom">Р”Р°С‚Р° СЃ</label>
               <input id="dateFrom" type="date" disabled />
             </div>
             <div>
-              <label for="dateTo">Дата по</label>
+              <label for="dateTo">Р”Р°С‚Р° РїРѕ</label>
               <input id="dateTo" type="date" disabled />
             </div>
           </div>
           <div class="forecastFixedNote">
-            <div class="noteLabel">Прогноз</div>
-            <div class="noteValue">+30 дней от последней фактической даты выбранного периода</div>
+            <div class="noteLabel">РџСЂРѕРіРЅРѕР·</div>
+            <div class="noteValue">+30 РґРЅРµР№ РѕС‚ РїРѕСЃР»РµРґРЅРµР№ С„Р°РєС‚РёС‡РµСЃРєРѕР№ РґР°С‚С‹ РІС‹Р±СЂР°РЅРЅРѕРіРѕ РїРµСЂРёРѕРґР°</div>
             <input id="horizonInput" type="hidden" value="30" />
           </div>
-          <button class="btn" id="applyBtn" disabled>Пересчитать дашборд</button>
-          <button class="btn btnSecondary" id="resetBtn" disabled>Сбросить фильтры</button>
+          <button class="btn" id="applyBtn" disabled>РџРµСЂРµСЃС‡РёС‚Р°С‚СЊ РґР°С€Р±РѕСЂРґ</button>
+          <button class="btn btnSecondary" id="resetBtn" disabled>РЎР±СЂРѕСЃРёС‚СЊ С„РёР»СЊС‚СЂС‹</button>
         </div>
 
         <div class="footerNote">
-          Движок внутри HTML использует скользящее среднее, недельную сезонность, промо-фактор, срок поставки,
-          минимальную партию, остаток и доступность товара у поставщика. Это не замена промышленному ML,
-          но рабочий прототип для лекционного проекта, демонстрации логики автозаказа и тестирования пользовательских данных.
+          Р”РІРёР¶РѕРє РІРЅСѓС‚СЂРё HTML РёСЃРїРѕР»СЊР·СѓРµС‚ СЃРєРѕР»СЊР·СЏС‰РµРµ СЃСЂРµРґРЅРµРµ, РЅРµРґРµР»СЊРЅСѓСЋ СЃРµР·РѕРЅРЅРѕСЃС‚СЊ, РїСЂРѕРјРѕ-С„Р°РєС‚РѕСЂ, СЃСЂРѕРє РїРѕСЃС‚Р°РІРєРё,
+          РјРёРЅРёРјР°Р»СЊРЅСѓСЋ РїР°СЂС‚РёСЋ, РѕСЃС‚Р°С‚РѕРє Рё РґРѕСЃС‚СѓРїРЅРѕСЃС‚СЊ С‚РѕРІР°СЂР° Сѓ РїРѕСЃС‚Р°РІС‰РёРєР°. Р­С‚Рѕ РЅРµ Р·Р°РјРµРЅР° РїСЂРѕРјС‹С€Р»РµРЅРЅРѕРјСѓ ML,
+          РЅРѕ СЂР°Р±РѕС‡РёР№ РїСЂРѕС‚РѕС‚РёРї РґР»СЏ Р»РµРєС†РёРѕРЅРЅРѕРіРѕ РїСЂРѕРµРєС‚Р°, РґРµРјРѕРЅСЃС‚СЂР°С†РёРё Р»РѕРіРёРєРё Р°РІС‚РѕР·Р°РєР°Р·Р° Рё С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёС… РґР°РЅРЅС‹С….
         </div>
       </aside>
 
       <main>
         <section class="topActionBar">
           <div class="topActionText">
-            <strong>План заказа поставщику</strong>
-            <span>Откройте таблицу-заявку, выгрузите CSV или сформируйте PDF только по строкам «К ЗАКАЗУ».</span>
+            <strong>РџР»Р°РЅ Р·Р°РєР°Р·Р° РїРѕСЃС‚Р°РІС‰РёРєСѓ</strong>
+            <span>РћС‚РєСЂРѕР№С‚Рµ С‚Р°Р±Р»РёС†Сѓ-Р·Р°СЏРІРєСѓ: РѕСЃРЅРѕРІР°РЅРёРµ СЂРµС€РµРЅРёСЏ РѕС‚РґРµР»РµРЅРѕ РѕС‚ СЂРёСЃРєР° РёСЃРїРѕР»РЅРµРЅРёСЏ РїРѕСЃС‚Р°РІРєРё.</span>
           </div>
           <div class="topActionButtons">
-            <button class="btn btnSecondary tableOpenBtn" id="tableFullscreenBtn" type="button" title="Открыть таблицу снизу до верха" aria-label="Открыть таблицу снизу до верха">Открыть таблицу</button>
-            <button class="btn btnSecondary exportBtn" id="exportOrderBtn" type="button" disabled title="Выгружаются только строки со статусом К ЗАКАЗУ">Скачать заказ CSV</button>
-            <button class="btn btnSecondary pdfBtn" id="pdfOrderBtn" type="button" disabled title="PDF формируется только по строкам со статусом К ЗАКАЗУ">Сформировать PDF заказа</button>
+            <button class="btn btnSecondary tableOpenBtn" id="tableFullscreenBtn" type="button" title="РћС‚РєСЂС‹С‚СЊ С‚Р°Р±Р»РёС†Сѓ СЃРЅРёР·Сѓ РґРѕ РІРµСЂС…Р°" aria-label="РћС‚РєСЂС‹С‚СЊ С‚Р°Р±Р»РёС†Сѓ СЃРЅРёР·Сѓ РґРѕ РІРµСЂС…Р°">РћС‚РєСЂС‹С‚СЊ С‚Р°Р±Р»РёС†Сѓ</button>
+            <button class="btn btnSecondary exportBtn" id="exportOrderBtn" type="button" disabled title="Р’С‹РіСЂСѓР¶Р°СЋС‚СЃСЏ С‚РѕР»СЊРєРѕ СЃС‚СЂРѕРєРё СЃРѕ СЃС‚Р°С‚СѓСЃРѕРј Рљ Р—РђРљРђР—РЈ">РЎРєР°С‡Р°С‚СЊ Р·Р°РєР°Р· CSV</button>
+            <button class="btn btnSecondary pdfBtn" id="pdfOrderBtn" type="button" disabled title="PDF С„РѕСЂРјРёСЂСѓРµС‚СЃСЏ С‚РѕР»СЊРєРѕ РїРѕ СЃС‚СЂРѕРєР°Рј СЃРѕ СЃС‚Р°С‚СѓСЃРѕРј Рљ Р—РђРљРђР—РЈ">РЎС„РѕСЂРјРёСЂРѕРІР°С‚СЊ PDF Р·Р°РєР°Р·Р°</button>
           </div>
         </section>
 
         <section class="kpiGrid">
           <div class="kpi">
-            <div class="label">Факт спроса, шт.</div>
-            <div id="kpiSales" class="value">—</div>
-            <div class="hint">Продажи + потерянный спрос</div>
+            <div class="label">Р¤Р°РєС‚ СЃРїСЂРѕСЃР°, С€С‚.</div>
+            <div id="kpiSales" class="value">вЂ”</div>
+            <div class="hint">РџСЂРѕРґР°Р¶Рё + РїРѕС‚РµСЂСЏРЅРЅС‹Р№ СЃРїСЂРѕСЃ</div>
           </div>
           <div class="kpi">
-            <div class="label">Пауза / избыток</div>
-            <div id="kpiRevenue" class="value">—</div>
-            <div class="hint">Позиции выше 30 дней запаса</div>
+            <div class="label">РџР°СѓР·Р° / РёР·Р±С‹С‚РѕРє</div>
+            <div id="kpiRevenue" class="value">вЂ”</div>
+            <div class="hint">РџРѕР·РёС†РёРё РІС‹С€Рµ 30 РґРЅРµР№ Р·Р°РїР°СЃР°</div>
           </div>
           <div class="kpi">
-            <div class="label">Риск пустой полки</div>
-            <div id="kpiLost" class="value">—</div>
-            <div class="hint">Потерянный спрос из-за дефицита</div>
+            <div class="label">Р РёСЃРє РїСѓСЃС‚РѕР№ РїРѕР»РєРё</div>
+            <div id="kpiLost" class="value">вЂ”</div>
+            <div class="hint">РџРѕС‚РµСЂСЏРЅРЅС‹Р№ СЃРїСЂРѕСЃ РёР·-Р·Р° РґРµС„РёС†РёС‚Р°</div>
           </div>
           <div class="kpi">
             <div class="label">Out-of-stock</div>
-            <div id="kpiStockout" class="value">—</div>
-            <div class="hint">Доля строк с пустой полкой</div>
+            <div id="kpiStockout" class="value">вЂ”</div>
+            <div class="hint">Р”РѕР»СЏ СЃС‚СЂРѕРє СЃ РїСѓСЃС‚РѕР№ РїРѕР»РєРѕР№</div>
           </div>
           <div class="kpi">
-            <div class="label">План заказа</div>
-            <div id="kpiOrder" class="value">—</div>
-            <div class="hint">Заказ в безопасный коридор</div>
+            <div class="label">РџР»Р°РЅ Р·Р°РєР°Р·Р°</div>
+            <div id="kpiOrder" class="value">вЂ”</div>
+            <div class="hint">Р—Р°РєР°Р· РІ Р±РµР·РѕРїР°СЃРЅС‹Р№ РєРѕСЂРёРґРѕСЂ</div>
           </div>
           <div class="kpi">
-            <div class="label">Баланс заказа</div>
-            <div id="kpiWmape" class="value">—</div>
-            <div class="hint">Позиций без дефицита и перезаказа</div>
+            <div class="label">Р‘Р°Р»Р°РЅСЃ Р·Р°РєР°Р·Р°</div>
+            <div id="kpiWmape" class="value">вЂ”</div>
+            <div class="hint">РџРѕР·РёС†РёР№ Р±РµР· РґРµС„РёС†РёС‚Р° Рё РїРµСЂРµР·Р°РєР°Р·Р°</div>
           </div>
         </section>
 
@@ -1562,112 +1660,108 @@
           <div class="card chartCard" id="chartCard">
             <div class="cardTitleRow">
               <div class="chartHeaderLeft">
-                <h2>График управления запасом и заказом</h2>
-                <div id="chartSubtitle" class="chartSubtitle">Выберите сценарий: остатки, продажи или заказ. График показывает факт по выбранным датам и прогноз на +30 дней после последней фактической даты.</div>
+                <h2>Р“СЂР°С„РёРє СѓРїСЂР°РІР»РµРЅРёСЏ Р·Р°РїР°СЃРѕРј Рё Р·Р°РєР°Р·РѕРј</h2>
+                <div id="chartSubtitle" class="chartSubtitle">Р’С‹Р±РµСЂРёС‚Рµ СЃС†РµРЅР°СЂРёР№: РѕСЃС‚Р°С‚РєРё, РїСЂРѕРґР°Р¶Рё РёР»Рё Р·Р°РєР°Р·. Р“СЂР°С„РёРє РїРѕРєР°Р·С‹РІР°РµС‚ С„Р°РєС‚ РїРѕ РІС‹Р±СЂР°РЅРЅС‹Рј РґР°С‚Р°Рј Рё РїСЂРѕРіРЅРѕР· РЅР° +30 РґРЅРµР№ РїРѕСЃР»Рµ РїРѕСЃР»РµРґРЅРµР№ С„Р°РєС‚РёС‡РµСЃРєРѕР№ РґР°С‚С‹.</div>
               </div>
               <div class="chartToolbar">
                 <div>
-                  <label for="chartMode">Что смотрим на графике</label>
+                  <label for="chartMode">Р§С‚Рѕ СЃРјРѕС‚СЂРёРј РЅР° РіСЂР°С„РёРєРµ</label>
                   <select id="chartMode">
-                    <option value="stock">Остатки: факт / прогноз / min / max</option>
-                    <option value="salesUnits">Продажи и прогноз, шт.</option>
-                    <option value="salesRub">Продажи и прогноз, ₽</option>
-                    <option value="orderUnits">Заказ, шт.</option>
-                    <option value="orderRub">Заказ, ₽</option>
+                    <option value="stock">РћСЃС‚Р°С‚РєРё: С„Р°РєС‚ / РїСЂРѕРіРЅРѕР· / min / max</option>
+                    <option value="salesUnits">РџСЂРѕРґР°Р¶Рё Рё РїСЂРѕРіРЅРѕР·, С€С‚.</option>
+                    <option value="salesRub">РџСЂРѕРґР°Р¶Рё Рё РїСЂРѕРіРЅРѕР·, в‚Ѕ</option>
+                    <option value="orderUnits">Р—Р°РєР°Р·, С€С‚.</option>
+                    <option value="orderRub">Р—Р°РєР°Р·, в‚Ѕ</option>
                   </select>
                 </div>
-                <button class="iconBtn" id="chartFullscreenBtn" type="button" title="Открыть график на весь экран" aria-label="Открыть график на весь экран">⛶</button>
+                <button class="iconBtn" id="chartFullscreenBtn" type="button" title="РћС‚РєСЂС‹С‚СЊ РіСЂР°С„РёРє РЅР° РІРµСЃСЊ СЌРєСЂР°РЅ" aria-label="РћС‚РєСЂС‹С‚СЊ РіСЂР°С„РёРє РЅР° РІРµСЃСЊ СЌРєСЂР°РЅ">в›¶</button>
               </div>
             </div>
             <div class="fullscreenFilters">
               <div>
-                <label for="fsSupplierFilter">Поставщик</label>
-                <select id="fsSupplierFilter" disabled><option value="">Все поставщики</option></select>
+                <label for="fsSupplierFilter">РџРѕСЃС‚Р°РІС‰РёРє</label>
+                <select id="fsSupplierFilter" disabled><option value="">Р’СЃРµ РїРѕСЃС‚Р°РІС‰РёРєРё</option></select>
               </div>
               <div>
                 <label for="fsSkuFilter">SKU</label>
-                <select id="fsSkuFilter" disabled><option value="">Все SKU</option></select>
+                <select id="fsSkuFilter" disabled><option value="">Р’СЃРµ SKU</option></select>
               </div>
               <div>
-                <label for="fsGroupFilter">Товарная группа</label>
-                <select id="fsGroupFilter" disabled><option value="">Все группы</option></select>
+                <label for="fsGroupFilter">РўРѕРІР°СЂРЅР°СЏ РіСЂСѓРїРїР°</label>
+                <select id="fsGroupFilter" disabled><option value="">Р’СЃРµ РіСЂСѓРїРїС‹</option></select>
               </div>
               <div>
-                <label for="fsStoreFilter">Магазин / локация</label>
-                <select id="fsStoreFilter" disabled><option value="">Все магазины</option></select>
+                <label for="fsStoreFilter">РњР°РіР°Р·РёРЅ / Р»РѕРєР°С†РёСЏ</label>
+                <select id="fsStoreFilter" disabled><option value="">Р’СЃРµ РјР°РіР°Р·РёРЅС‹</option></select>
               </div>
               <div class="dateGrid wide">
                 <div>
-                  <label for="fsDateFrom">Дата с</label>
+                  <label for="fsDateFrom">Р”Р°С‚Р° СЃ</label>
                   <input id="fsDateFrom" type="date" disabled />
                 </div>
                 <div>
-                  <label for="fsDateTo">Дата по</label>
+                  <label for="fsDateTo">Р”Р°С‚Р° РїРѕ</label>
                   <input id="fsDateTo" type="date" disabled />
                 </div>
               </div>
               <div class="forecastFixedNote">
-                <div class="noteLabel">Прогноз</div>
-                <div class="noteValue">+30 дней от последней фактической даты</div>
+                <div class="noteLabel">РџСЂРѕРіРЅРѕР·</div>
+                <div class="noteValue">+30 РґРЅРµР№ РѕС‚ РїРѕСЃР»РµРґРЅРµР№ С„Р°РєС‚РёС‡РµСЃРєРѕР№ РґР°С‚С‹</div>
                 <input id="fsHorizonInput" type="hidden" value="30" />
               </div>
-              <button class="btn" id="fsApplyBtn" type="button" disabled>Пересчитать</button>
-              <button class="btn btnSecondary" id="fsResetBtn" type="button" disabled>Сбросить</button>
+              <button class="btn" id="fsApplyBtn" type="button" disabled>РџРµСЂРµСЃС‡РёС‚Р°С‚СЊ</button>
+              <button class="btn btnSecondary" id="fsResetBtn" type="button" disabled>РЎР±СЂРѕСЃРёС‚СЊ</button>
             </div>
             <div class="chartBox">
               <canvas id="chart"></canvas>
             </div>
             <div class="legend" id="chartLegend">
-              <div class="legendItem"><span class="legendDynamicDot" style="background:#2563eb"></span>Фактический остаток после автозаказа</div>
-              <div class="legendItem"><span class="legendDynamicDot" style="background:#16a085"></span>Прогнозный остаток после заказа</div>
-              <div class="legendItem"><span class="legendDynamicDot" style="background:#dc2626"></span>Минимальный уровень</div>
-              <div class="legendItem"><span class="legendDynamicDot" style="background:#f59e0b"></span>Верхний уровень</div>
+              <div class="legendItem"><span class="legendDynamicDot" style="background:#2563eb"></span>Р¤Р°РєС‚РёС‡РµСЃРєРёР№ РѕСЃС‚Р°С‚РѕРє РїРѕСЃР»Рµ Р°РІС‚РѕР·Р°РєР°Р·Р°</div>
+              <div class="legendItem"><span class="legendDynamicDot" style="background:#16a085"></span>РџСЂРѕРіРЅРѕР·РЅС‹Р№ РѕСЃС‚Р°С‚РѕРє РїРѕСЃР»Рµ Р·Р°РєР°Р·Р°</div>
+              <div class="legendItem"><span class="legendDynamicDot" style="background:#dc2626"></span>РњРёРЅРёРјР°Р»СЊРЅС‹Р№ СѓСЂРѕРІРµРЅСЊ</div>
+              <div class="legendItem"><span class="legendDynamicDot" style="background:#f59e0b"></span>Р’РµСЂС…РЅРёР№ СѓСЂРѕРІРµРЅСЊ</div>
             </div>
-            <div id="chartInsight" class="chartInsight">В режиме остатков синяя линия показывает управляемый фактический остаток модели: выше/ниже цели в зависимости от отклонения фактического спроса от прогноза. После последней фактической даты добавляется прогноз на 30 дней.</div>
+            <div id="chartInsight" class="chartInsight">Р’ СЂРµР¶РёРјРµ РѕСЃС‚Р°С‚РєРѕРІ СЃРёРЅСЏСЏ Р»РёРЅРёСЏ РїРѕРєР°Р·С‹РІР°РµС‚ СѓРїСЂР°РІР»СЏРµРјС‹Р№ С„Р°РєС‚РёС‡РµСЃРєРёР№ РѕСЃС‚Р°С‚РѕРє РјРѕРґРµР»Рё: РІС‹С€Рµ/РЅРёР¶Рµ С†РµР»Рё РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РѕС‚РєР»РѕРЅРµРЅРёСЏ С„Р°РєС‚РёС‡РµСЃРєРѕРіРѕ СЃРїСЂРѕСЃР° РѕС‚ РїСЂРѕРіРЅРѕР·Р°. РџРѕСЃР»Рµ РїРѕСЃР»РµРґРЅРµР№ С„Р°РєС‚РёС‡РµСЃРєРѕР№ РґР°С‚С‹ РґРѕР±Р°РІР»СЏРµС‚СЃСЏ РїСЂРѕРіРЅРѕР· РЅР° 30 РґРЅРµР№.</div>
           </div>
 
           <div class="card qualityCard" id="qualityCard">
             <div class="cardTitleRow qualityTitleRow">
-              <h2>Качество модели</h2>
-              <button class="btn btnSecondary qualityToggleBtn" id="qualityToggleBtn" type="button" title="Скрыть или открыть блок качества">Скрыть</button>
+              <h2>РљР°С‡РµСЃС‚РІРѕ</h2>
+              <button class="btn btnSecondary qualityToggleBtn" id="qualityToggleBtn" type="button" title="РЎРєСЂС‹С‚СЊ РёР»Рё РѕС‚РєСЂС‹С‚СЊ Р±Р»РѕРє РєР°С‡РµСЃС‚РІР°">РЎРєСЂС‹С‚СЊ</button>
             </div>
             <div class="qualityBody" id="qualityBody">
-            <div class="modelBox">
-              <div class="qualityRow"><span>MAE ARIMA, шт.</span><span id="qMae">—</span></div>
-              <div class="qualityRow"><span>RMSE ARIMA, шт.</span><span id="qRmse">—</span></div>
-              <div class="qualityRow"><span>WMAPE ARIMA</span><span id="qWmape">—</span></div>
-              <div class="qualityRow"><span>Bias ARIMA</span><span id="qBias">—</span></div>
-              <div class="qualityRow"><span>WMAPE прогноза из файла</span><span id="qFileWmape">—</span></div>
-              <div class="qualityRow"><span>Дней оценки прогноза</span><span id="qRows">—</span></div>
-              <div class="qualityRow"><span>Точность прогноза</span><span id="qAccuracy">—</span></div>
-              <div class="qualityRow"><span>План в коридоре</span><span id="qPlanCoverage">—</span></div>
-              <div class="qualityRow"><span>Позиций к заказу</span><span id="qOrderRows">—</span></div>
-            </div>
-            <div id="qualityComment" class="status">После загрузки файла здесь появится оценка качества.</div>
-            <div class="balanceSummary">
-              <div class="summaryTile red">
-                <div class="summaryLabel">Риск OOS</div>
-                <div id="sumOos" class="summaryValue">—</div>
+            <div class="modelBox simpleQualityBox">
+              <div class="qualityMetricCard">
+                <span>РџРѕРїР°РґР°РЅРёРµ РІ РѕСЃС‚Р°С‚РєРё</span>
+                <strong id="qStockAccuracy">вЂ”</strong>
+                <small>С„Р°РєС‚ РѕСЃС‚Р°С‚РєР° Рє С†РµР»РµРІРѕРјСѓ СѓСЂРѕРІРЅСЋ</small>
               </div>
-              <div class="summaryTile orange">
-                <div class="summaryLabel">Пауза заказа</div>
-                <div id="sumOverstock" class="summaryValue">—</div>
+              <div class="qualityMetricCard">
+                <span>РџРѕРїР°РґР°РЅРёРµ РІ РїСЂРѕРґР°Р¶Рё</span>
+                <strong id="qSalesAccuracy">вЂ”</strong>
+                <small>РїСЂРѕРіРЅРѕР· РїСЂРѕРґР°Р¶ Рє С„Р°РєС‚Сѓ</small>
               </div>
-              <div class="summaryTile green">
-                <div class="summaryLabel">В балансе</div>
-                <div id="sumBalanced" class="summaryValue">—</div>
+              <div class="qualityMetricCard">
+                <span>РџР»Р°РЅ РІ РЅРѕСЂРјРµ</span>
+                <strong id="qPlanCoverage">вЂ”</strong>
+                <small>Р±РµР· РґРµС„РёС†РёС‚Р° Рё РїРµСЂРµР·Р°РєР°Р·Р°</small>
+              </div>
+              <div class="qualityMetricCard">
+                <span>Рљ Р·Р°РєР°Р·Сѓ</span>
+                <strong id="qOrderRows">вЂ”</strong>
+                <small>СЃС‚СЂРѕРє РІ Р·Р°СЏРІРєРµ</small>
               </div>
             </div>
-            <div id="businessComment" class="status">Система рассчитывает заказ по правилу: не более 30 дней запаса, заказ только при снижении к минимальной границе с учётом срока поставки.</div>
+            <div id="qualityComment" class="status">РџРѕСЃР»Рµ Р·Р°РіСЂСѓР·РєРё С„Р°Р№Р»Р° Р·РґРµСЃСЊ РїРѕСЏРІРёС‚СЃСЏ РїСЂРѕСЃС‚Р°СЏ РѕС†РµРЅРєР° РєР°С‡РµСЃС‚РІР°.</div>
             </div>
           </div>
         </section>
 
         <section class="card tableCard" id="tableCard">
           <div class="cardTitleRow tableTitleRow">
-            <h2>Заявка поставщику: дата, точка, SKU и количество к заказу</h2>
+            <h2>Р—Р°СЏРІРєР° РїРѕСЃС‚Р°РІС‰РёРєСѓ: РґР°С‚Р°, С‚РѕС‡РєР°, SKU Рё РєРѕР»РёС‡РµСЃС‚РІРѕ Рє Р·Р°РєР°Р·Сѓ</h2>
             <div class="tableTools">
-              <button class="btn btnSecondary" id="tableDrawerCloseBtn" type="button" title="Закрыть таблицу">Закрыть таблицу</button>
+              <button class="btn btnSecondary" id="tableDrawerCloseBtn" type="button" title="Р—Р°РєСЂС‹С‚СЊ С‚Р°Р±Р»РёС†Сѓ">Р—Р°РєСЂС‹С‚СЊ С‚Р°Р±Р»РёС†Сѓ</button>
             </div>
           </div>
           <div class="tableResizeHandle" id="tableResizeHandle" aria-hidden="true"></div>
@@ -1675,35 +1769,36 @@
             <table>
               <thead>
                 <tr>
-                  <th>№ заявки</th>
-                  <th>Дата заказа</th>
-                  <th>Дата поставки</th>
-                  <th>Действие</th>
-                  <th>Поставщик</th>
-                  <th>Регион пост.</th>
-                  <th>Магазин</th>
-                  <th>Регион магазина</th>
+                  <th>в„– Р·Р°СЏРІРєРё</th>
+                  <th>Р”Р°С‚Р° Р·Р°РєР°Р·Р°</th>
+                  <th>Р”Р°С‚Р° РїРѕСЃС‚Р°РІРєРё</th>
+                  <th>Р”РµР№СЃС‚РІРёРµ</th>
+                  <th>РџРѕСЃС‚Р°РІС‰РёРє</th>
+                  <th>Р РµРіРёРѕРЅ РїРѕСЃС‚.</th>
+                  <th>РњР°РіР°Р·РёРЅ</th>
+                  <th>Р РµРіРёРѕРЅ РјР°РіР°Р·РёРЅР°</th>
                   <th>SKU</th>
-                  <th>Товар</th>
-                  <th>Группа</th>
-                  <th class="num">Остаток</th>
-                  <th class="num">Прогноз/день</th>
-                  <th class="num">Ниж. граница</th>
-                  <th class="num">Целевой запас</th>
-                  <th class="num">Верх. граница</th>
-                  <th class="num">Дней после плана</th>
-                  <th class="num">К заказу, шт.</th>
-                  <th class="num">Мин. партия</th>
-                  <th class="num">Цена закупки</th>
-                  <th class="num">Сумма заказа</th>
-                  <th class="num">Доступно</th>
+                  <th>РўРѕРІР°СЂ</th>
+                  <th>Р“СЂСѓРїРїР°</th>
+                  <th class="num">РћСЃС‚Р°С‚РѕРє</th>
+                  <th class="num">РџСЂРѕРіРЅРѕР·/РґРµРЅСЊ</th>
+                  <th class="num">РќРёР¶. РіСЂР°РЅРёС†Р°</th>
+                  <th class="num">Р¦РµР»РµРІРѕР№ Р·Р°РїР°СЃ</th>
+                  <th class="num">Р’РµСЂС…. РіСЂР°РЅРёС†Р°</th>
+                  <th class="num">Р”РЅРµР№ РїРѕСЃР»Рµ РїР»Р°РЅР°</th>
+                  <th class="num">Рљ Р·Р°РєР°Р·Сѓ, С€С‚.</th>
+                  <th class="num">РњРёРЅ. РїР°СЂС‚РёСЏ</th>
+                  <th class="num">Р¦РµРЅР° Р·Р°РєСѓРїРєРё</th>
+                  <th class="num">РЎСѓРјРјР° Р·Р°РєР°Р·Р°</th>
+                  <th class="num">Р”РѕСЃС‚СѓРїРЅРѕ</th>
                   <th class="num">Lead time</th>
-                  <th class="num">Надёжность</th>
-                  <th>Риск / причина</th>
+                  <th class="num">РќР°РґС‘Р¶РЅРѕСЃС‚СЊ</th>
+                  <th>РћСЃРЅРѕРІР°РЅРёРµ СЂРµС€РµРЅРёСЏ</th>
+                  <th>Р РёСЃРє РёСЃРїРѕР»РЅРµРЅРёСЏ</th>
                 </tr>
               </thead>
               <tbody id="orderTable">
-                <tr><td colspan="25" class="empty">Загрузите файл, чтобы получить план заказа.</td></tr>
+                <tr><td colspan="26" class="empty">Р—Р°РіСЂСѓР·РёС‚Рµ С„Р°Р№Р», С‡С‚РѕР±С‹ РїРѕР»СѓС‡РёС‚СЊ РїР»Р°РЅ Р·Р°РєР°Р·Р°.</td></tr>
               </tbody>
             </table>
           </div>
@@ -1843,7 +1938,7 @@
         const supplierName = get("supplier_name") || supplierId;
         const sku = get("sku") || "NO_SKU";
         const productName = get("product_name") || sku;
-        const group = get("product_group") || "Без группы";
+        const group = get("product_group") || "Р‘РµР· РіСЂСѓРїРїС‹";
         const storeId = get("store_id") || "NO_STORE";
         const storeName = get("store_name") || storeId;
         const storeRegion = get("region") || "";
@@ -1887,7 +1982,7 @@
         meta.rowCount++;
 
         meta.suppliers.set(supplierId, supplierName + " (" + supplierId + ")");
-        meta.skus.set(sku, sku + " · " + productName);
+        meta.skus.set(sku, sku + " В· " + productName);
         meta.groups.set(group, group);
         meta.stores.set(storeId, storeName + " (" + storeId + ")");
 
@@ -1959,7 +2054,7 @@
 
       for (const r of rows) {
         if (passesExcept(r, filters, "supplier")) suppliers.set(r[1], r[2] + " (" + r[1] + ")");
-        if (passesExcept(r, filters, "sku")) skus.set(r[3], r[3] + " · " + r[4]);
+        if (passesExcept(r, filters, "sku")) skus.set(r[3], r[3] + " В· " + r[4]);
         if (passesExcept(r, filters, "group")) groups.set(r[5], r[5]);
         if (passesExcept(r, filters, "store")) stores.set(r[6], r[7] + " (" + r[6] + ")");
       }
@@ -2005,8 +2100,8 @@
       return clean.length ? clean.reduce((s, v) => s + v, 0) / clean.length : 0;
     }
 
-    // Лёгкая ARIMA-модель без внешних библиотек: ARIMA(1,1,1) + недельная сезонность.
-    // Используется для прогноза продаж в штуках и рублях на +30 дней.
+    // Р›С‘РіРєР°СЏ ARIMA-РјРѕРґРµР»СЊ Р±РµР· РІРЅРµС€РЅРёС… Р±РёР±Р»РёРѕС‚РµРє: ARIMA(1,1,1) + РЅРµРґРµР»СЊРЅР°СЏ СЃРµР·РѕРЅРЅРѕСЃС‚СЊ.
+    // РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ РїСЂРѕРіРЅРѕР·Р° РїСЂРѕРґР°Р¶ РІ С€С‚СѓРєР°С… Рё СЂСѓР±Р»СЏС… РЅР° +30 РґРЅРµР№.
     function arimaForecast(values, dates, horizon, firstForecastDate) {
       const y = [];
       const ds = [];
@@ -2234,7 +2329,7 @@
               stockoutRate: 0, selectedRows: 0, overstockUnits: 0, overstockPositions: 0,
               stockoutPositions: 0, balancedPositions: 0, totalPositions: 0, balanceScore: 0
             },
-            quality: { mae: 0, rmse: 0, wmape: 0, bias: 0, fileWmape: 0, count: 0, accuracy: 0, planCoveragePct: 0, orderRows: 0, controlRows: 0, pauseRows: 0, actualSum: 0, absErrorSum: 0, biasUnits: 0 },
+            quality: { mae: 0, rmse: 0, wmape: 0, bias: 0, fileWmape: 0, count: 0, accuracy: 0, stockAccuracy: 0, stockEvalDays: 0, planCoveragePct: 0, orderRows: 0, controlRows: 0, pauseRows: 0, actualSum: 0, absErrorSum: 0, biasUnits: 0 },
             options: filterOptions(filters),
             chart: [],
             plan: []
@@ -2250,6 +2345,9 @@
       let count = 0;
       let fileAbsErr = 0;
       let fileActualSum = 0;
+      let stockAbsErr = 0;
+      let stockTargetSum = 0;
+      let stockEvalDays = 0;
 
       for (let i = 0; i < series.length; i++) {
         let forecast;
@@ -2280,13 +2378,13 @@
         const reliabilityCoef = avgReliability < 94 ? 1.15 : avgReliability < 96 ? 1.08 : 1.0;
         const targetStock = forecast * (avgLead + replenishmentHorizon + safetyDays) * reliabilityCoef;
 
-        // v23: возвращаемся к логике v18, но исправляем фактический горизонт.
-        // Нельзя выводить сырой stock_close как сумму всех SKU/магазинов:
-        // на агрегированном фильтре он раздувает масштаб и кладёт min/max в ноль.
-        // Поэтому на графике показываем управляемый фактический остаток модели:
-        // если фактический спрос выше прогноза — остаток ниже цели,
-        // если фактический спрос ниже прогноза — остаток выше цели.
-        // Коридор расширен с ±5% до ±18%, чтобы min/max не липли к факту.
+        // v23: РІРѕР·РІСЂР°С‰Р°РµРјСЃСЏ Рє Р»РѕРіРёРєРµ v18, РЅРѕ РёСЃРїСЂР°РІР»СЏРµРј С„Р°РєС‚РёС‡РµСЃРєРёР№ РіРѕСЂРёР·РѕРЅС‚.
+        // РќРµР»СЊР·СЏ РІС‹РІРѕРґРёС‚СЊ СЃС‹СЂРѕР№ stock_close РєР°Рє СЃСѓРјРјСѓ РІСЃРµС… SKU/РјР°РіР°Р·РёРЅРѕРІ:
+        // РЅР° Р°РіСЂРµРіРёСЂРѕРІР°РЅРЅРѕРј С„РёР»СЊС‚СЂРµ РѕРЅ СЂР°Р·РґСѓРІР°РµС‚ РјР°СЃС€С‚Р°Р± Рё РєР»Р°РґС‘С‚ min/max РІ РЅРѕР»СЊ.
+        // РџРѕСЌС‚РѕРјСѓ РЅР° РіСЂР°С„РёРєРµ РїРѕРєР°Р·С‹РІР°РµРј СѓРїСЂР°РІР»СЏРµРјС‹Р№ С„Р°РєС‚РёС‡РµСЃРєРёР№ РѕСЃС‚Р°С‚РѕРє РјРѕРґРµР»Рё:
+        // РµСЃР»Рё С„Р°РєС‚РёС‡РµСЃРєРёР№ СЃРїСЂРѕСЃ РІС‹С€Рµ РїСЂРѕРіРЅРѕР·Р° вЂ” РѕСЃС‚Р°С‚РѕРє РЅРёР¶Рµ С†РµР»Рё,
+        // РµСЃР»Рё С„Р°РєС‚РёС‡РµСЃРєРёР№ СЃРїСЂРѕСЃ РЅРёР¶Рµ РїСЂРѕРіРЅРѕР·Р° вЂ” РѕСЃС‚Р°С‚РѕРє РІС‹С€Рµ С†РµР»Рё.
+        // РљРѕСЂРёРґРѕСЂ СЂР°СЃС€РёСЂРµРЅ СЃ В±5% РґРѕ В±18%, С‡С‚РѕР±С‹ min/max РЅРµ Р»РёРїР»Рё Рє С„Р°РєС‚Сѓ.
         const minStock = targetStock * 0.82;
         const maxStock = targetStock * 1.18;
         const baseline = series[i].stockCloseSum;
@@ -2307,8 +2405,17 @@
         series[i].orderRub = null;
         series[i].isForecastPoint = false;
 
-        // Backtest качества: сравниваем дневной факт спроса с дневным прогнозом ARIMA.
-        // Первые 14 дней — прогрев модели, в метрики их не включаем.
+        // РџРѕРїР°РґР°РЅРёРµ РІ С„Р°РєС‚РёС‡РµСЃРєРёРµ РѕСЃС‚Р°С‚РєРё РЅР° РіСЂР°С„РёРєРµ:
+        // СЃСЂР°РІРЅРёРІР°РµРј С„Р°РєС‚РёС‡РµСЃРєСѓСЋ СЃРёРЅСЋСЋ Р»РёРЅРёСЋ СЃ С†РµР»РµРІС‹Рј СѓСЂРѕРІРЅРµРј Р·Р°РїР°СЃР°.
+        // Р¤РѕСЂРјСѓР»Р°: 100% - СЃСѓРјРјР° РѕС‚РєР»РѕРЅРµРЅРёР№ / СЃСѓРјРјР° С†РµР»РµРІРѕРіРѕ Р·Р°РїР°СЃР°.
+        if (i >= 14 && targetStock > 0 && Number.isFinite(managedActual)) {
+          stockAbsErr += Math.abs(managedActual - targetStock);
+          stockTargetSum += targetStock;
+          stockEvalDays++;
+        }
+
+        // Backtest РїСЂРѕРґР°Р¶: СЃСЂР°РІРЅРёРІР°РµРј РґРЅРµРІРЅРѕР№ С„Р°РєС‚ СЃРїСЂРѕСЃР° СЃ РґРЅРµРІРЅС‹Рј РїСЂРѕРіРЅРѕР·РѕРј ARIMA.
+        // РџРµСЂРІС‹Рµ 14 РґРЅРµР№ вЂ” РїСЂРѕРіСЂРµРІ РјРѕРґРµР»Рё, РІ РјРµС‚СЂРёРєРё РёС… РЅРµ РІРєР»СЋС‡Р°РµРј.
         if (i >= 14 && series[i].fact > 0 && Number.isFinite(forecast)) {
           const actual = series[i].fact;
           const err = forecast - actual;
@@ -2318,8 +2425,8 @@
           biasSum += err;
           count++;
 
-          // demand_forecast_units в тестовых данных хранит прогноз на lead time + 2 дня,
-          // поэтому для честного сравнения с дневным фактом приводим его к дневному уровню.
+          // demand_forecast_units РІ С‚РµСЃС‚РѕРІС‹С… РґР°РЅРЅС‹С… С…СЂР°РЅРёС‚ РїСЂРѕРіРЅРѕР· РЅР° lead time + 2 РґРЅСЏ,
+          // РїРѕСЌС‚РѕРјСѓ РґР»СЏ С‡РµСЃС‚РЅРѕРіРѕ СЃСЂР°РІРЅРµРЅРёСЏ СЃ РґРЅРµРІРЅС‹Рј С„Р°РєС‚РѕРј РїСЂРёРІРѕРґРёРј РµРіРѕ Рє РґРЅРµРІРЅРѕРјСѓ СѓСЂРѕРІРЅСЋ.
           const avgLeadForFileForecast = series[i].rows ? series[i].leadSum / series[i].rows : 1;
           const fileForecastDaily = series[i].fileForecast / Math.max(1, avgLeadForFileForecast + 2);
           fileAbsErr += Math.abs(fileForecastDaily - actual);
@@ -2472,43 +2579,56 @@
         const deliveryDate = firstOrder ? firstOrder.deliveryDate : addDaysISO(p.lastDate, leadRounded);
         const orderId = "ORD-" + (orderDate || "0000-00-00").split("-").join("") + "-" + p.supplierId + "-" + p.storeId + "-" + p.sku;
 
-        let risk = "OK";
-        let decision = "Заказ не нужен: запас не опускается к нижней границе в ближайшие 30 дней";
-        let action = "КОНТРОЛЬ";
+        let orderReason = "Р—Р°РїР°СЃ РґРѕСЃС‚Р°С‚РѕС‡РЅС‹Р№";
+        let executionRisk = "РќРµС‚ РєСЂРёС‚РёС‡РЅС‹С… СЂРёСЃРєРѕРІ";
+        let decision = "Р—Р°РєР°Р· РЅРµ РЅСѓР¶РµРЅ: Р·Р°РїР°СЃ РЅРµ РѕРїСѓСЃРєР°РµС‚СЃСЏ Рє РЅРёР¶РЅРµР№ РіСЂР°РЅРёС†Рµ РІ Р±Р»РёР¶Р°Р№С€РёРµ 30 РґРЅРµР№";
+        let action = "РљРћРќРўР РћР›Р¬";
 
         if (forecastPerDay <= 0) {
-          risk = "Нет спроса";
-          decision = "Заказ не нужен: по выбранному периоду спрос не подтверждён";
-          action = "НЕ ЗАКАЗЫВАТЬ";
+          orderReason = "РќРµС‚ РїРѕРґС‚РІРµСЂР¶РґС‘РЅРЅРѕРіРѕ СЃРїСЂРѕСЃР°";
+          executionRisk = "РќРµ Р·Р°РєР°Р·С‹РІР°С‚СЊ";
+          decision = "Р—Р°РєР°Р· РЅРµ РЅСѓР¶РµРЅ: РїРѕ РІС‹Р±СЂР°РЅРЅРѕРјСѓ РїРµСЂРёРѕРґСѓ СЃРїСЂРѕСЃ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ";
+          action = "РќР• Р—РђРљРђР—Р«Р’РђРўР¬";
           balancedPositions++;
         } else if (pauseDueToHighStock) {
-          risk = "Пауза поставки";
-          decision = "Не заказывать: текущий запас выше 30 дней, сначала расходуем избыток";
-          action = "НЕ ЗАКАЗЫВАТЬ";
+          orderReason = "РР·Р±С‹С‚РѕС‡РЅС‹Р№ Р·Р°РїР°СЃ";
+          executionRisk = "Р РёСЃРє РїРµСЂРµР·Р°РєР°Р·Р°";
+          decision = "РќРµ Р·Р°РєР°Р·С‹РІР°С‚СЊ: С‚РµРєСѓС‰РёР№ Р·Р°РїР°СЃ РІС‹С€Рµ 30 РґРЅРµР№, СЃРЅР°С‡Р°Р»Р° СЂР°СЃС…РѕРґСѓРµРј РёР·Р±С‹С‚РѕРє";
+          action = "РќР• Р—РђРљРђР—Р«Р’РђРўР¬";
           overstockPositions++;
-        } else if (firstOrder && reliability < 94) {
-          risk = "Дефицит + низкая надёжность";
-          decision = "Заказать по графику: к дате поставки запас опустится к минимуму, поставщик нестабилен";
-          action = "К ЗАКАЗУ";
-          stockoutPositions++;
         } else if (firstOrder) {
-          risk = "Плановый довоз";
-          decision = "Заказать по графику: прогнозный остаток опускается к минимальной границе";
-          action = "К ЗАКАЗУ";
-          balancedPositions++;
+          orderReason = "Р—Р°РїР°СЃ Рє РґР°С‚Рµ РїРѕСЃС‚Р°РІРєРё РѕРїСѓСЃС‚РёС‚СЃСЏ Рє РјРёРЅРёРјР°Р»СЊРЅРѕР№ РіСЂР°РЅРёС†Рµ";
+          if (reliability < 94) {
+            executionRisk = "РќРёР·РєР°СЏ РЅР°РґС‘Р¶РЅРѕСЃС‚СЊ РїРѕСЃС‚Р°РІС‰РёРєР° вЂ” РЅСѓР¶РµРЅ РєРѕРЅС‚СЂРѕР»СЊ РїРѕСЃС‚Р°РІРєРё";
+            decision = "Р—Р°РєР°Р·Р°С‚СЊ РїРѕ РіСЂР°С„РёРєСѓ Рё РїСЂРѕРєРѕРЅС‚СЂРѕР»РёСЂРѕРІР°С‚СЊ РёСЃРїРѕР»РЅРµРЅРёРµ: РїРѕСЃС‚Р°РІС‰РёРє РЅРµСЃС‚Р°Р±РёР»РµРЅ";
+            stockoutPositions++;
+          } else if (available > 0 && firstOrder.qty >= available) {
+            executionRisk = "РћРіСЂР°РЅРёС‡РµРЅР° РґРѕСЃС‚СѓРїРЅРѕСЃС‚СЊ Сѓ РїРѕСЃС‚Р°РІС‰РёРєР°";
+            decision = "Р—Р°РєР°Р·Р°С‚СЊ РїРѕ РіСЂР°С„РёРєСѓ: Р·Р°РїР°СЃ РѕРїСѓСЃРєР°РµС‚СЃСЏ Рє РјРёРЅРёРјСѓРјСѓ, РґРѕСЃС‚СѓРїРЅРѕСЃС‚СЊ РїРѕСЃС‚Р°РІС‰РёРєР° РѕРіСЂР°РЅРёС‡РµРЅР°";
+            stockoutPositions++;
+          } else {
+            executionRisk = "РџР»Р°РЅРѕРІС‹Р№ РґРѕРІРѕР·";
+            decision = "Р—Р°РєР°Р·Р°С‚СЊ РїРѕ РіСЂР°С„РёРєСѓ: РїСЂРѕРіРЅРѕР·РЅС‹Р№ РѕСЃС‚Р°С‚РѕРє РѕРїСѓСЃРєР°РµС‚СЃСЏ Рє РјРёРЅРёРјР°Р»СЊРЅРѕР№ РіСЂР°РЅРёС†Рµ";
+            balancedPositions++;
+          }
+          action = "Рљ Р—РђРљРђР—РЈ";
         } else if (stockEndTomorrow <= minStock) {
-          risk = "Риск дефицита";
-          decision = "Нужен контроль: завтра остаток приблизится к минимуму, но заказ ограничен доступностью/партией";
-          action = "КОНТРОЛЬ";
+          orderReason = "РћСЃС‚Р°С‚РѕРє РїСЂРёР±Р»РёР¶Р°РµС‚СЃСЏ Рє РјРёРЅРёРјР°Р»СЊРЅРѕР№ РіСЂР°РЅРёС†Рµ";
+          executionRisk = "Р—Р°РєР°Р· РѕРіСЂР°РЅРёС‡РµРЅ РґРѕСЃС‚СѓРїРЅРѕСЃС‚СЊСЋ РёР»Рё РјРёРЅРёРјР°Р»СЊРЅРѕР№ РїР°СЂС‚РёРµР№";
+          decision = "РќСѓР¶РµРЅ РєРѕРЅС‚СЂРѕР»СЊ: Р·Р°РІС‚СЂР° РѕСЃС‚Р°С‚РѕРє РїСЂРёР±Р»РёР·РёС‚СЃСЏ Рє РјРёРЅРёРјСѓРјСѓ, РЅРѕ Р·Р°РєР°Р· РѕРіСЂР°РЅРёС‡РµРЅ РґРѕСЃС‚СѓРїРЅРѕСЃС‚СЊСЋ/РїР°СЂС‚РёРµР№";
+          action = "РљРћРќРўР РћР›Р¬";
           stockoutPositions++;
         } else if (reliability < 94) {
-          risk = "Риск поставщика";
-          decision = "Контроль поставщика: заказ появится при снижении запаса до нижней границы";
-          action = "КОНТРОЛЬ";
+          orderReason = "Р—Р°РїР°СЃ РїРѕРєР° РґРѕСЃС‚Р°С‚РѕС‡РЅС‹Р№";
+          executionRisk = "РќРёР·РєР°СЏ РЅР°РґС‘Р¶РЅРѕСЃС‚СЊ РїРѕСЃС‚Р°РІС‰РёРєР° вЂ” РјРѕРЅРёС‚РѕСЂРёРЅРі";
+          decision = "РљРѕРЅС‚СЂРѕР»СЊ РїРѕСЃС‚Р°РІС‰РёРєР°: Р·Р°РєР°Р· РїРѕСЏРІРёС‚СЃСЏ РїСЂРё СЃРЅРёР¶РµРЅРёРё Р·Р°РїР°СЃР° РґРѕ РЅРёР¶РЅРµР№ РіСЂР°РЅРёС†С‹";
+          action = "РљРћРќРўР РћР›Р¬";
           balancedPositions++;
         } else {
           balancedPositions++;
         }
+
+        const risk = executionRisk;
 
         return {
           orderId,
@@ -2554,13 +2674,20 @@
           stockoutDays: p.stockoutDays,
           overstockUnits,
           projectedOverstockUnits: Math.max(0, finalProjectedStock - maxStock),
+          orderReason,
+          executionRisk,
           risk,
           decision
         };
       });
 
       const plan = fullPlan.sort((a,b) => {
-        const priority = (x) => (x.action === "К ЗАКАЗУ" ? 4 : x.risk.includes("Дефицит") ? 3 : x.risk.includes("Пауза") ? 2 : 1);
+        const priority = (x) => (
+          x.action === "Рљ Р—РђРљРђР—РЈ" ? 4 :
+          String(x.executionRisk || x.risk || "").toLowerCase().includes("РЅР°РґС‘Р¶") ? 3 :
+          String(x.executionRisk || x.risk || "").toLowerCase().includes("РѕРіСЂР°РЅРёС‡") ? 3 :
+          String(x.executionRisk || x.risk || "").toLowerCase().includes("РїРµСЂРµР·Р°РєР°Р·") ? 2 : 1
+        );
         const pa = priority(a), pb = priority(b);
         if (pb !== pa) return pb - pa;
         if (a.orderDate !== b.orderDate) return String(a.orderDate).localeCompare(String(b.orderDate));
@@ -2570,9 +2697,9 @@
 
       const chartSeries = series.concat(futureSeries);
 
-      const orderRows = plan.filter(x => x.action === "К ЗАКАЗУ").length;
-      const controlRows = plan.filter(x => x.action === "КОНТРОЛЬ").length;
-      const pauseRows = plan.filter(x => String(x.risk || "").includes("Пауза")).length;
+      const orderRows = plan.filter(x => x.action === "Рљ Р—РђРљРђР—РЈ").length;
+      const controlRows = plan.filter(x => x.action === "РљРћРќРўР РћР›Р¬").length;
+      const pauseRows = plan.filter(x => String(x.executionRisk || x.risk || "").toLowerCase().includes("РїРµСЂРµР·Р°РєР°Р·")).length;
       const planInCorridorRows = plan.filter(x =>
         (Number(x.stockEndTomorrow) || 0) >= (Number(x.reorderPoint) || 0) &&
         (Number(x.projectedOverstockUnits) || 0) <= 0
@@ -2585,6 +2712,7 @@
       const bias = actualSum ? biasSum / actualSum * 100 : 0;
       const fileWmape = fileActualSum ? fileAbsErr / fileActualSum * 100 : 0;
       const accuracy = Math.max(0, 100 - wmape);
+      const stockAccuracy = stockTargetSum ? Math.max(0, 100 - stockAbsErr / stockTargetSum * 100) : 0;
 
       self.postMessage({
         type: "aggregated",
@@ -2612,6 +2740,8 @@
             fileWmape,
             count,
             accuracy,
+            stockAccuracy,
+            stockEvalDays,
             planCoveragePct,
             orderRows,
             controlRows,
@@ -2646,19 +2776,19 @@
     function loadDemo() {
       reset();
       const suppliers = [
-        ["SUP001", "Молочный дом"],
-        ["SUP003", "Хлебный комбинат Восток"],
-        ["SUP011", "Напитки Плюс"]
+        ["SUP001", "РњРѕР»РѕС‡РЅС‹Р№ РґРѕРј"],
+        ["SUP003", "РҐР»РµР±РЅС‹Р№ РєРѕРјР±РёРЅР°С‚ Р’РѕСЃС‚РѕРє"],
+        ["SUP011", "РќР°РїРёС‚РєРё РџР»СЋСЃ"]
       ];
       const skus = [
-        ["SKU001", "Молоко 2.5% 1л", "Молочная продукция", 7],
-        ["SKU007", "Хлеб пшеничный", "Хлеб и выпечка", 3],
-        ["SKU031", "Вода 1.5л", "Напитки", 365]
+        ["SKU001", "РњРѕР»РѕРєРѕ 2.5% 1Р»", "РњРѕР»РѕС‡РЅР°СЏ РїСЂРѕРґСѓРєС†РёСЏ", 7],
+        ["SKU007", "РҐР»РµР± РїС€РµРЅРёС‡РЅС‹Р№", "РҐР»РµР± Рё РІС‹РїРµС‡РєР°", 3],
+        ["SKU031", "Р’РѕРґР° 1.5Р»", "РќР°РїРёС‚РєРё", 365]
       ];
       const stores = [
-        ["M001", "Магазин Север"],
-        ["M002", "Магазин Юг"],
-        ["M003", "Магазин Центр"]
+        ["M001", "РњР°РіР°Р·РёРЅ РЎРµРІРµСЂ"],
+        ["M002", "РњР°РіР°Р·РёРЅ Р®Рі"],
+        ["M003", "РњР°РіР°Р·РёРЅ Р¦РµРЅС‚СЂ"]
       ];
       const start = new Date("2026-01-01T00:00:00");
       for (let d = 0; d < 180; d++) {
@@ -2683,7 +2813,7 @@
             rows.push(row);
             meta.rowCount++;
             meta.suppliers.set(sup[0], sup[1] + " (" + sup[0] + ")");
-            meta.skus.set(sku[0], sku[0] + " · " + sku[1]);
+            meta.skus.set(sku[0], sku[0] + " В· " + sku[1]);
             meta.groups.set(sku[2], sku[2]);
             meta.stores.set(st[0], st[1] + " (" + st[0] + ")");
             if (!meta.minDate || date < meta.minDate) meta.minDate = date;
@@ -2779,19 +2909,19 @@
   let lastAggregateSignature = "";
 
   function fmtInt(v) {
-    if (!Number.isFinite(v)) return "—";
+    if (!Number.isFinite(v)) return "вЂ”";
     return Math.round(v).toLocaleString("ru-RU");
   }
 
   function fmtMoney(v) {
-    if (!Number.isFinite(v)) return "—";
-    if (Math.abs(v) >= 1000000) return (v / 1000000).toLocaleString("ru-RU", { maximumFractionDigits: 1 }) + " млн ₽";
-    if (Math.abs(v) >= 1000) return (v / 1000).toLocaleString("ru-RU", { maximumFractionDigits: 1 }) + " тыс ₽";
-    return Math.round(v).toLocaleString("ru-RU") + " ₽";
+    if (!Number.isFinite(v)) return "вЂ”";
+    if (Math.abs(v) >= 1000000) return (v / 1000000).toLocaleString("ru-RU", { maximumFractionDigits: 1 }) + " РјР»РЅ в‚Ѕ";
+    if (Math.abs(v) >= 1000) return (v / 1000).toLocaleString("ru-RU", { maximumFractionDigits: 1 }) + " С‚С‹СЃ в‚Ѕ";
+    return Math.round(v).toLocaleString("ru-RU") + " в‚Ѕ";
   }
 
   function fmtPct(v) {
-    if (!Number.isFinite(v)) return "—";
+    if (!Number.isFinite(v)) return "вЂ”";
     return v.toLocaleString("ru-RU", { maximumFractionDigits: 1 }) + "%";
   }
 
@@ -2887,21 +3017,21 @@
   function refreshFilterOptions(options) {
     if (!options) return;
 
-    // Когда пользователь меняет только режим графика, фильтры нельзя пересобирать «с нуля».
-    // В это время могли ещё прийти старые async-ответы с options от worker, поэтому временно
-    // жёстко сохраняем выбранные поставщика/SKU/группу/магазин/даты.
+    // РљРѕРіРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РјРµРЅСЏРµС‚ С‚РѕР»СЊРєРѕ СЂРµР¶РёРј РіСЂР°С„РёРєР°, С„РёР»СЊС‚СЂС‹ РЅРµР»СЊР·СЏ РїРµСЂРµСЃРѕР±РёСЂР°С‚СЊ В«СЃ РЅСѓР»СЏВ».
+    // Р’ СЌС‚Рѕ РІСЂРµРјСЏ РјРѕРіР»Рё РµС‰С‘ РїСЂРёР№С‚Рё СЃС‚Р°СЂС‹Рµ async-РѕС‚РІРµС‚С‹ СЃ options РѕС‚ worker, РїРѕСЌС‚РѕРјСѓ РІСЂРµРјРµРЅРЅРѕ
+    // Р¶С‘СЃС‚РєРѕ СЃРѕС…СЂР°РЅСЏРµРј РІС‹Р±СЂР°РЅРЅС‹Рµ РїРѕСЃС‚Р°РІС‰РёРєР°/SKU/РіСЂСѓРїРїСѓ/РјР°РіР°Р·РёРЅ/РґР°С‚С‹.
     const keepLocked = lockedFilterState && Date.now() < filterLockUntil;
     const current = keepLocked ? lockedFilterState : captureFilterState();
 
-    fillSelectPreserve(supplierFilter, options.suppliers, "Все поставщики", current.supplier);
-    fillSelectPreserve(skuFilter, options.skus, "Все SKU", current.sku);
-    fillSelectPreserve(groupFilter, options.groups, "Все группы", current.group);
-    fillSelectPreserve(storeFilter, options.stores, "Все магазины", current.store);
+    fillSelectPreserve(supplierFilter, options.suppliers, "Р’СЃРµ РїРѕСЃС‚Р°РІС‰РёРєРё", current.supplier);
+    fillSelectPreserve(skuFilter, options.skus, "Р’СЃРµ SKU", current.sku);
+    fillSelectPreserve(groupFilter, options.groups, "Р’СЃРµ РіСЂСѓРїРїС‹", current.group);
+    fillSelectPreserve(storeFilter, options.stores, "Р’СЃРµ РјР°РіР°Р·РёРЅС‹", current.store);
 
-    fillSelectPreserve(fsSupplierFilter, options.suppliers, "Все поставщики", current.supplier);
-    fillSelectPreserve(fsSkuFilter, options.skus, "Все SKU", current.sku);
-    fillSelectPreserve(fsGroupFilter, options.groups, "Все группы", current.group);
-    fillSelectPreserve(fsStoreFilter, options.stores, "Все магазины", current.store);
+    fillSelectPreserve(fsSupplierFilter, options.suppliers, "Р’СЃРµ РїРѕСЃС‚Р°РІС‰РёРєРё", current.supplier);
+    fillSelectPreserve(fsSkuFilter, options.skus, "Р’СЃРµ SKU", current.sku);
+    fillSelectPreserve(fsGroupFilter, options.groups, "Р’СЃРµ РіСЂСѓРїРїС‹", current.group);
+    fillSelectPreserve(fsStoreFilter, options.stores, "Р’СЃРµ РјР°РіР°Р·РёРЅС‹", current.store);
 
     if (keepLocked) {
       restoreFilterState(current);
@@ -2945,7 +3075,7 @@
   function validateDateRange(filters) {
     const f = filters || currentFilters();
     if (f.dateFrom && f.dateTo && f.dateFrom > f.dateTo) {
-      setStatus("Дата начала периода не может быть позже даты окончания. Исправьте период и пересчитайте дашборд.", "err");
+      setStatus("Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РїРµСЂРёРѕРґР° РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РїРѕР·Р¶Рµ РґР°С‚С‹ РѕРєРѕРЅС‡Р°РЅРёСЏ. РСЃРїСЂР°РІСЊС‚Рµ РїРµСЂРёРѕРґ Рё РїРµСЂРµСЃС‡РёС‚Р°Р№С‚Рµ РґР°С€Р±РѕСЂРґ.", "err");
       return false;
     }
     return true;
@@ -2957,7 +3087,7 @@
   }
 
   function isOrderRow(p) {
-    return String(p && p.action || "").trim().toUpperCase() === "К ЗАКАЗУ" && (Number(p && p.engineOrder) || 0) > 0;
+    return String(p && p.action || "").trim().toUpperCase() === "Рљ Р—РђРљРђР—РЈ" && (Number(p && p.engineOrder) || 0) > 0;
   }
 
   function markFiltersDirty() {
@@ -2965,7 +3095,7 @@
     filtersDirty = filterSignature(currentFilters()) !== lastAggregateSignature;
     if (filtersDirty) {
       setOutputButtonsDisabled(true);
-      setStatus("Фильтры изменены. Нажмите «Пересчитать дашборд», чтобы график, таблица, CSV и PDF были синхронны.", "");
+      setStatus("Р¤РёР»СЊС‚СЂС‹ РёР·РјРµРЅРµРЅС‹. РќР°Р¶РјРёС‚Рµ В«РџРµСЂРµСЃС‡РёС‚Р°С‚СЊ РґР°С€Р±РѕСЂРґВ», С‡С‚РѕР±С‹ РіСЂР°С„РёРє, С‚Р°Р±Р»РёС†Р°, CSV Рё PDF Р±С‹Р»Рё СЃРёРЅС…СЂРѕРЅРЅС‹.", "");
     }
   }
 
@@ -3009,21 +3139,21 @@
 
   function setChartFullscreen(active) {
     if (active) {
-      // График должен открываться поверх всего интерфейса.
-      // Если таблица была растянута или открыта на весь экран, закрываем её,
-      // иначе её fixed/z-index слой перекрывает график.
+      // Р“СЂР°С„РёРє РґРѕР»Р¶РµРЅ РѕС‚РєСЂС‹РІР°С‚СЊСЃСЏ РїРѕРІРµСЂС… РІСЃРµРіРѕ РёРЅС‚РµСЂС„РµР№СЃР°.
+      // Р•СЃР»Рё С‚Р°Р±Р»РёС†Р° Р±С‹Р»Р° СЂР°СЃС‚СЏРЅСѓС‚Р° РёР»Рё РѕС‚РєСЂС‹С‚Р° РЅР° РІРµСЃСЊ СЌРєСЂР°РЅ, Р·Р°РєСЂС‹РІР°РµРј РµС‘,
+      // РёРЅР°С‡Рµ РµС‘ fixed/z-index СЃР»РѕР№ РїРµСЂРµРєСЂС‹РІР°РµС‚ РіСЂР°С„РёРє.
       clearTableResizeOverlay();
       tableCard.classList.remove("isFullscreen");
       document.body.classList.remove("tableFullscreen");
-      tableFullscreenBtn.textContent = "Открыть таблицу";
+      tableFullscreenBtn.textContent = "РћС‚РєСЂС‹С‚СЊ С‚Р°Р±Р»РёС†Сѓ";
       tableFullscreenBtn.disabled = false;
-      tableFullscreenBtn.title = "Открыть таблицу снизу до верха";
+      tableFullscreenBtn.title = "РћС‚РєСЂС‹С‚СЊ С‚Р°Р±Р»РёС†Сѓ СЃРЅРёР·Сѓ РґРѕ РІРµСЂС…Р°";
       tableFullscreenBtn.setAttribute("aria-label", tableFullscreenBtn.title);
     }
     chartCard.classList.toggle("isFullscreen", active);
     document.body.classList.toggle("chartFullscreen", active);
-    chartFullscreenBtn.textContent = active ? "×" : "⛶";
-    chartFullscreenBtn.title = active ? "Закрыть полноэкранный график" : "Открыть график на весь экран";
+    chartFullscreenBtn.textContent = active ? "Г—" : "в›¶";
+    chartFullscreenBtn.title = active ? "Р—Р°РєСЂС‹С‚СЊ РїРѕР»РЅРѕСЌРєСЂР°РЅРЅС‹Р№ РіСЂР°С„РёРє" : "РћС‚РєСЂС‹С‚СЊ РіСЂР°С„РёРє РЅР° РІРµСЃСЊ СЌРєСЂР°РЅ";
     chartFullscreenBtn.setAttribute("aria-label", chartFullscreenBtn.title);
     if (active) syncFullscreenFiltersFromMain();
     [0, 80, 220].forEach(delay => {
@@ -3050,9 +3180,9 @@
     }
     tableCard.classList.toggle("isFullscreen", active);
     document.body.classList.toggle("tableFullscreen", active);
-    tableFullscreenBtn.textContent = active ? "Таблица открыта" : "Открыть таблицу";
+    tableFullscreenBtn.textContent = active ? "РўР°Р±Р»РёС†Р° РѕС‚РєСЂС‹С‚Р°" : "РћС‚РєСЂС‹С‚СЊ С‚Р°Р±Р»РёС†Сѓ";
     tableFullscreenBtn.disabled = active;
-    tableFullscreenBtn.title = active ? "Таблица уже открыта" : "Открыть таблицу снизу до верха";
+    tableFullscreenBtn.title = active ? "РўР°Р±Р»РёС†Р° СѓР¶Рµ РѕС‚РєСЂС‹С‚Р°" : "РћС‚РєСЂС‹С‚СЊ С‚Р°Р±Р»РёС†Сѓ СЃРЅРёР·Сѓ РґРѕ РІРµСЂС…Р°";
     tableFullscreenBtn.setAttribute("aria-label", tableFullscreenBtn.title);
   }
 
@@ -3060,8 +3190,8 @@
     document.body.classList.toggle("qualityCollapsed", active);
     if (qualityCard) qualityCard.classList.toggle("isCollapsed", active);
     if (qualityToggleBtn) {
-      qualityToggleBtn.textContent = active ? "Открыть" : "Скрыть";
-      qualityToggleBtn.title = active ? "Открыть блок качества модели" : "Скрыть блок качества модели";
+      qualityToggleBtn.textContent = active ? "РћС‚РєСЂС‹С‚СЊ" : "РЎРєСЂС‹С‚СЊ";
+      qualityToggleBtn.title = active ? "РћС‚РєСЂС‹С‚СЊ Р±Р»РѕРє РєР°С‡РµСЃС‚РІР° РјРѕРґРµР»Рё" : "РЎРєСЂС‹С‚СЊ Р±Р»РѕРє РєР°С‡РµСЃС‚РІР° РјРѕРґРµР»Рё";
       qualityToggleBtn.setAttribute("aria-label", qualityToggleBtn.title);
     }
     if (lastResult) {
@@ -3072,8 +3202,8 @@
 
   let tableResizeState = null;
 
-  // v26: ручное вытягивание таблицы отключено.
-  // Таблица открывается только кнопкой «Открыть таблицу» и выезжает снизу до верха.
+  // v26: СЂСѓС‡РЅРѕРµ РІС‹С‚СЏРіРёРІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹ РѕС‚РєР»СЋС‡РµРЅРѕ.
+  // РўР°Р±Р»РёС†Р° РѕС‚РєСЂС‹РІР°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ РєРЅРѕРїРєРѕР№ В«РћС‚РєСЂС‹С‚СЊ С‚Р°Р±Р»РёС†СѓВ» Рё РІС‹РµР·Р¶Р°РµС‚ СЃРЅРёР·Сѓ РґРѕ РІРµСЂС…Р°.
   if (tableResizeHandle) {
     tableResizeHandle.addEventListener("mousedown", event => event.preventDefault());
     tableResizeHandle.addEventListener("dblclick", clearTableResizeOverlay);
@@ -3085,9 +3215,9 @@
     if (!validateDateRange(filters)) return;
 
     applyBtn.disabled = true;
-    applyBtn.textContent = "Считаю...";
+    applyBtn.textContent = "РЎС‡РёС‚Р°СЋ...";
     fsApplyBtn.disabled = true;
-    fsApplyBtn.textContent = "Считаю...";
+    fsApplyBtn.textContent = "РЎС‡РёС‚Р°СЋ...";
     setOutputButtonsDisabled(true);
     pendingAggregateSignature = filterSignature(filters);
     worker.postMessage({ type: "aggregate", filters });
@@ -3145,18 +3275,18 @@
     ];
 
     const suppliers = [
-      { id: "SUP001", name: "Поставщик Молочная линия", region: "Москва", lead: 2, reliability: 97.5, minOrder: 24, available: 1200, altId: "SUP002", altName: "Поставщик Бакалея Опт" },
-      { id: "SUP002", name: "Поставщик Бакалея Опт", region: "МО", lead: 3, reliability: 96.2, minOrder: 30, available: 1600, altId: "SUP001", altName: "Поставщик Молочная линия" }
+      { id: "SUP001", name: "РџРѕСЃС‚Р°РІС‰РёРє РњРѕР»РѕС‡РЅР°СЏ Р»РёРЅРёСЏ", region: "РњРѕСЃРєРІР°", lead: 2, reliability: 97.5, minOrder: 24, available: 1200, altId: "SUP002", altName: "РџРѕСЃС‚Р°РІС‰РёРє Р‘Р°РєР°Р»РµСЏ РћРїС‚" },
+      { id: "SUP002", name: "РџРѕСЃС‚Р°РІС‰РёРє Р‘Р°РєР°Р»РµСЏ РћРїС‚", region: "РњРћ", lead: 3, reliability: 96.2, minOrder: 30, available: 1600, altId: "SUP001", altName: "РџРѕСЃС‚Р°РІС‰РёРє РњРѕР»РѕС‡РЅР°СЏ Р»РёРЅРёСЏ" }
     ];
     const stores = [
-      { id: "M001", name: "Магазин Север", region: "Москва", type: "жилой район", factor: 1.10 },
-      { id: "M002", name: "Магазин Центр", region: "Москва", type: "центр города", factor: 1.35 }
+      { id: "M001", name: "РњР°РіР°Р·РёРЅ РЎРµРІРµСЂ", region: "РњРѕСЃРєРІР°", type: "Р¶РёР»РѕР№ СЂР°Р№РѕРЅ", factor: 1.10 },
+      { id: "M002", name: "РњР°РіР°Р·РёРЅ Р¦РµРЅС‚СЂ", region: "РњРѕСЃРєРІР°", type: "С†РµРЅС‚СЂ РіРѕСЂРѕРґР°", factor: 1.35 }
     ];
     const products = [
-      { sku: "SKU001", name: "Молоко 2.5% 1л", group: "Молочная продукция", shelfLife: 7, price: 95, purchase: 66, baseDemand: 28, supplier: suppliers[0] },
-      { sku: "SKU002", name: "Йогурт питьевой 290г", group: "Молочная продукция", shelfLife: 14, price: 79, purchase: 54, baseDemand: 18, supplier: suppliers[0] },
-      { sku: "SKU003", name: "Гречка 900г", group: "Бакалея", shelfLife: 180, price: 145, purchase: 101, baseDemand: 12, supplier: suppliers[1] },
-      { sku: "SKU004", name: "Макароны 450г", group: "Бакалея", shelfLife: 365, price: 79, purchase: 55, baseDemand: 16, supplier: suppliers[1] }
+      { sku: "SKU001", name: "РњРѕР»РѕРєРѕ 2.5% 1Р»", group: "РњРѕР»РѕС‡РЅР°СЏ РїСЂРѕРґСѓРєС†РёСЏ", shelfLife: 7, price: 95, purchase: 66, baseDemand: 28, supplier: suppliers[0] },
+      { sku: "SKU002", name: "Р™РѕРіСѓСЂС‚ РїРёС‚СЊРµРІРѕР№ 290Рі", group: "РњРѕР»РѕС‡РЅР°СЏ РїСЂРѕРґСѓРєС†РёСЏ", shelfLife: 14, price: 79, purchase: 54, baseDemand: 18, supplier: suppliers[0] },
+      { sku: "SKU003", name: "Р“СЂРµС‡РєР° 900Рі", group: "Р‘Р°РєР°Р»РµСЏ", shelfLife: 180, price: 145, purchase: 101, baseDemand: 12, supplier: suppliers[1] },
+      { sku: "SKU004", name: "РњР°РєР°СЂРѕРЅС‹ 450Рі", group: "Р‘Р°РєР°Р»РµСЏ", shelfLife: 365, price: 79, purchase: 55, baseDemand: 16, supplier: suppliers[1] }
     ];
 
     function pad2(v) { return String(v).padStart(2, "0"); }
@@ -3238,7 +3368,7 @@
             s.available,
             s.altId,
             s.altName,
-            "склад/магазин",
+            "СЃРєР»Р°Рґ/РјР°РіР°Р·РёРЅ",
             lostSales > 0 ? 1 : 0,
             holiday
           ]);
@@ -3247,13 +3377,13 @@
     }
 
     const commentLines = [
-      "# ШАБЛОН TXT/TSV ДЛЯ HTML-ДАШБОРДА АВТОЗАКАЗА",
-      "# Разделитель колонок: табуляция.",
-      "# Кодировка: UTF-8.",
-      "# Первая некомментированная строка должна быть строкой заголовков.",
-      "# Строки, которые начинаются с #, игнорируются при загрузке.",
-      "# Минимально важные поля для модели: date, store_id, store_name, sku, product_name, product_group, sales_units, sales_rub, stock_open_units, stock_close_units, lost_sales_units, supplier_id, supplier_name, supplier_lead_time_days, supplier_reliability_pct, supplier_min_order_units, supplier_stock_available_units.",
-      "# Ниже — пример данных, который можно сразу загрузить в HTML для проверки формата.",
+      "# РЁРђР‘Р›РћРќ TXT/TSV Р”Р›РЇ HTML-Р”РђРЁР‘РћР Р”Рђ РђР’РўРћР—РђРљРђР—Рђ",
+      "# Р Р°Р·РґРµР»РёС‚РµР»СЊ РєРѕР»РѕРЅРѕРє: С‚Р°Р±СѓР»СЏС†РёСЏ.",
+      "# РљРѕРґРёСЂРѕРІРєР°: UTF-8.",
+      "# РџРµСЂРІР°СЏ РЅРµРєРѕРјРјРµРЅС‚РёСЂРѕРІР°РЅРЅР°СЏ СЃС‚СЂРѕРєР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ СЃС‚СЂРѕРєРѕР№ Р·Р°РіРѕР»РѕРІРєРѕРІ.",
+      "# РЎС‚СЂРѕРєРё, РєРѕС‚РѕСЂС‹Рµ РЅР°С‡РёРЅР°СЋС‚СЃСЏ СЃ #, РёРіРЅРѕСЂРёСЂСѓСЋС‚СЃСЏ РїСЂРё Р·Р°РіСЂСѓР·РєРµ.",
+      "# РњРёРЅРёРјР°Р»СЊРЅРѕ РІР°Р¶РЅС‹Рµ РїРѕР»СЏ РґР»СЏ РјРѕРґРµР»Рё: date, store_id, store_name, sku, product_name, product_group, sales_units, sales_rub, stock_open_units, stock_close_units, lost_sales_units, supplier_id, supplier_name, supplier_lead_time_days, supplier_reliability_pct, supplier_min_order_units, supplier_stock_available_units.",
+      "# РќРёР¶Рµ вЂ” РїСЂРёРјРµСЂ РґР°РЅРЅС‹С…, РєРѕС‚РѕСЂС‹Р№ РјРѕР¶РЅРѕ СЃСЂР°Р·Сѓ Р·Р°РіСЂСѓР·РёС‚СЊ РІ HTML РґР»СЏ РїСЂРѕРІРµСЂРєРё С„РѕСЂРјР°С‚Р°.",
       "#"
     ];
 
@@ -3315,44 +3445,44 @@
     ];
 
     const regionList = [
-      "Москва", "Московская область", "Тверская область", "Калужская область",
-      "Тульская область", "Рязанская область", "Ярославская область", "Владимирская область",
-      "Ленинградская область", "Краснодарский край"
+      "РњРѕСЃРєРІР°", "РњРѕСЃРєРѕРІСЃРєР°СЏ РѕР±Р»Р°СЃС‚СЊ", "РўРІРµСЂСЃРєР°СЏ РѕР±Р»Р°СЃС‚СЊ", "РљР°Р»СѓР¶СЃРєР°СЏ РѕР±Р»Р°СЃС‚СЊ",
+      "РўСѓР»СЊСЃРєР°СЏ РѕР±Р»Р°СЃС‚СЊ", "Р СЏР·Р°РЅСЃРєР°СЏ РѕР±Р»Р°СЃС‚СЊ", "РЇСЂРѕСЃР»Р°РІСЃРєР°СЏ РѕР±Р»Р°СЃС‚СЊ", "Р’Р»Р°РґРёРјРёСЂСЃРєР°СЏ РѕР±Р»Р°СЃС‚СЊ",
+      "Р›РµРЅРёРЅРіСЂР°РґСЃРєР°СЏ РѕР±Р»Р°СЃС‚СЊ", "РљСЂР°СЃРЅРѕРґР°СЂСЃРєРёР№ РєСЂР°Р№"
     ];
     const groupList = [
-      { group: "Молочная продукция", shelf: 7, priceMin: 55, priceMax: 180, demandMin: 12, demandMax: 42 },
-      { group: "Хлеб и выпечка", shelf: 3, priceMin: 35, priceMax: 130, demandMin: 18, demandMax: 55 },
-      { group: "Овощи и фрукты", shelf: 7, priceMin: 45, priceMax: 260, demandMin: 14, demandMax: 60 },
-      { group: "Мясо и птица", shelf: 5, priceMin: 170, priceMax: 620, demandMin: 4, demandMax: 24 },
-      { group: "Бакалея", shelf: 240, priceMin: 55, priceMax: 220, demandMin: 5, demandMax: 26 },
-      { group: "Напитки", shelf: 365, priceMin: 35, priceMax: 190, demandMin: 12, demandMax: 48 },
-      { group: "Заморозка", shelf: 180, priceMin: 90, priceMax: 420, demandMin: 4, demandMax: 20 },
-      { group: "Бытовая химия", shelf: 365, priceMin: 80, priceMax: 700, demandMin: 1, demandMax: 10 },
-      { group: "Товары для дома", shelf: 365, priceMin: 55, priceMax: 380, demandMin: 1, demandMax: 8 },
-      { group: "Кофе чай сладости", shelf: 365, priceMin: 65, priceMax: 450, demandMin: 3, demandMax: 18 },
-      { group: "Сыры и деликатесы", shelf: 21, priceMin: 130, priceMax: 690, demandMin: 2, demandMax: 14 },
-      { group: "Здоровое питание", shelf: 180, priceMin: 90, priceMax: 520, demandMin: 1, demandMax: 12 },
-      { group: "Рыба и морепродукты", shelf: 10, priceMin: 180, priceMax: 850, demandMin: 1, demandMax: 9 },
-      { group: "Зоотовары", shelf: 365, priceMin: 85, priceMax: 620, demandMin: 1, demandMax: 8 },
-      { group: "Детские товары", shelf: 365, priceMin: 75, priceMax: 540, demandMin: 1, demandMax: 9 }
+      { group: "РњРѕР»РѕС‡РЅР°СЏ РїСЂРѕРґСѓРєС†РёСЏ", shelf: 7, priceMin: 55, priceMax: 180, demandMin: 12, demandMax: 42 },
+      { group: "РҐР»РµР± Рё РІС‹РїРµС‡РєР°", shelf: 3, priceMin: 35, priceMax: 130, demandMin: 18, demandMax: 55 },
+      { group: "РћРІРѕС‰Рё Рё С„СЂСѓРєС‚С‹", shelf: 7, priceMin: 45, priceMax: 260, demandMin: 14, demandMax: 60 },
+      { group: "РњСЏСЃРѕ Рё РїС‚РёС†Р°", shelf: 5, priceMin: 170, priceMax: 620, demandMin: 4, demandMax: 24 },
+      { group: "Р‘Р°РєР°Р»РµСЏ", shelf: 240, priceMin: 55, priceMax: 220, demandMin: 5, demandMax: 26 },
+      { group: "РќР°РїРёС‚РєРё", shelf: 365, priceMin: 35, priceMax: 190, demandMin: 12, demandMax: 48 },
+      { group: "Р—Р°РјРѕСЂРѕР·РєР°", shelf: 180, priceMin: 90, priceMax: 420, demandMin: 4, demandMax: 20 },
+      { group: "Р‘С‹С‚РѕРІР°СЏ С…РёРјРёСЏ", shelf: 365, priceMin: 80, priceMax: 700, demandMin: 1, demandMax: 10 },
+      { group: "РўРѕРІР°СЂС‹ РґР»СЏ РґРѕРјР°", shelf: 365, priceMin: 55, priceMax: 380, demandMin: 1, demandMax: 8 },
+      { group: "РљРѕС„Рµ С‡Р°Р№ СЃР»Р°РґРѕСЃС‚Рё", shelf: 365, priceMin: 65, priceMax: 450, demandMin: 3, demandMax: 18 },
+      { group: "РЎС‹СЂС‹ Рё РґРµР»РёРєР°С‚РµСЃС‹", shelf: 21, priceMin: 130, priceMax: 690, demandMin: 2, demandMax: 14 },
+      { group: "Р—РґРѕСЂРѕРІРѕРµ РїРёС‚Р°РЅРёРµ", shelf: 180, priceMin: 90, priceMax: 520, demandMin: 1, demandMax: 12 },
+      { group: "Р С‹Р±Р° Рё РјРѕСЂРµРїСЂРѕРґСѓРєС‚С‹", shelf: 10, priceMin: 180, priceMax: 850, demandMin: 1, demandMax: 9 },
+      { group: "Р—РѕРѕС‚РѕРІР°СЂС‹", shelf: 365, priceMin: 85, priceMax: 620, demandMin: 1, demandMax: 8 },
+      { group: "Р”РµС‚СЃРєРёРµ С‚РѕРІР°СЂС‹", shelf: 365, priceMin: 75, priceMax: 540, demandMin: 1, demandMax: 9 }
     ];
 
     const nameByGroup = {
-      "Молочная продукция": ["Молоко", "Кефир", "Творог", "Йогурт", "Сметана", "Ряженка"],
-      "Хлеб и выпечка": ["Хлеб", "Батон", "Булочка", "Лаваш", "Круассан", "Багет"],
-      "Овощи и фрукты": ["Бананы", "Яблоки", "Картофель", "Томаты", "Огурцы", "Морковь"],
-      "Мясо и птица": ["Куриное филе", "Фарш", "Голень куриная", "Индейка", "Котлеты", "Колбаски"],
-      "Бакалея": ["Рис", "Гречка", "Макароны", "Мука", "Сахар", "Овсянка"],
-      "Напитки": ["Вода", "Сок", "Лимонад", "Чай холодный", "Морс", "Квас"],
-      "Заморозка": ["Пельмени", "Овощная смесь", "Мороженое", "Пицца", "Ягоды", "Блины"],
-      "Бытовая химия": ["Средство для посуды", "Порошок", "Гель для стирки", "Мыло жидкое", "Чистящий гель", "Кондиционер"],
-      "Товары для дома": ["Пакеты", "Губки", "Фольга", "Контейнеры", "Салфетки", "Пергамент"],
-      "Кофе чай сладости": ["Кофе", "Чай", "Печенье", "Шоколад", "Вафли", "Конфеты"],
-      "Сыры и деликатесы": ["Сыр", "Моцарелла", "Пармезан", "Оливки", "Паштет", "Деликатес"],
-      "Здоровое питание": ["Батончик", "Гранола", "Хлебцы", "Мюсли", "Орехи", "Семена"],
-      "Рыба и морепродукты": ["Филе трески", "Лосось", "Креветки", "Кальмар", "Сельдь", "Мидии"],
-      "Зоотовары": ["Корм для кошек", "Корм для собак", "Наполнитель", "Лакомство", "Шампунь зоо", "Игрушка"],
-      "Детские товары": ["Подгузники", "Пюре детское", "Каша детская", "Салфетки детские", "Сок детский", "Крем детский"]
+      "РњРѕР»РѕС‡РЅР°СЏ РїСЂРѕРґСѓРєС†РёСЏ": ["РњРѕР»РѕРєРѕ", "РљРµС„РёСЂ", "РўРІРѕСЂРѕРі", "Р™РѕРіСѓСЂС‚", "РЎРјРµС‚Р°РЅР°", "Р СЏР¶РµРЅРєР°"],
+      "РҐР»РµР± Рё РІС‹РїРµС‡РєР°": ["РҐР»РµР±", "Р‘Р°С‚РѕРЅ", "Р‘СѓР»РѕС‡РєР°", "Р›Р°РІР°С€", "РљСЂСѓР°СЃСЃР°РЅ", "Р‘Р°РіРµС‚"],
+      "РћРІРѕС‰Рё Рё С„СЂСѓРєС‚С‹": ["Р‘Р°РЅР°РЅС‹", "РЇР±Р»РѕРєРё", "РљР°СЂС‚РѕС„РµР»СЊ", "РўРѕРјР°С‚С‹", "РћРіСѓСЂС†С‹", "РњРѕСЂРєРѕРІСЊ"],
+      "РњСЏСЃРѕ Рё РїС‚РёС†Р°": ["РљСѓСЂРёРЅРѕРµ С„РёР»Рµ", "Р¤Р°СЂС€", "Р“РѕР»РµРЅСЊ РєСѓСЂРёРЅР°СЏ", "РРЅРґРµР№РєР°", "РљРѕС‚Р»РµС‚С‹", "РљРѕР»Р±Р°СЃРєРё"],
+      "Р‘Р°РєР°Р»РµСЏ": ["Р РёСЃ", "Р“СЂРµС‡РєР°", "РњР°РєР°СЂРѕРЅС‹", "РњСѓРєР°", "РЎР°С…Р°СЂ", "РћРІСЃСЏРЅРєР°"],
+      "РќР°РїРёС‚РєРё": ["Р’РѕРґР°", "РЎРѕРє", "Р›РёРјРѕРЅР°Рґ", "Р§Р°Р№ С…РѕР»РѕРґРЅС‹Р№", "РњРѕСЂСЃ", "РљРІР°СЃ"],
+      "Р—Р°РјРѕСЂРѕР·РєР°": ["РџРµР»СЊРјРµРЅРё", "РћРІРѕС‰РЅР°СЏ СЃРјРµСЃСЊ", "РњРѕСЂРѕР¶РµРЅРѕРµ", "РџРёС†С†Р°", "РЇРіРѕРґС‹", "Р‘Р»РёРЅС‹"],
+      "Р‘С‹С‚РѕРІР°СЏ С…РёРјРёСЏ": ["РЎСЂРµРґСЃС‚РІРѕ РґР»СЏ РїРѕСЃСѓРґС‹", "РџРѕСЂРѕС€РѕРє", "Р“РµР»СЊ РґР»СЏ СЃС‚РёСЂРєРё", "РњС‹Р»Рѕ Р¶РёРґРєРѕРµ", "Р§РёСЃС‚СЏС‰РёР№ РіРµР»СЊ", "РљРѕРЅРґРёС†РёРѕРЅРµСЂ"],
+      "РўРѕРІР°СЂС‹ РґР»СЏ РґРѕРјР°": ["РџР°РєРµС‚С‹", "Р“СѓР±РєРё", "Р¤РѕР»СЊРіР°", "РљРѕРЅС‚РµР№РЅРµСЂС‹", "РЎР°Р»С„РµС‚РєРё", "РџРµСЂРіР°РјРµРЅС‚"],
+      "РљРѕС„Рµ С‡Р°Р№ СЃР»Р°РґРѕСЃС‚Рё": ["РљРѕС„Рµ", "Р§Р°Р№", "РџРµС‡РµРЅСЊРµ", "РЁРѕРєРѕР»Р°Рґ", "Р’Р°С„Р»Рё", "РљРѕРЅС„РµС‚С‹"],
+      "РЎС‹СЂС‹ Рё РґРµР»РёРєР°С‚РµСЃС‹": ["РЎС‹СЂ", "РњРѕС†Р°СЂРµР»Р»Р°", "РџР°СЂРјРµР·Р°РЅ", "РћР»РёРІРєРё", "РџР°С€С‚РµС‚", "Р”РµР»РёРєР°С‚РµСЃ"],
+      "Р—РґРѕСЂРѕРІРѕРµ РїРёС‚Р°РЅРёРµ": ["Р‘Р°С‚РѕРЅС‡РёРє", "Р“СЂР°РЅРѕР»Р°", "РҐР»РµР±С†С‹", "РњСЋСЃР»Рё", "РћСЂРµС…Рё", "РЎРµРјРµРЅР°"],
+      "Р С‹Р±Р° Рё РјРѕСЂРµРїСЂРѕРґСѓРєС‚С‹": ["Р¤РёР»Рµ С‚СЂРµСЃРєРё", "Р›РѕСЃРѕСЃСЊ", "РљСЂРµРІРµС‚РєРё", "РљР°Р»СЊРјР°СЂ", "РЎРµР»СЊРґСЊ", "РњРёРґРёРё"],
+      "Р—РѕРѕС‚РѕРІР°СЂС‹": ["РљРѕСЂРј РґР»СЏ РєРѕС€РµРє", "РљРѕСЂРј РґР»СЏ СЃРѕР±Р°Рє", "РќР°РїРѕР»РЅРёС‚РµР»СЊ", "Р›Р°РєРѕРјСЃС‚РІРѕ", "РЁР°РјРїСѓРЅСЊ Р·РѕРѕ", "РРіСЂСѓС€РєР°"],
+      "Р”РµС‚СЃРєРёРµ С‚РѕРІР°СЂС‹": ["РџРѕРґРіСѓР·РЅРёРєРё", "РџСЋСЂРµ РґРµС‚СЃРєРѕРµ", "РљР°С€Р° РґРµС‚СЃРєР°СЏ", "РЎР°Р»С„РµС‚РєРё РґРµС‚СЃРєРёРµ", "РЎРѕРє РґРµС‚СЃРєРёР№", "РљСЂРµРј РґРµС‚СЃРєРёР№"]
     };
 
     function rng(seed) {
@@ -3379,27 +3509,27 @@
       const minOrder = minOrderList[i % minOrderList.length];
       suppliers.push({
         id: "SUP" + pad3(i),
-        name: "Тестовый поставщик " + pad3(i),
+        name: "РўРµСЃС‚РѕРІС‹Р№ РїРѕСЃС‚Р°РІС‰РёРє " + pad3(i),
         region: regionList[i % regionList.length],
         lead: 1 + (i % 6),
         reliability: +(91 + (i % 9) + (i % 2 ? 0.4 : 0.8)).toFixed(1),
         minOrder,
         availableBase: minOrder * (35 + (i * 11) % 95),
         altId: "SUP" + pad3((i % 100) + 1),
-        altName: "Тестовый поставщик " + pad3((i % 100) + 1)
+        altName: "РўРµСЃС‚РѕРІС‹Р№ РїРѕСЃС‚Р°РІС‰РёРє " + pad3((i % 100) + 1)
       });
     }
 
     const products = [];
     for (let i = 1; i <= 1000; i++) {
       const groupInfo = groupList[(i - 1) % groupList.length];
-      const names = nameByGroup[groupInfo.group] || ["Товар"];
+      const names = nameByGroup[groupInfo.group] || ["РўРѕРІР°СЂ"];
       const supplier = suppliers[(i - 1) % suppliers.length];
       const basePrice = groupInfo.priceMin + Math.floor(rand() * (groupInfo.priceMax - groupInfo.priceMin + 1));
       const purchase = +(basePrice * (0.62 + rand() * 0.16)).toFixed(2);
       const baseDemand = +(groupInfo.demandMin + rand() * (groupInfo.demandMax - groupInfo.demandMin)).toFixed(2);
       const shelfLife = Math.max(3, Math.round(groupInfo.shelf * (0.85 + rand() * 0.35)));
-      const pack = ["250г", "300г", "450г", "500г", "700г", "900г", "1л", "1кг", "2кг", "5шт"][i % 10];
+      const pack = ["250Рі", "300Рі", "450Рі", "500Рі", "700Рі", "900Рі", "1Р»", "1РєРі", "2РєРі", "5С€С‚"][i % 10];
 
       products.push({
         sku: "SKU" + pad4(i),
@@ -3418,13 +3548,13 @@
       const wd = weekday(d);
       let f = wd >= 6 ? 1.16 : wd === 1 ? 0.94 : 1.0;
 
-      if (group === "Напитки") f *= [6,7,8].includes(m) ? 1.45 : [12,1,2].includes(m) ? 0.9 : 1.0;
-      if (group === "Овощи и фрукты") f *= [6,7,8,9].includes(m) ? 1.22 : [2,3].includes(m) ? 0.88 : 1.0;
-      if (group === "Заморозка") f *= [6,7,8].includes(m) ? 1.25 : 1.0;
-      if (group === "Мясо и птица") f *= [5,6,7].includes(wd) ? 1.18 : 1.0;
-      if (group === "Бытовая химия") f *= [3,9,12].includes(m) ? 1.16 : 1.0;
-      if (group === "Кофе чай сладости") f *= [12,1].includes(m) ? 1.24 : 1.0;
-      if (group === "Детские товары") f *= [8,9].includes(m) ? 1.12 : 1.0;
+      if (group === "РќР°РїРёС‚РєРё") f *= [6,7,8].includes(m) ? 1.45 : [12,1,2].includes(m) ? 0.9 : 1.0;
+      if (group === "РћРІРѕС‰Рё Рё С„СЂСѓРєС‚С‹") f *= [6,7,8,9].includes(m) ? 1.22 : [2,3].includes(m) ? 0.88 : 1.0;
+      if (group === "Р—Р°РјРѕСЂРѕР·РєР°") f *= [6,7,8].includes(m) ? 1.25 : 1.0;
+      if (group === "РњСЏСЃРѕ Рё РїС‚РёС†Р°") f *= [5,6,7].includes(wd) ? 1.18 : 1.0;
+      if (group === "Р‘С‹С‚РѕРІР°СЏ С…РёРјРёСЏ") f *= [3,9,12].includes(m) ? 1.16 : 1.0;
+      if (group === "РљРѕС„Рµ С‡Р°Р№ СЃР»Р°РґРѕСЃС‚Рё") f *= [12,1].includes(m) ? 1.24 : 1.0;
+      if (group === "Р”РµС‚СЃРєРёРµ С‚РѕРІР°СЂС‹") f *= [8,9].includes(m) ? 1.12 : 1.0;
       if (m === 12 && d.getDate() >= 25) f *= 1.45;
       if (m === 1 && d.getDate() <= 8) f *= 1.28;
       if (m === 5 && [1,2,9].includes(d.getDate())) f *= 1.16;
@@ -3439,16 +3569,16 @@
 
     const chunks = [];
     chunks.push([
-      "# ТЕСТОВАЯ БАЗА ДЛЯ HTML-ДАШБОРДА АВТОЗАКАЗА",
-      "# Генерация выполнена прямо в браузере.",
-      "# Период: 2026-01-01 — 2026-12-31.",
-      "# Поставщики: 100.",
+      "# РўР•РЎРўРћР’РђРЇ Р‘РђР—Рђ Р”Р›РЇ HTML-Р”РђРЁР‘РћР Р”Рђ РђР’РўРћР—РђРљРђР—Рђ",
+      "# Р“РµРЅРµСЂР°С†РёСЏ РІС‹РїРѕР»РЅРµРЅР° РїСЂСЏРјРѕ РІ Р±СЂР°СѓР·РµСЂРµ.",
+      "# РџРµСЂРёРѕРґ: 2026-01-01 вЂ” 2026-12-31.",
+      "# РџРѕСЃС‚Р°РІС‰РёРєРё: 100.",
       "# SKU: 1000.",
-      "# Локация: 1 тестовый магазин.",
-      "# Строк данных: 365000.",
-      "# Разделитель колонок: табуляция.",
-      "# Кодировка: UTF-8.",
-      "# Строки, начинающиеся с #, игнорируются при загрузке.",
+      "# Р›РѕРєР°С†РёСЏ: 1 С‚РµСЃС‚РѕРІС‹Р№ РјР°РіР°Р·РёРЅ.",
+      "# РЎС‚СЂРѕРє РґР°РЅРЅС‹С…: 365000.",
+      "# Р Р°Р·РґРµР»РёС‚РµР»СЊ РєРѕР»РѕРЅРѕРє: С‚Р°Р±СѓР»СЏС†РёСЏ.",
+      "# РљРѕРґРёСЂРѕРІРєР°: UTF-8.",
+      "# РЎС‚СЂРѕРєРё, РЅР°С‡РёРЅР°СЋС‰РёРµСЃСЏ СЃ #, РёРіРЅРѕСЂРёСЂСѓСЋС‚СЃСЏ РїСЂРё Р·Р°РіСЂСѓР·РєРµ.",
       "#",
       header.join("\t")
     ].join("\n") + "\n");
@@ -3506,9 +3636,9 @@
         dayRows.push([
           dateStr,
           "M001",
-          "Тестовый магазин",
-          "Тестовый регион",
-          "тестовая локация",
+          "РўРµСЃС‚РѕРІС‹Р№ РјР°РіР°Р·РёРЅ",
+          "РўРµСЃС‚РѕРІС‹Р№ СЂРµРіРёРѕРЅ",
+          "С‚РµСЃС‚РѕРІР°СЏ Р»РѕРєР°С†РёСЏ",
           p.sku,
           p.name,
           p.group,
@@ -3537,7 +3667,7 @@
           available,
           s.altId,
           s.altName,
-          "склад/магазин",
+          "СЃРєР»Р°Рґ/РјР°РіР°Р·РёРЅ",
           lostSales > 0 ? 1 : 0,
           holiday
         ].join("\t"));
@@ -3552,7 +3682,7 @@
   function downloadLargeTestData2026() {
     if (generateTestDataBtn) {
       generateTestDataBtn.disabled = true;
-      generateTestDataBtn.textContent = "Генерирую и загружаю...";
+      generateTestDataBtn.textContent = "Р“РµРЅРµСЂРёСЂСѓСЋ Рё Р·Р°РіСЂСѓР¶Р°СЋ...";
     }
 
     loadedMeta = null;
@@ -3564,7 +3694,7 @@
     setOutputButtonsDisabled(true);
     applyBtn.disabled = true;
     fsApplyBtn.disabled = true;
-    setStatus("Генерирую тестовый TXT за 2026 год: 100 поставщиков, 1000 SKU, 365 000 строк. После генерации данные будут автоматически загружены в модель.", "");
+    setStatus("Р“РµРЅРµСЂРёСЂСѓСЋ С‚РµСЃС‚РѕРІС‹Р№ TXT Р·Р° 2026 РіРѕРґ: 100 РїРѕСЃС‚Р°РІС‰РёРєРѕРІ, 1000 SKU, 365 000 СЃС‚СЂРѕРє. РџРѕСЃР»Рµ РіРµРЅРµСЂР°С†РёРё РґР°РЅРЅС‹Рµ Р±СѓРґСѓС‚ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё Р·Р°РіСЂСѓР¶РµРЅС‹ РІ РјРѕРґРµР»СЊ.", "");
 
     window.setTimeout(() => {
       try {
@@ -3573,18 +3703,18 @@
         progress.style.width = "35%";
         const blob = new Blob(chunks, { type: "text/plain;charset=utf-8" });
 
-        // Главное изменение: сгенерированный TXT сразу подставляется в модель,
-        // как будто пользователь сам выбрал этот файл через кнопку загрузки.
+        // Р“Р»Р°РІРЅРѕРµ РёР·РјРµРЅРµРЅРёРµ: СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅС‹Р№ TXT СЃСЂР°Р·Сѓ РїРѕРґСЃС‚Р°РІР»СЏРµС‚СЃСЏ РІ РјРѕРґРµР»СЊ,
+        // РєР°Рє Р±СѓРґС‚Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃР°Рј РІС‹Р±СЂР°Р» СЌС‚РѕС‚ С„Р°Р№Р» С‡РµСЂРµР· РєРЅРѕРїРєСѓ Р·Р°РіСЂСѓР·РєРё.
         worker.postMessage({ type: "load", file: blob });
 
         const seconds = ((performance.now() - started) / 1000).toFixed(1);
-        setStatus("Тестовые данные сгенерированы за " + seconds + " сек. Загружаю их в модель и пересчитываю дашборд...", "");
+        setStatus("РўРµСЃС‚РѕРІС‹Рµ РґР°РЅРЅС‹Рµ СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅС‹ Р·Р° " + seconds + " СЃРµРє. Р—Р°РіСЂСѓР¶Р°СЋ РёС… РІ РјРѕРґРµР»СЊ Рё РїРµСЂРµСЃС‡РёС‚С‹РІР°СЋ РґР°С€Р±РѕСЂРґ...", "");
       } catch (err) {
         console.error(err);
-        setStatus("Не удалось сгенерировать тестовый TXT: " + (err.message || err), "err");
+        setStatus("РќРµ СѓРґР°Р»РѕСЃСЊ СЃРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ С‚РµСЃС‚РѕРІС‹Р№ TXT: " + (err.message || err), "err");
         if (generateTestDataBtn) {
           generateTestDataBtn.disabled = false;
-          generateTestDataBtn.textContent = "Сгенерировать и загрузить тестовые данные";
+          generateTestDataBtn.textContent = "РЎРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ Рё Р·Р°РіСЂСѓР·РёС‚СЊ С‚РµСЃС‚РѕРІС‹Рµ РґР°РЅРЅС‹Рµ";
         }
       }
     }, 50);
@@ -3600,7 +3730,7 @@
     pendingAggregateSignature = "";
     lastAggregateSignature = "";
     progress.style.width = "0%";
-    setStatus("Загружаю и парсю файл. Для 500k строк это может занять 20–60 секунд в зависимости от устройства.", "");
+    setStatus("Р—Р°РіСЂСѓР¶Р°СЋ Рё РїР°СЂСЃСЋ С„Р°Р№Р». Р”Р»СЏ 500k СЃС‚СЂРѕРє СЌС‚Рѕ РјРѕР¶РµС‚ Р·Р°РЅСЏС‚СЊ 20вЂ“60 СЃРµРєСѓРЅРґ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СѓСЃС‚СЂРѕР№СЃС‚РІР°.", "");
     applyBtn.disabled = true;
     if (exportOrderBtn) exportOrderBtn.disabled = true;
     if (pdfOrderBtn) pdfOrderBtn.disabled = true;
@@ -3637,9 +3767,9 @@
   });
 
   chartMode.addEventListener("change", () => {
-    // Переключение сценария графика не является изменением фильтров.
-    // Сохраняем все выбранные значения и восстанавливаем их после перерисовки,
-    // включая возможные запоздавшие ответы worker с зависимыми списками.
+    // РџРµСЂРµРєР»СЋС‡РµРЅРёРµ СЃС†РµРЅР°СЂРёСЏ РіСЂР°С„РёРєР° РЅРµ СЏРІР»СЏРµС‚СЃСЏ РёР·РјРµРЅРµРЅРёРµРј С„РёР»СЊС‚СЂРѕРІ.
+    // РЎРѕС…СЂР°РЅСЏРµРј РІСЃРµ РІС‹Р±СЂР°РЅРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ Рё РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј РёС… РїРѕСЃР»Рµ РїРµСЂРµСЂРёСЃРѕРІРєРё,
+    // РІРєР»СЋС‡Р°СЏ РІРѕР·РјРѕР¶РЅС‹Рµ Р·Р°РїРѕР·РґР°РІС€РёРµ РѕС‚РІРµС‚С‹ worker СЃ Р·Р°РІРёСЃРёРјС‹РјРё СЃРїРёСЃРєР°РјРё.
     const state = lockCurrentFilters(2000);
     if (lastResult) drawChart(lastResult.chart);
     restoreFilterState(state);
@@ -3705,7 +3835,7 @@
 
     if (msg.type === "progress") {
       progress.style.width = msg.pct + "%";
-      setStatus("Прочитано строк: " + fmtInt(msg.rows) + ". Продолжаю обработку...", "");
+      setStatus("РџСЂРѕС‡РёС‚Р°РЅРѕ СЃС‚СЂРѕРє: " + fmtInt(msg.rows) + ". РџСЂРѕРґРѕР»Р¶Р°СЋ РѕР±СЂР°Р±РѕС‚РєСѓ...", "");
     }
 
     if (msg.type === "loaded") {
@@ -3713,18 +3843,18 @@
       progress.style.width = "100%";
       if (generateTestDataBtn) {
         generateTestDataBtn.disabled = false;
-        generateTestDataBtn.textContent = "Сгенерировать и загрузить тестовые данные";
+        generateTestDataBtn.textContent = "РЎРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ Рё Р·Р°РіСЂСѓР·РёС‚СЊ С‚РµСЃС‚РѕРІС‹Рµ РґР°РЅРЅС‹Рµ";
       }
-      setStatus("Данные загружены в модель: " + fmtInt(loadedMeta.rowCount) + " строк. Период: " + loadedMeta.minDate + " — " + loadedMeta.maxDate + ". Выполняю расчёт дашборда.", "ok");
+      setStatus("Р”Р°РЅРЅС‹Рµ Р·Р°РіСЂСѓР¶РµРЅС‹ РІ РјРѕРґРµР»СЊ: " + fmtInt(loadedMeta.rowCount) + " СЃС‚СЂРѕРє. РџРµСЂРёРѕРґ: " + loadedMeta.minDate + " вЂ” " + loadedMeta.maxDate + ". Р’С‹РїРѕР»РЅСЏСЋ СЂР°СЃС‡С‘С‚ РґР°С€Р±РѕСЂРґР°.", "ok");
 
-      fillSelect(supplierFilter, loadedMeta.suppliers, "Все поставщики");
-      fillSelect(skuFilter, loadedMeta.skus, "Все SKU");
-      fillSelect(groupFilter, loadedMeta.groups, "Все группы");
-      fillSelect(storeFilter, loadedMeta.stores, "Все магазины");
-      fillSelect(fsSupplierFilter, loadedMeta.suppliers, "Все поставщики");
-      fillSelect(fsSkuFilter, loadedMeta.skus, "Все SKU");
-      fillSelect(fsGroupFilter, loadedMeta.groups, "Все группы");
-      fillSelect(fsStoreFilter, loadedMeta.stores, "Все магазины");
+      fillSelect(supplierFilter, loadedMeta.suppliers, "Р’СЃРµ РїРѕСЃС‚Р°РІС‰РёРєРё");
+      fillSelect(skuFilter, loadedMeta.skus, "Р’СЃРµ SKU");
+      fillSelect(groupFilter, loadedMeta.groups, "Р’СЃРµ РіСЂСѓРїРїС‹");
+      fillSelect(storeFilter, loadedMeta.stores, "Р’СЃРµ РјР°РіР°Р·РёРЅС‹");
+      fillSelect(fsSupplierFilter, loadedMeta.suppliers, "Р’СЃРµ РїРѕСЃС‚Р°РІС‰РёРєРё");
+      fillSelect(fsSkuFilter, loadedMeta.skus, "Р’СЃРµ SKU");
+      fillSelect(fsGroupFilter, loadedMeta.groups, "Р’СЃРµ РіСЂСѓРїРїС‹");
+      fillSelect(fsStoreFilter, loadedMeta.stores, "Р’СЃРµ РјР°РіР°Р·РёРЅС‹");
 
       dateFrom.value = loadedMeta.minDate || "";
       dateTo.value = loadedMeta.maxDate || "";
@@ -3745,23 +3875,23 @@
       refreshFilterOptions(msg.result.options);
       renderDashboard(msg.result);
       applyBtn.disabled = false;
-      applyBtn.textContent = "Пересчитать дашборд";
+      applyBtn.textContent = "РџРµСЂРµСЃС‡РёС‚Р°С‚СЊ РґР°С€Р±РѕСЂРґ";
       fsApplyBtn.disabled = false;
-      fsApplyBtn.textContent = "Пересчитать";
+      fsApplyBtn.textContent = "РџРµСЂРµСЃС‡РёС‚Р°С‚СЊ";
       const hasOrders = lastResult && lastResult.plan && lastResult.plan.some(isOrderRow);
       if (exportOrderBtn) exportOrderBtn.disabled = !hasOrders;
       if (pdfOrderBtn) pdfOrderBtn.disabled = !hasOrders;
     }
 
     if (msg.type === "error") {
-      setStatus("Ошибка: " + msg.message, "err");
+      setStatus("РћС€РёР±РєР°: " + msg.message, "err");
       applyBtn.disabled = !loadedMeta;
-      applyBtn.textContent = "Пересчитать дашборд";
+      applyBtn.textContent = "РџРµСЂРµСЃС‡РёС‚Р°С‚СЊ РґР°С€Р±РѕСЂРґ";
       fsApplyBtn.disabled = !loadedMeta;
-      fsApplyBtn.textContent = "Пересчитать";
+      fsApplyBtn.textContent = "РџРµСЂРµСЃС‡РёС‚Р°С‚СЊ";
       if (generateTestDataBtn) {
         generateTestDataBtn.disabled = false;
-        generateTestDataBtn.textContent = "Сгенерировать и загрузить тестовые данные";
+        generateTestDataBtn.textContent = "РЎРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ Рё Р·Р°РіСЂСѓР·РёС‚СЊ С‚РµСЃС‚РѕРІС‹Рµ РґР°РЅРЅС‹Рµ";
       }
     }
   };
@@ -3777,46 +3907,28 @@
     document.getElementById("kpiOrder").textContent = fmtInt(k.engineOrderTotal);
     document.getElementById("kpiWmape").textContent = fmtPct(k.balanceScore || 0);
 
-    document.getElementById("qMae").textContent = fmtInt(q.mae);
-    document.getElementById("qRmse").textContent = fmtInt(q.rmse);
-    document.getElementById("qWmape").textContent = fmtPct(q.wmape);
-    document.getElementById("qBias").textContent = fmtPct(q.bias);
-    document.getElementById("qFileWmape").textContent = fmtPct(q.fileWmape);
-    document.getElementById("qRows").textContent = fmtInt(q.count || 0);
-    document.getElementById("qAccuracy").textContent = fmtPct(q.accuracy || 0);
+    document.getElementById("qStockAccuracy").textContent = fmtPct(q.stockAccuracy || 0);
+    document.getElementById("qSalesAccuracy").textContent = fmtPct(q.accuracy || 0);
     document.getElementById("qPlanCoverage").textContent = fmtPct(q.planCoveragePct || 0);
     document.getElementById("qOrderRows").textContent = fmtInt(q.orderRows || 0);
 
-    document.getElementById("sumOos").textContent = fmtInt(k.stockoutPositions || 0);
-    document.getElementById("sumOverstock").textContent = fmtInt(k.overstockPositions || 0);
-    document.getElementById("sumBalanced").textContent = fmtInt(k.balancedPositions || 0);
-
-    const businessComment = document.getElementById("businessComment");
-    if ((k.stockoutPositions || 0) === 0 && (k.overstockPositions || 0) === 0) {
-      businessComment.className = "status ok";
-      businessComment.textContent = "Система держит баланс: по выбранной выборке заказ формируется только при приближении к минимуму, а запас после плана не превышает 30 дней.";
-    } else if ((k.stockoutPositions || 0) > (k.overstockPositions || 0)) {
-      businessComment.className = "status err";
-      businessComment.textContent = "Главный риск — out-of-stock: система формирует заказ сейчас, если к дате поставки остаток упадёт к минимальной границе.";
-    } else {
-      businessComment.className = "status";
-      businessComment.textContent = "Есть позиции на паузе: текущего остатка больше чем на 30 дней, поэтому система блокирует заказ до снижения запаса.";
-    }
-
-
     const comment = document.getElementById("qualityComment");
+    const stockOk = q.stockAccuracy >= 85;
+    const salesOk = q.accuracy >= 75;
+    const planOk = q.planCoveragePct >= 80;
+
     if (!q.count || q.count < 7) {
       comment.className = "status";
-      comment.textContent = "Для выбранного фильтра мало исторических точек. Метрики считаются только по дням, где есть факт спроса и минимум 14 дней истории для ARIMA.";
-    } else if (q.wmape <= 15) {
+      comment.textContent = "РњР°Р»Рѕ РёСЃС‚РѕСЂРёРё РґР»СЏ РѕС†РµРЅРєРё. РќСѓР¶РЅС‹ С„Р°РєС‚РёС‡РµСЃРєРёРµ РґРЅРё РїРѕСЃР»Рµ РїСЂРѕРіСЂРµРІР° РјРѕРґРµР»Рё, С‡С‚РѕР±С‹ РєРѕСЂСЂРµРєС‚РЅРѕ РїРѕСЃС‡РёС‚Р°С‚СЊ РїРѕРїР°РґР°РЅРёРµ РІ РїСЂРѕРґР°Р¶Рё Рё РѕСЃС‚Р°С‚РєРё.";
+    } else if (stockOk && salesOk && planOk) {
       comment.className = "status ok";
-      comment.textContent = "Качество хорошее: WMAPE = " + fmtPct(q.wmape) + ", точность = " + fmtPct(q.accuracy || 0) + ". Метрики пересчитаны по тем же фактическим датам, которые видны на графике, а плановый коридор связан со строками таблицы.";
-    } else if (q.wmape <= 30) {
+      comment.textContent = "РњРѕРґРµР»СЊ РІС‹РіР»СЏРґРёС‚ СѓСЃС‚РѕР№С‡РёРІРѕ: РѕСЃС‚Р°С‚РєРё, РїСЂРѕРґР°Р¶Рё Рё РїР»Р°РЅ Р·Р°РєР°Р·Р° СЃС…РѕРґСЏС‚СЃСЏ СЃ С„Р°РєС‚РѕРј Рё РєРѕСЂРёРґРѕСЂРѕРј РїРѕ РІС‹Р±СЂР°РЅРЅС‹Рј С„РёР»СЊС‚СЂР°Рј.";
+    } else if (q.stockAccuracy >= 70 && q.accuracy >= 60) {
       comment.className = "status";
-      comment.textContent = "Качество среднее: WMAPE = " + fmtPct(q.wmape) + ". Проверьте промо, сезонность, дефициты и выбранный фильтр. План в коридоре: " + fmtPct(q.planCoveragePct || 0) + ".";
+      comment.textContent = "РљР°С‡РµСЃС‚РІРѕ СЂР°Р±РѕС‡РµРµ, РЅРѕ С‚СЂРµР±СѓРµС‚ РєРѕРЅС‚СЂРѕР»СЏ: РїСЂРѕРІРµСЂСЊС‚Рµ РїРѕР·РёС†РёРё СЃ РЅРёР·РєРѕР№ РЅР°РґС‘Р¶РЅРѕСЃС‚СЊСЋ РїРѕСЃС‚Р°РІС‰РёРєР° Рё РѕРіСЂР°РЅРёС‡РµРЅРЅРѕР№ РґРѕСЃС‚СѓРїРЅРѕСЃС‚СЊСЋ.";
     } else {
       comment.className = "status err";
-      comment.textContent = "Качество слабое: WMAPE = " + fmtPct(q.wmape) + ". Для этого фильтра прогноз сильно расходится с фактом; автозаказ лучше использовать с ручным контролем. План в коридоре: " + fmtPct(q.planCoveragePct || 0) + ".";
+      comment.textContent = "РљР°С‡РµСЃС‚РІРѕ СЃР»Р°Р±РѕРµ РґР»СЏ РІС‹Р±СЂР°РЅРЅРѕРіРѕ С„РёР»СЊС‚СЂР°: РїСЂРѕРіРЅРѕР· РёР»Рё РѕСЃС‚Р°С‚РєРё Р·Р°РјРµС‚РЅРѕ СЂР°СЃС…РѕРґСЏС‚СЃСЏ СЃ С„Р°РєС‚РѕРј. Р›СѓС‡С€Рµ СЃСѓР·РёС‚СЊ С„РёР»СЊС‚СЂ РёР»Рё РїСЂРѕРІРµСЂРёС‚СЊ РёСЃС…РѕРґРЅС‹Рµ РґР°РЅРЅС‹Рµ.";
     }
 
     drawChart(result.chart);
@@ -3833,55 +3945,55 @@
   function getChartConfig(mode) {
     const configs = {
       stock: {
-        subtitle: "Остатки: управляемый факт модели + прогноз на 30 дней, рассчитанный той же моделью пополнения, что и таблица заказа.",
-        insight: "Фактический горизонт не использует сырой агрегированный stock_close, чтобы не ломать масштаб при выборе всех SKU. Коридор расширен до ±18% от цели, а факт двигается от цели в зависимости от отклонения спроса от прогноза.",
+        subtitle: "РћСЃС‚Р°С‚РєРё: СѓРїСЂР°РІР»СЏРµРјС‹Р№ С„Р°РєС‚ РјРѕРґРµР»Рё + РїСЂРѕРіРЅРѕР· РЅР° 30 РґРЅРµР№, СЂР°СЃСЃС‡РёС‚Р°РЅРЅС‹Р№ С‚РѕР№ Р¶Рµ РјРѕРґРµР»СЊСЋ РїРѕРїРѕР»РЅРµРЅРёСЏ, С‡С‚Рѕ Рё С‚Р°Р±Р»РёС†Р° Р·Р°РєР°Р·Р°.",
+        insight: "Р¤Р°РєС‚РёС‡РµСЃРєРёР№ РіРѕСЂРёР·РѕРЅС‚ РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚ СЃС‹СЂРѕР№ Р°РіСЂРµРіРёСЂРѕРІР°РЅРЅС‹Р№ stock_close, С‡С‚РѕР±С‹ РЅРµ Р»РѕРјР°С‚СЊ РјР°СЃС€С‚Р°Р± РїСЂРё РІС‹Р±РѕСЂРµ РІСЃРµС… SKU. РљРѕСЂРёРґРѕСЂ СЂР°СЃС€РёСЂРµРЅ РґРѕ В±18% РѕС‚ С†РµР»Рё, Р° С„Р°РєС‚ РґРІРёРіР°РµС‚СЃСЏ РѕС‚ С†РµР»Рё РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РѕС‚РєР»РѕРЅРµРЅРёСЏ СЃРїСЂРѕСЃР° РѕС‚ РїСЂРѕРіРЅРѕР·Р°.",
         fillCorridor: true,
         currency: false,
         series: [
-          { key: "stockClose", label: "Фактический остаток модели", color: "#2563eb", width: 2 },
-          { key: "projectedStock", label: "Прогнозный остаток после автозаказа", color: "#16a085", width: 3 },
-          { key: "minStock", label: "Минимальный уровень", color: "#dc2626", width: 2, dash: [8, 6] },
-          { key: "maxStock", label: "Верхний уровень", color: "#f59e0b", width: 2, dash: [4, 5] }
+          { key: "stockClose", label: "Р¤Р°РєС‚РёС‡РµСЃРєРёР№ РѕСЃС‚Р°С‚РѕРє РјРѕРґРµР»Рё", color: "#2563eb", width: 2 },
+          { key: "projectedStock", label: "РџСЂРѕРіРЅРѕР·РЅС‹Р№ РѕСЃС‚Р°С‚РѕРє РїРѕСЃР»Рµ Р°РІС‚РѕР·Р°РєР°Р·Р°", color: "#16a085", width: 3 },
+          { key: "minStock", label: "РњРёРЅРёРјР°Р»СЊРЅС‹Р№ СѓСЂРѕРІРµРЅСЊ", color: "#dc2626", width: 2, dash: [8, 6] },
+          { key: "maxStock", label: "Р’РµСЂС…РЅРёР№ СѓСЂРѕРІРµРЅСЊ", color: "#f59e0b", width: 2, dash: [4, 5] }
         ]
       },
       salesUnits: {
-        subtitle: "Продажи в штуках: факт продаж и прогноз спроса по выбранным фильтрам.",
-        insight: "Прогноз продаж в штуках строится встроенной ARIMA(1,1,1) с недельной сезонностью и используется в расчёте пополнения.",
+        subtitle: "РџСЂРѕРґР°Р¶Рё РІ С€С‚СѓРєР°С…: С„Р°РєС‚ РїСЂРѕРґР°Р¶ Рё РїСЂРѕРіРЅРѕР· СЃРїСЂРѕСЃР° РїРѕ РІС‹Р±СЂР°РЅРЅС‹Рј С„РёР»СЊС‚СЂР°Рј.",
+        insight: "РџСЂРѕРіРЅРѕР· РїСЂРѕРґР°Р¶ РІ С€С‚СѓРєР°С… СЃС‚СЂРѕРёС‚СЃСЏ РІСЃС‚СЂРѕРµРЅРЅРѕР№ ARIMA(1,1,1) СЃ РЅРµРґРµР»СЊРЅРѕР№ СЃРµР·РѕРЅРЅРѕСЃС‚СЊСЋ Рё РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ СЂР°СЃС‡С‘С‚Рµ РїРѕРїРѕР»РЅРµРЅРёСЏ.",
         fillCorridor: false,
         currency: false,
         series: [
-          { key: "salesUnits", label: "Факт продаж, шт.", color: "#14364a", width: 3 },
-          { key: "engineForecast", label: "Прогноз ARIMA, шт.", color: "#16a085", width: 3 }
+          { key: "salesUnits", label: "Р¤Р°РєС‚ РїСЂРѕРґР°Р¶, С€С‚.", color: "#14364a", width: 3 },
+          { key: "engineForecast", label: "РџСЂРѕРіРЅРѕР· ARIMA, С€С‚.", color: "#16a085", width: 3 }
         ]
       },
       salesRub: {
-        subtitle: "Продажи в рублях: фактическая выручка и прогноз спроса, пересчитанный в рубли.",
-        insight: "Прогноз продаж в рублях строится отдельной ARIMA(1,1,1) по выручке и используется для денежной оценки заказа.",
+        subtitle: "РџСЂРѕРґР°Р¶Рё РІ СЂСѓР±Р»СЏС…: С„Р°РєС‚РёС‡РµСЃРєР°СЏ РІС‹СЂСѓС‡РєР° Рё РїСЂРѕРіРЅРѕР· СЃРїСЂРѕСЃР°, РїРµСЂРµСЃС‡РёС‚Р°РЅРЅС‹Р№ РІ СЂСѓР±Р»Рё.",
+        insight: "РџСЂРѕРіРЅРѕР· РїСЂРѕРґР°Р¶ РІ СЂСѓР±Р»СЏС… СЃС‚СЂРѕРёС‚СЃСЏ РѕС‚РґРµР»СЊРЅРѕР№ ARIMA(1,1,1) РїРѕ РІС‹СЂСѓС‡РєРµ Рё РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ РґРµРЅРµР¶РЅРѕР№ РѕС†РµРЅРєРё Р·Р°РєР°Р·Р°.",
         fillCorridor: false,
         currency: true,
         series: [
-          { key: "salesRub", label: "Факт продаж, ₽", color: "#14364a", width: 3 },
-          { key: "forecastRub", label: "Прогноз ARIMA, ₽", color: "#16a085", width: 3 }
+          { key: "salesRub", label: "Р¤Р°РєС‚ РїСЂРѕРґР°Р¶, в‚Ѕ", color: "#14364a", width: 3 },
+          { key: "forecastRub", label: "РџСЂРѕРіРЅРѕР· ARIMA, в‚Ѕ", color: "#16a085", width: 3 }
         ]
       },
       orderUnits: {
-        subtitle: "Заказ в штуках: плановые заказы из той же модели пополнения, что формирует таблицу.",
-        insight: "Заказ на графике — это календарь пополнения: заказ появляется только когда прогнозный остаток падает к нижней границе.",
+        subtitle: "Р—Р°РєР°Р· РІ С€С‚СѓРєР°С…: РїР»Р°РЅРѕРІС‹Рµ Р·Р°РєР°Р·С‹ РёР· С‚РѕР№ Р¶Рµ РјРѕРґРµР»Рё РїРѕРїРѕР»РЅРµРЅРёСЏ, С‡С‚Рѕ С„РѕСЂРјРёСЂСѓРµС‚ С‚Р°Р±Р»РёС†Сѓ.",
+        insight: "Р—Р°РєР°Р· РЅР° РіСЂР°С„РёРєРµ вЂ” СЌС‚Рѕ РєР°Р»РµРЅРґР°СЂСЊ РїРѕРїРѕР»РЅРµРЅРёСЏ: Р·Р°РєР°Р· РїРѕСЏРІР»СЏРµС‚СЃСЏ С‚РѕР»СЊРєРѕ РєРѕРіРґР° РїСЂРѕРіРЅРѕР·РЅС‹Р№ РѕСЃС‚Р°С‚РѕРє РїР°РґР°РµС‚ Рє РЅРёР¶РЅРµР№ РіСЂР°РЅРёС†Рµ.",
         fillCorridor: false,
         currency: false,
         series: [
-          { key: "orderUnits", label: "Рекомендованный заказ, шт.", color: "#7c3aed", width: 3 },
-          { key: "salesUnits", label: "Факт продаж, шт. для ориентира", color: "#14364a", width: 2, dash: [6, 5] }
+          { key: "orderUnits", label: "Р РµРєРѕРјРµРЅРґРѕРІР°РЅРЅС‹Р№ Р·Р°РєР°Р·, С€С‚.", color: "#7c3aed", width: 3 },
+          { key: "salesUnits", label: "Р¤Р°РєС‚ РїСЂРѕРґР°Р¶, С€С‚. РґР»СЏ РѕСЂРёРµРЅС‚РёСЂР°", color: "#14364a", width: 2, dash: [6, 5] }
         ]
       },
       orderRub: {
-        subtitle: "Заказ в рублях: стоимость плановых заказов из таблицы по закупочной цене.",
-        insight: "Денежный заказ на графике считается из количества к заказу и закупочной цены по тем же строкам, что видны в таблице.",
+        subtitle: "Р—Р°РєР°Р· РІ СЂСѓР±Р»СЏС…: СЃС‚РѕРёРјРѕСЃС‚СЊ РїР»Р°РЅРѕРІС‹С… Р·Р°РєР°Р·РѕРІ РёР· С‚Р°Р±Р»РёС†С‹ РїРѕ Р·Р°РєСѓРїРѕС‡РЅРѕР№ С†РµРЅРµ.",
+        insight: "Р”РµРЅРµР¶РЅС‹Р№ Р·Р°РєР°Р· РЅР° РіСЂР°С„РёРєРµ СЃС‡РёС‚Р°РµС‚СЃСЏ РёР· РєРѕР»РёС‡РµСЃС‚РІР° Рє Р·Р°РєР°Р·Сѓ Рё Р·Р°РєСѓРїРѕС‡РЅРѕР№ С†РµРЅС‹ РїРѕ С‚РµРј Р¶Рµ СЃС‚СЂРѕРєР°Рј, С‡С‚Рѕ РІРёРґРЅС‹ РІ С‚Р°Р±Р»РёС†Рµ.",
         fillCorridor: false,
         currency: true,
         series: [
-          { key: "orderRub", label: "Рекомендованный заказ, ₽", color: "#7c3aed", width: 3 },
-          { key: "salesRub", label: "Факт продаж, ₽ для ориентира", color: "#14364a", width: 2, dash: [6, 5] }
+          { key: "orderRub", label: "Р РµРєРѕРјРµРЅРґРѕРІР°РЅРЅС‹Р№ Р·Р°РєР°Р·, в‚Ѕ", color: "#7c3aed", width: 3 },
+          { key: "salesRub", label: "Р¤Р°РєС‚ РїСЂРѕРґР°Р¶, в‚Ѕ РґР»СЏ РѕСЂРёРµРЅС‚РёСЂР°", color: "#14364a", width: 2, dash: [6, 5] }
         ]
       }
     };
@@ -3909,13 +4021,13 @@
     const isFullscreen = chartCard.classList.contains("isFullscreen");
     updateLegend(config);
 
-    // Горизонтальная шкала теперь адаптивная: на длинном периоде график расширяется,
-    // появляется прокрутка, а внизу подписывается каждая дата без агрегации точек.
+    // Р“РѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ С€РєР°Р»Р° С‚РµРїРµСЂСЊ Р°РґР°РїС‚РёРІРЅР°СЏ: РЅР° РґР»РёРЅРЅРѕРј РїРµСЂРёРѕРґРµ РіСЂР°С„РёРє СЂР°СЃС€РёСЂСЏРµС‚СЃСЏ,
+    // РїРѕСЏРІР»СЏРµС‚СЃСЏ РїСЂРѕРєСЂСѓС‚РєР°, Р° РІРЅРёР·Сѓ РїРѕРґРїРёСЃС‹РІР°РµС‚СЃСЏ РєР°Р¶РґР°СЏ РґР°С‚Р° Р±РµР· Р°РіСЂРµРіР°С†РёРё С‚РѕС‡РµРє.
     const points = data && data.length ? data.length : 1;
     const pointWidth = isFullscreen ? (points > 240 ? 40 : 54) : (points > 240 ? 38 : 44);
     const targetCssWidth = Math.max(boxRect.width || 600, points * pointWidth + 180);
-    // Для длинных периодов держим devicePixelRatio = 1, чтобы canvas не упирался в лимит ширины
-    // и каждая дата оставалась на своей позиции на оси X.
+    // Р”Р»СЏ РґР»РёРЅРЅС‹С… РїРµСЂРёРѕРґРѕРІ РґРµСЂР¶РёРј devicePixelRatio = 1, С‡С‚РѕР±С‹ canvas РЅРµ СѓРїРёСЂР°Р»СЃСЏ РІ Р»РёРјРёС‚ С€РёСЂРёРЅС‹
+    // Рё РєР°Р¶РґР°СЏ РґР°С‚Р° РѕСЃС‚Р°РІР°Р»Р°СЃСЊ РЅР° СЃРІРѕРµР№ РїРѕР·РёС†РёРё РЅР° РѕСЃРё X.
     const ratio = targetCssWidth > 22000 ? 1 : Math.min(window.devicePixelRatio || 1, 1.35);
     const maxCanvasCssWidth = Math.floor(32000 / ratio);
     const width = Math.min(targetCssWidth, maxCanvasCssWidth);
@@ -3940,7 +4052,7 @@
       ctx.fillStyle = "#8093a3";
       ctx.font = "14px Inter, Arial";
       ctx.textAlign = "center";
-      ctx.fillText("Нет данных для графика", width / 2, height / 2);
+      ctx.fillText("РќРµС‚ РґР°РЅРЅС‹С… РґР»СЏ РіСЂР°С„РёРєР°", width / 2, height / 2);
       return;
     }
 
@@ -3974,9 +4086,9 @@
       let span = maxValue - minValue;
       if (span <= 0) span = Math.max(1, Math.abs(maxValue) * 0.2);
 
-      // В обычном режиме оставляем обзор от нуля.
-      // В полноэкранном режиме включаем авто-зум по видимому диапазону,
-      // чтобы вертикальная шкала подстраивалась под выбранные фильтры и серию.
+      // Р’ РѕР±С‹С‡РЅРѕРј СЂРµР¶РёРјРµ РѕСЃС‚Р°РІР»СЏРµРј РѕР±Р·РѕСЂ РѕС‚ РЅСѓР»СЏ.
+      // Р’ РїРѕР»РЅРѕСЌРєСЂР°РЅРЅРѕРј СЂРµР¶РёРјРµ РІРєР»СЋС‡Р°РµРј Р°РІС‚Рѕ-Р·СѓРј РїРѕ РІРёРґРёРјРѕРјСѓ РґРёР°РїР°Р·РѕРЅСѓ,
+      // С‡С‚РѕР±С‹ РІРµСЂС‚РёРєР°Р»СЊРЅР°СЏ С€РєР°Р»Р° РїРѕРґСЃС‚СЂР°РёРІР°Р»Р°СЃСЊ РїРѕРґ РІС‹Р±СЂР°РЅРЅС‹Рµ С„РёР»СЊС‚СЂС‹ Рё СЃРµСЂРёСЋ.
       let minY = isFullscreen ? minValue - span * 0.12 : 0;
       let maxY = maxValue + span * 0.12;
 
@@ -4019,13 +4131,13 @@
       ctx.moveTo(pad.left, yy);
       ctx.lineTo(pad.left + w, yy);
       ctx.stroke();
-      ctx.fillText(config.currency ? fmtMoney(val).replace(" ₽", "") : Math.round(val).toLocaleString("ru-RU"), pad.left - 8, yy + 4);
+      ctx.fillText(config.currency ? fmtMoney(val).replace(" в‚Ѕ", "") : Math.round(val).toLocaleString("ru-RU"), pad.left - 8, yy + 4);
     }
 
     ctx.font = data.length > 80 ? "9px Inter, Arial" : "11px Inter, Arial";
-    // Подписываем каждую дату. Прогнозные даты чуть темнее и получают маркер "п".
+    // РџРѕРґРїРёСЃС‹РІР°РµРј РєР°Р¶РґСѓСЋ РґР°С‚Сѓ. РџСЂРѕРіРЅРѕР·РЅС‹Рµ РґР°С‚С‹ С‡СѓС‚СЊ С‚РµРјРЅРµРµ Рё РїРѕР»СѓС‡Р°СЋС‚ РјР°СЂРєРµСЂ "Рї".
     for (let i = 0; i < data.length; i++) {
-      const label = data[i].date.slice(8, 10) + "." + data[i].date.slice(5, 7) + (data[i].isForecastPoint ? "п" : "");
+      const label = data[i].date.slice(8, 10) + "." + data[i].date.slice(5, 7) + (data[i].isForecastPoint ? "Рї" : "");
       ctx.save();
       ctx.fillStyle = data[i].isForecastPoint ? "#16a085" : "#8093a3";
       ctx.translate(x(i), height - 34);
@@ -4085,15 +4197,19 @@
 
     config.series.forEach(line);
 
-    // Подписи серий вынесены в легенду под графиком, чтобы сам график оставался чистым.
+    // РџРѕРґРїРёСЃРё СЃРµСЂРёР№ РІС‹РЅРµСЃРµРЅС‹ РІ Р»РµРіРµРЅРґСѓ РїРѕРґ РіСЂР°С„РёРєРѕРј, С‡С‚РѕР±С‹ СЃР°Рј РіСЂР°С„РёРє РѕСЃС‚Р°РІР°Р»СЃСЏ С‡РёСЃС‚С‹Рј.
   }
 
   function riskPill(risk) {
-    if (risk === "OK") return '<span class="pill green">В балансе</span>';
-    if (risk.includes("Дефицит")) return '<span class="pill red">' + escapeHtml(risk) + '</span>';
-    if (risk.includes("Пауза") || risk.includes("перезаказ") || risk.includes("перезапас")) return '<span class="pill orange">' + escapeHtml(risk) + '</span>';
-    if (risk.includes("поставщика")) return '<span class="pill blue">' + escapeHtml(risk) + '</span>';
-    return '<span class="pill purple">' + escapeHtml(risk) + '</span>';
+    const value = String(risk || "РќРµС‚ РєСЂРёС‚РёС‡РЅС‹С… СЂРёСЃРєРѕРІ");
+    const low = value.toLowerCase();
+    if (low.includes("РЅРµС‚ РєСЂРёС‚РёС‡РЅС‹С…")) return '<span class="pill green">Р‘РµР· СЂРёСЃРєР°</span>';
+    if (low.includes("РїР»Р°РЅРѕРІС‹Р№")) return '<span class="pill green">' + escapeHtml(value) + '</span>';
+    if (low.includes("РЅРµ Р·Р°РєР°Р·С‹РІР°С‚СЊ")) return '<span class="pill orange">' + escapeHtml(value) + '</span>';
+    if (low.includes("РїРµСЂРµР·Р°РєР°Р·")) return '<span class="pill orange">' + escapeHtml(value) + '</span>';
+    if (low.includes("РЅР°РґС‘Р¶") || low.includes("РїРѕСЃС‚Р°РІС‰РёРє")) return '<span class="pill blue">' + escapeHtml(value) + '</span>';
+    if (low.includes("РѕРіСЂР°РЅРёС‡")) return '<span class="pill orange">' + escapeHtml(value) + '</span>';
+    return '<span class="pill purple">' + escapeHtml(value) + '</span>';
   }
 
   function escapeHtml(s) {
@@ -4114,7 +4230,7 @@
 
   function actionBadge(action) {
     const safe = escapeHtml(action || "");
-    const cls = action === "К ЗАКАЗУ" ? "order" : action === "НЕ ЗАКАЗЫВАТЬ" ? "stop" : "hold";
+    const cls = action === "Рљ Р—РђРљРђР—РЈ" ? "order" : action === "РќР• Р—РђРљРђР—Р«Р’РђРўР¬" ? "stop" : "hold";
     return '<span class="actionBadge ' + cls + '" title="' + safe + '">' + safe + '</span>';
   }
 
@@ -4125,7 +4241,7 @@
 
 
   function htmlValue(v) {
-    return escapeHtml(v == null || v === "" ? "—" : v);
+    return escapeHtml(v == null || v === "" ? "вЂ”" : v);
   }
 
   function supplierNameFromFilter() {
@@ -4139,8 +4255,8 @@
 
     const filters = currentFilters();
 
-    // PDF/CSV-заказ — это не вся аналитическая таблица, а только операционные строки,
-    // которые реально нужно передать поставщику к заказу.
+    // PDF/CSV-Р·Р°РєР°Р· вЂ” СЌС‚Рѕ РЅРµ РІСЃСЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєР°СЏ С‚Р°Р±Р»РёС†Р°, Р° С‚РѕР»СЊРєРѕ РѕРїРµСЂР°С†РёРѕРЅРЅС‹Рµ СЃС‚СЂРѕРєРё,
+    // РєРѕС‚РѕСЂС‹Рµ СЂРµР°Р»СЊРЅРѕ РЅСѓР¶РЅРѕ РїРµСЂРµРґР°С‚СЊ РїРѕСЃС‚Р°РІС‰РёРєСѓ Рє Р·Р°РєР°Р·Сѓ.
     return lastResult.plan
       .filter(isOrderRow)
       .filter(p => !filters.supplier || p.supplierId === filters.supplier)
@@ -4156,22 +4272,22 @@
 
   function generateOrderPdfDocument() {
     if (filtersDirty) {
-      alert("Фильтры изменены после последнего расчёта. Сначала нажмите «Пересчитать дашборд», затем формируйте PDF.");
+      alert("Р¤РёР»СЊС‚СЂС‹ РёР·РјРµРЅРµРЅС‹ РїРѕСЃР»Рµ РїРѕСЃР»РµРґРЅРµРіРѕ СЂР°СЃС‡С‘С‚Р°. РЎРЅР°С‡Р°Р»Р° РЅР°Р¶РјРёС‚Рµ В«РџРµСЂРµСЃС‡РёС‚Р°С‚СЊ РґР°С€Р±РѕСЂРґВ», Р·Р°С‚РµРј С„РѕСЂРјРёСЂСѓР№С‚Рµ PDF.");
       return;
     }
     const rows = getPdfOrderRows();
     if (!supplierFilter.value) {
-      alert("Выберите одного поставщика в фильтре. PDF-заказ формируется по выбранному поставщику.");
+      alert("Р’С‹Р±РµСЂРёС‚Рµ РѕРґРЅРѕРіРѕ РїРѕСЃС‚Р°РІС‰РёРєР° РІ С„РёР»СЊС‚СЂРµ. PDF-Р·Р°РєР°Р· С„РѕСЂРјРёСЂСѓРµС‚СЃСЏ РїРѕ РІС‹Р±СЂР°РЅРЅРѕРјСѓ РїРѕСЃС‚Р°РІС‰РёРєСѓ.");
       return;
     }
     if (!rows.length) {
-      alert("По выбранному поставщику и текущим фильтрам нет строк со статусом «К ЗАКАЗУ». PDF формируется только по позициям, которые реально нужно заказать.");
+      alert("РџРѕ РІС‹Р±СЂР°РЅРЅРѕРјСѓ РїРѕСЃС‚Р°РІС‰РёРєСѓ Рё С‚РµРєСѓС‰РёРј С„РёР»СЊС‚СЂР°Рј РЅРµС‚ СЃС‚СЂРѕРє СЃРѕ СЃС‚Р°С‚СѓСЃРѕРј В«Рљ Р—РђРљРђР—РЈВ». PDF С„РѕСЂРјРёСЂСѓРµС‚СЃСЏ С‚РѕР»СЊРєРѕ РїРѕ РїРѕР·РёС†РёСЏРј, РєРѕС‚РѕСЂС‹Рµ СЂРµР°Р»СЊРЅРѕ РЅСѓР¶РЅРѕ Р·Р°РєР°Р·Р°С‚СЊ.");
       return;
     }
 
     const supplierLabel = supplierNameFromFilter();
     const orderDate = rows[0].orderDate || dateTo.value || new Date().toISOString().slice(0, 10);
-    const deliveryDates = Array.from(new Set(rows.map(r => r.deliveryDate || "—"))).sort();
+    const deliveryDates = Array.from(new Set(rows.map(r => r.deliveryDate || "вЂ”"))).sort();
     const totalUnits = rows.reduce((s, r) => s + (Number(r.engineOrder) || 0), 0);
     const totalRub = rows.reduce((s, r) => s + (Number(r.orderRub) || 0), 0);
     const totalStores = new Set(rows.map(r => r.storeId)).size;
@@ -4182,7 +4298,7 @@
       <tr>
         <td class="center">${i + 1}</td>
         <td>${htmlValue(p.deliveryDate)}</td>
-        <td>${htmlValue(p.storeName)}<br><span>${htmlValue(p.storeId)} · ${htmlValue(p.storeRegion)}</span></td>
+        <td>${htmlValue(p.storeName)}<br><span>${htmlValue(p.storeId)} В· ${htmlValue(p.storeRegion)}</span></td>
         <td>${htmlValue(p.sku)}</td>
         <td>${htmlValue(p.productName)}</td>
         <td>${htmlValue(p.group)}</td>
@@ -4191,8 +4307,9 @@
         <td class="num">${fmtMoney(p.purchasePrice || 0)}</td>
         <td class="num">${fmtMoney(p.orderRub || 0)}</td>
         <td class="num">${fmtInt(p.available)}</td>
-        <td class="num">${(p.lead || 0).toLocaleString("ru-RU", { maximumFractionDigits: 1 })} дн.</td>
-        <td>${htmlValue(p.decision)}</td>
+        <td class="num">${(p.lead || 0).toLocaleString("ru-RU", { maximumFractionDigits: 1 })} РґРЅ.</td>
+        <td>${htmlValue(p.orderReason || "")}</td>
+        <td>${htmlValue(p.executionRisk || p.risk || "")}</td>
       </tr>
     `).join("");
 
@@ -4232,54 +4349,55 @@
   <div class="doc">
     <div class="top">
       <div>
-        <h1>Заказ товара поставщику</h1>
-        <div class="subtitle">Сформировано системой автозаказа на основании прогноза спроса, остатков, lead time и минимальной партии поставщика.</div>
+        <h1>Р—Р°РєР°Р· С‚РѕРІР°СЂР° РїРѕСЃС‚Р°РІС‰РёРєСѓ</h1>
+        <div class="subtitle">РЎС„РѕСЂРјРёСЂРѕРІР°РЅРѕ СЃРёСЃС‚РµРјРѕР№ Р°РІС‚РѕР·Р°РєР°Р·Р° РЅР° РѕСЃРЅРѕРІР°РЅРёРё РїСЂРѕРіРЅРѕР·Р° СЃРїСЂРѕСЃР°, РѕСЃС‚Р°С‚РєРѕРІ, lead time Рё РјРёРЅРёРјР°Р»СЊРЅРѕР№ РїР°СЂС‚РёРё РїРѕСЃС‚Р°РІС‰РёРєР°.</div>
       </div>
       <div class="docNo">
-        Документ: ${htmlValue(docNo)}<br>
-        Дата формирования: ${htmlValue(new Date().toISOString().slice(0, 10))}
+        Р”РѕРєСѓРјРµРЅС‚: ${htmlValue(docNo)}<br>
+        Р”Р°С‚Р° С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ: ${htmlValue(new Date().toISOString().slice(0, 10))}
       </div>
     </div>
 
     <div class="meta">
-      <div class="box"><div class="label">Поставщик</div><div class="value">${htmlValue(supplierLabel)}</div></div>
-      <div class="box"><div class="label">Дата заказа</div><div class="value">${htmlValue(orderDate)}</div></div>
-      <div class="box"><div class="label">Плановая дата поставки</div><div class="value">${htmlValue(deliveryDates.join(", "))}</div></div>
-      <div class="box"><div class="label">Точек / SKU</div><div class="value">${totalStores} / ${totalSku}</div></div>
+      <div class="box"><div class="label">РџРѕСЃС‚Р°РІС‰РёРє</div><div class="value">${htmlValue(supplierLabel)}</div></div>
+      <div class="box"><div class="label">Р”Р°С‚Р° Р·Р°РєР°Р·Р°</div><div class="value">${htmlValue(orderDate)}</div></div>
+      <div class="box"><div class="label">РџР»Р°РЅРѕРІР°СЏ РґР°С‚Р° РїРѕСЃС‚Р°РІРєРё</div><div class="value">${htmlValue(deliveryDates.join(", "))}</div></div>
+      <div class="box"><div class="label">РўРѕС‡РµРє / SKU</div><div class="value">${totalStores} / ${totalSku}</div></div>
     </div>
 
     <table>
       <thead>
         <tr>
-          <th style="width:3%">№</th>
-          <th style="width:7%">Дата поставки</th>
-          <th style="width:14%">Точка поставки</th>
+          <th style="width:3%">в„–</th>
+          <th style="width:7%">Р”Р°С‚Р° РїРѕСЃС‚Р°РІРєРё</th>
+          <th style="width:14%">РўРѕС‡РєР° РїРѕСЃС‚Р°РІРєРё</th>
           <th style="width:6%">SKU</th>
-          <th style="width:16%">Товар</th>
-          <th style="width:9%">Группа</th>
-          <th style="width:6%">К заказу, шт.</th>
-          <th style="width:6%">Мин. партия</th>
-          <th style="width:7%">Цена закупки</th>
-          <th style="width:7%">Сумма</th>
-          <th style="width:6%">Доступно</th>
+          <th style="width:16%">РўРѕРІР°СЂ</th>
+          <th style="width:9%">Р“СЂСѓРїРїР°</th>
+          <th style="width:6%">Рљ Р·Р°РєР°Р·Сѓ, С€С‚.</th>
+          <th style="width:6%">РњРёРЅ. РїР°СЂС‚РёСЏ</th>
+          <th style="width:7%">Р¦РµРЅР° Р·Р°РєСѓРїРєРё</th>
+          <th style="width:7%">РЎСѓРјРјР°</th>
+          <th style="width:6%">Р”РѕСЃС‚СѓРїРЅРѕ</th>
           <th style="width:6%">Lead time</th>
-          <th style="width:17%">Причина заказа</th>
+          <th style="width:14%">РћСЃРЅРѕРІР°РЅРёРµ</th>
+          <th style="width:13%">Р РёСЃРє РёСЃРїРѕР»РЅРµРЅРёСЏ</th>
         </tr>
       </thead>
       <tbody>${tableRows}</tbody>
     </table>
 
     <div class="summary">
-      <div>Итого к заказу: <b>${fmtInt(totalUnits)} шт.</b></div>
-      <div>Сумма заказа: <b>${fmtMoney(totalRub)}</b></div>
+      <div>РС‚РѕРіРѕ Рє Р·Р°РєР°Р·Сѓ: <b>${fmtInt(totalUnits)} С€С‚.</b></div>
+      <div>РЎСѓРјРјР° Р·Р°РєР°Р·Р°: <b>${fmtMoney(totalRub)}</b></div>
     </div>
 
-    <div class="note">Документ предназначен для передачи подрядчику/поставщику. Итоговые позиции включают только строки со статусом «К ЗАКАЗУ», количеством больше нуля, выбранным поставщиком и текущими фильтрами дашборда.</div>
+    <div class="note">Р”РѕРєСѓРјРµРЅС‚ РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅ РґР»СЏ РїРµСЂРµРґР°С‡Рё РїРѕРґСЂСЏРґС‡РёРєСѓ/РїРѕСЃС‚Р°РІС‰РёРєСѓ. РС‚РѕРіРѕРІС‹Рµ РїРѕР·РёС†РёРё РІРєР»СЋС‡Р°СЋС‚ С‚РѕР»СЊРєРѕ СЃС‚СЂРѕРєРё СЃРѕ СЃС‚Р°С‚СѓСЃРѕРј В«Рљ Р—РђРљРђР—РЈВ», РєРѕР»РёС‡РµСЃС‚РІРѕРј Р±РѕР»СЊС€Рµ РЅСѓР»СЏ, РІС‹Р±СЂР°РЅРЅС‹Рј РїРѕСЃС‚Р°РІС‰РёРєРѕРј Рё С‚РµРєСѓС‰РёРјРё С„РёР»СЊС‚СЂР°РјРё РґР°С€Р±РѕСЂРґР°.</div>
 
     <div class="sign">
-      <div class="line">Ответственный за заказ</div>
-      <div class="line">Поставщик / подрядчик</div>
-      <div class="line">Подтверждение поставки</div>
+      <div class="line">РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№ Р·Р° Р·Р°РєР°Р·</div>
+      <div class="line">РџРѕСЃС‚Р°РІС‰РёРє / РїРѕРґСЂСЏРґС‡РёРє</div>
+      <div class="line">РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РїРѕСЃС‚Р°РІРєРё</div>
     </div>
   </div>
   <script>
@@ -4290,7 +4408,7 @@
 
     const win = window.open("", "_blank", "width=1200,height=800");
     if (!win) {
-      alert("Браузер заблокировал всплывающее окно. Разрешите pop-up для этого файла и повторите формирование PDF.");
+      alert("Р‘СЂР°СѓР·РµСЂ Р·Р°Р±Р»РѕРєРёСЂРѕРІР°Р» РІСЃРїР»С‹РІР°СЋС‰РµРµ РѕРєРЅРѕ. Р Р°Р·СЂРµС€РёС‚Рµ pop-up РґР»СЏ СЌС‚РѕРіРѕ С„Р°Р№Р»Р° Рё РїРѕРІС‚РѕСЂРёС‚Рµ С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ PDF.");
       return;
     }
     win.document.open();
@@ -4300,13 +4418,13 @@
 
   function exportOrderCsv() {
     if (filtersDirty) {
-      alert("Фильтры изменены после последнего расчёта. Сначала нажмите «Пересчитать дашборд», затем выгружайте CSV.");
+      alert("Р¤РёР»СЊС‚СЂС‹ РёР·РјРµРЅРµРЅС‹ РїРѕСЃР»Рµ РїРѕСЃР»РµРґРЅРµРіРѕ СЂР°СЃС‡С‘С‚Р°. РЎРЅР°С‡Р°Р»Р° РЅР°Р¶РјРёС‚Рµ В«РџРµСЂРµСЃС‡РёС‚Р°С‚СЊ РґР°С€Р±РѕСЂРґВ», Р·Р°С‚РµРј РІС‹РіСЂСѓР¶Р°Р№С‚Рµ CSV.");
       return;
     }
     if (!lastResult || !lastResult.plan || !lastResult.plan.length) return;
     const exportRows = getPdfOrderRows();
     if (!exportRows.length) {
-      alert("По текущим фильтрам нет строк со статусом «К ЗАКАЗУ». CSV выгружается только по реальным позициям к заказу.");
+      alert("РџРѕ С‚РµРєСѓС‰РёРј С„РёР»СЊС‚СЂР°Рј РЅРµС‚ СЃС‚СЂРѕРє СЃРѕ СЃС‚Р°С‚СѓСЃРѕРј В«Рљ Р—РђРљРђР—РЈВ». CSV РІС‹РіСЂСѓР¶Р°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ РїРѕ СЂРµР°Р»СЊРЅС‹Рј РїРѕР·РёС†РёСЏРј Рє Р·Р°РєР°Р·Сѓ.");
       return;
     }
     const headers = [
@@ -4314,7 +4432,7 @@
       "store_id", "store_name", "store_region", "sku", "product_name", "product_group", "order_units",
       "purchase_price_rub", "order_amount_rub", "lead_time_days", "supplier_reliability_pct", "min_order_units",
       "supplier_stock_available_units", "stock_close_units", "forecast_per_day", "reorder_point", "target_stock",
-      "max_stock", "risk", "decision"
+      "max_stock", "order_reason", "execution_risk", "decision"
     ];
     const lines = [headers.join(";")];
     for (const p of exportRows) {
@@ -4325,7 +4443,7 @@
         Math.round((p.lead || 0) * 10) / 10, Math.round((p.reliability || 0) * 10) / 10,
         Math.round(p.minOrder || 0), Math.round(p.available || 0), Math.round(p.lastStockClose || 0),
         Math.round((p.forecastPerDay || 0) * 10) / 10, Math.round(p.reorderPoint || 0), Math.round(p.targetStock || 0),
-        Math.round(p.maxStock || 0), p.risk, p.decision
+        Math.round(p.maxStock || 0), p.orderReason || "", p.executionRisk || p.risk || "", p.decision
       ].map(csvValue).join(";"));
     }
     const blob = new Blob(["\uFEFF" + lines.join("\n")], { type: "text/csv;charset=utf-8" });
@@ -4342,7 +4460,7 @@
   function renderPlanTable(plan) {
     const tbody = document.getElementById("orderTable");
     if (!plan || plan.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="25" class="empty">По выбранным фильтрам данных нет.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="26" class="empty">РџРѕ РІС‹Р±СЂР°РЅРЅС‹Рј С„РёР»СЊС‚СЂР°Рј РґР°РЅРЅС‹С… РЅРµС‚.</td></tr>';
       if (exportOrderBtn) exportOrderBtn.disabled = true;
       if (pdfOrderBtn) pdfOrderBtn.disabled = true;
       return;
@@ -4353,19 +4471,20 @@
     if (pdfOrderBtn) pdfOrderBtn.disabled = !hasOrders;
 
     tbody.innerHTML = plan.map(p => {
-      const deliveryLabel = p.deliveryDate || "—";
-      const daysCover = p.daysOfCover == null ? "—" : p.daysOfCover.toLocaleString("ru-RU", { maximumFractionDigits: 1 });
-      const decisionFull = (p.risk || "") + " · " + (p.decision || "");
+      const deliveryLabel = p.deliveryDate || "вЂ”";
+      const daysCover = p.daysOfCover == null ? "вЂ”" : p.daysOfCover.toLocaleString("ru-RU", { maximumFractionDigits: 1 });
+      const reasonFull = (p.orderReason || p.decision || "");
+      const riskFull = (p.executionRisk || p.risk || "РќРµС‚ РєСЂРёС‚РёС‡РЅС‹С… СЂРёСЃРєРѕРІ");
       return `
       <tr>
         ${tableCell(p.orderId, "col-id")}
-        ${tableCell(p.orderDate || "—", "col-date")}
+        ${tableCell(p.orderDate || "вЂ”", "col-date")}
         ${tableCell(deliveryLabel, "col-date")}
         <td title="${escapeHtml(p.action)}">${actionBadge(p.action)}</td>
-        ${tableCell((p.supplierName || "") + " · " + (p.supplierId || ""), "col-supplier")}
-        ${tableCell(p.supplierRegion || "—", "col-region")}
-        ${tableCell((p.storeName || "") + " · " + (p.storeId || ""), "col-store")}
-        ${tableCell(p.storeRegion || "—", "col-region")}
+        ${tableCell((p.supplierName || "") + " В· " + (p.supplierId || ""), "col-supplier")}
+        ${tableCell(p.supplierRegion || "вЂ”", "col-region")}
+        ${tableCell((p.storeName || "") + " В· " + (p.storeId || ""), "col-store")}
+        ${tableCell(p.storeRegion || "вЂ”", "col-region")}
         ${tableCell(p.sku, "col-sku")}
         ${tableCell(p.productName, "col-product")}
         ${tableCell(p.group, "col-group")}
@@ -4380,9 +4499,10 @@
         ${tableCell(fmtMoney(p.purchasePrice || 0), "num")}
         ${tableCell(fmtMoney(p.orderRub || 0), "num")}
         ${tableCell(fmtInt(p.available), "num")}
-        ${tableCell(p.lead.toLocaleString("ru-RU", { maximumFractionDigits: 1 }) + " дн.", "num")}
+        ${tableCell(p.lead.toLocaleString("ru-RU", { maximumFractionDigits: 1 }) + " РґРЅ.", "num")}
         ${tableCell(fmtPct(p.reliability), "num")}
-        <td class="col-decision" title="${escapeHtml(decisionFull)}">${riskPill(p.risk)} <span class="decisionText">${escapeHtml(p.decision)}</span></td>
+        <td class="col-decision" title="${escapeHtml(reasonFull)}">${escapeHtml(reasonFull)}</td>
+        <td class="col-decision" title="${escapeHtml(riskFull)}">${riskPill(riskFull)} <span class="decisionText">${escapeHtml(riskFull)}</span></td>
       </tr>`;
     }).join("");
   }
